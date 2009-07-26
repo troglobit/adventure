@@ -6,7 +6,7 @@ SRC= advent.c database.c english.c itverb.c turn.c verb.c
 OBJ= advent.o database.o english.o itverb.o turn.o verb.o
 DATA= advent1.txt advent2.txt advent3.txt advent4.txt
 
-CFLAGS +=  -D__QNX__ -funsigned-char
+CFLAGS += -DEMBED -D__QNX__ -funsigned-char
 # LDFLAGS=
 # CC= cc
 
