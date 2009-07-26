@@ -1,0 +1,121 @@
+Hi There!...
+
+
+I remember when I first tried adventure. My early excitement
+soon turned to discouragement when I realized that I was going
+nowhere fast.
+
+The following steps should help you get started. There is a
+dashed line a little ways down. You might want to try it on
+your own at that point, otherwise I'll give you a hand through
+your first major trial (the snake)...
+
+
+
+Here goes...
+
+(notes in parens are just comments, do not enter them)
+(enter a carriage return -- the little twisty arrow -- at the end of
+ each line )
+
+advent
+
+y                       (get the instructions)
+
+get keys
+
+get lamp
+
+get food
+
+get bottle
+
+inventory               (use this anytime to see what you have)
+
+look                    (use this anytime to see where you are)
+
+w                       (west to get out of building)
+
+follow stream
+
+d                       (down)
+
+s                       (south)
+
+unlock grate
+
+enter
+
+light lamp
+
+
+-----------------------------------------------------------------------
+    at this point you might want to try it on your own
+    and see how you do. You can always come back and continue
+    on with the help.
+-----------------------------------------------------------------------
+
+.
+
+
+.
+
+
+.
+
+
+
+.
+
+
+
+.
+
+
+
+.
+
+
+
+w
+
+get cage
+
+w
+
+get rod
+
+w
+
+w
+
+drop rod
+
+get bird
+
+get rod
+
+w
+
+d
+
+d
+
+drop bird
+
+
+---------------------------------------------------------------------
+   see, that wasn't so hard... It only took me a month to get this far
+   but once the snake is out of the way you can explore forever...
+--------------------------------------------------------------------
+
+
+Watch out for dwarves, the axe is very valuable on them
+
+The passages all alike work better if you have things to drop
+
+You can say "score" at any time to see how you are doing
+and say "save" to preserve your current position
+
+Have fun, and happy adventuring!  For many folks,
+this game is reason enough to have a computer.

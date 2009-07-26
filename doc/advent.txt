@@ -1,0 +1,129 @@
+    Notes on ADVENTURE  (for OS/2)
+
+
+    1)  TO PLAY ADVENTURE
+        The following files MUST reside in the current directory:
+
+        ADVENT.EXE, ADVENT1.TXX, ADVENT2.TXX, ADVENT3.TXX, ADVENT4.TXX
+
+
+        The game may be started by typing "ADVENT<cr>".
+
+        A saved game may be restarted by typing "ADVENT -r<cr>".
+
+        Debug data will be output by typing "ADVENT -d -d -d<cr>", but only if
+        the program is recompiled with the NDEBUG flag off.
+
+        The above-mentioned options can use '/' instead of '-'.
+
+        This version will work only in OS/2 32-bit Protected Mode.
+
+    2)  TO HACK ADVENTURE
+        The ADVENTURE game source files are either header, code or
+        text files.
+
+        ADVENT  .C      - initialization, save game, restore game
+        ENGLISH .C      - interpret game player's commands
+        DATABASE.C      - text file management & output
+        ITVERB  .C      - intransitive verbs execution
+        VERB    .C      - transitive verbs execution
+        TURN    .C      - analysis & execution of player's command
+
+        ADVENT0 .C      - utility to create "ADVTEXT.H" file
+
+        ADVENT1 .TXX    - long cave description
+        ADVENT2 .TXX    - short cave description
+        ADVENT3 .TXX    - long & short object description
+        ADVENT4 .TXX    - conversational descriptions & responses
+
+        ADVENT  .DOC    - this ADVENTURE documentation file
+        CHEAT   .DOC    - hints for the earlier part of the game
+        READ    .ME     - basic instructions for the player
+
+        ADVEP   .H      - prototypes of all entry points
+        ADVENT  .H      - #define & structure statements
+        ADVWORD .H      - words & codes array
+        ADVCAVE .H      - cave & travel arrays
+        ADVTEXT .H      - TXT file message indexes -- run ADVENT0 to obtain this
+        ADVDEC  .H      - data constants & variables declarations
+
+        WARNING:
+        The TXX files are the ASCII text messages used throughout the
+        game. They may be modified ONLY if you have the utility
+        program, "ADVENT0.EXE" or the source "ADVENT0.C". This program
+        creates the header file "ADVTEXT.H" which is "#include"d into
+        "ADVENT.C" during compilation. After ANY changes to the "TXT"
+        files, recreate a new "ADVTEXT.H" file. Make sure that the
+        four "TXT" files and the utility "ADVENT0.EXE" are on the
+        default drive, then type "ADVENT0<cr>". 
+
+        To compile with C/370, use the ADVENT.JCL file.
+
+        The game was translated from BDS C to CII C86 and standardized
+        as per UNIX standard i/o library functions. The following
+        changes were instituted:
+
+        0) UNIX standard i/o
+        1) "include"d header files & "extern"al statements added
+        2) cave/travel data arrays are now internal
+        3) word/code data arrays are now internal
+        4) TXT message index arrays are now internal
+        5) TXT file format doesn't require # terminator character
+        6) save & restore game overlays intergrated with "ADVENT.C"
+        7) word/code syntax parsing optimized in "ENGLISH.C"
+         BINARY LEX-ORDERED WORD LOOK-UP added in "DATABASE.C"
+        8) TXT message indexing & output optimized in "DATABASE.C"
+        9) TXT message typos corrected
+        A) created "ADVENT0.C" utility (cf. #1, #4 & #5)
+        B) created "ADVENT.DOC" documentation file
+
+        Translation was then made to MS C and standardized for ANSI C.
+        The following changes were instituted:
+
+        C) ADVEP function prototype include file
+        D) Standard header files for all standard functions
+        E) Make file
+        F) Several minor program errors and typos corrected
+        G) Save variables gathered into a structure
+        H) Travel and other arrays compiled in binary instead of strings
+        I) ADVDEF.H collapsed into ADVDEC.H
+        J) Hint feature restored with original messages
+           (exact original algorithm unknown)
+        K) Scoring and non-repetition of endgame hint
+        L) Text run out to 79 columns
+        M) Automatic occasional redisplay of locations
+        N) Fixed: passage from a room to itself didn't call "describe"
+        O) Fixed: "describe" didn't always call "descitem"
+        P) Fixed: giant room magic did not work
+        Q) Fixed: spices were nailed down
+        R) "Brief" feature restored and some white space added to output
+        S) Automatic location description following restore and resurrection
+        T) All references to sscanf eliminated to reduce library code
+        U) Fixed: downstream/upstream movement was confused
+        V) Complete ANSI conversion
+        W) Add IBM mainframe support under C/370 and MVS
+        X) Avoid buffering problem (strict ANSI, required specifically by C Set++)
+        Y) Change text files to *.TXX to avoid OS/2 makemake problems
+
+        Known to compile with Microsoft Quick C 2.51, Microsoft C 6.00,
+        IBM C/370 2.1.0 (for MVS), and IBM C Set++ 2.0
+
+
+        The earlier modifications described above were implemented by:
+        Jerry D. Pohl
+        1922 Junction Avenue
+        San Jose, CA 95131
+        (408) 298-1262 / (408) 298-3185         (both 8..6, m..f)
+
+        Modifications C-Y were implemented by:
+        John W. Kennedy
+        30 Minton Avenue
+        Chatham, NJ 07928-2740
+        (201) 635-0921
+
+        Known problems remaining:
+        "Demonstration game" feature alluded to in message #201.  What is it?
+        Original hint algorithms unknown.
+        What is the intended function of routine "juggle"?
+        How do you turn off "brief"? What is the right acknowledgement of it?
+
