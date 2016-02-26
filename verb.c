@@ -21,7 +21,7 @@
 /*
 	Routine to process a transitive verb
 */
-trverb()
+void trverb(void)
 {
 	switch(verb){
 	case CALM:
@@ -111,7 +111,7 @@ trverb()
 /*
 	CARRY TAKE etc.
 */
-vtake()
+void vtake(void)
 {
 	int msg;
 	int i;
@@ -187,7 +187,7 @@ vtake()
 /*
 	DROP etc.
 */
-vdrop()
+void vdrop(void)
 {
 	int i;
 
@@ -276,7 +276,7 @@ vdrop()
 /*
 	LOCK, UNLOCK, OPEN, CLOSE etc.
 */
-vopen()
+void vopen(void)
 {
 	int msg, oyclam;
 
@@ -362,7 +362,7 @@ vopen()
 /*
 	SAY etc.
 */
-vsay()
+void vsay(void)
 {
 	int wtype,wval;
 
@@ -373,7 +373,7 @@ vsay()
 /*
 	ON etc.
 */
-von()
+void von(void)
 {
 	if (!here(LAMP))
 		actspk(verb);
@@ -392,7 +392,7 @@ von()
 /*
 	OFF etc.
 */
-voff()
+void voff(void)
 {
 	if (!here(LAMP))
 		actspk(verb);
@@ -405,7 +405,7 @@ voff()
 /*
 	WAVE etc.
 */
-vwave()
+void vwave(void)
 {
 	if (!toting(object) &&
 	   (object != ROD || !toting(ROD2)))
@@ -422,7 +422,7 @@ vwave()
 /*
 	ATTACK, KILL etc.
 */
-vkill()
+void vkill(void)
 {
 	int msg;
 	int i;
@@ -489,7 +489,7 @@ vkill()
 /*
 	POUR
 */
-vpour()
+void vpour(void)
 {
 	if (object == BOTTLE || object == 0)
 		object = liq();
@@ -528,7 +528,7 @@ vpour()
 /*
 	EAT
 */
-veat()
+void veat(void)
 {
 	int msg;
 
@@ -551,7 +551,7 @@ veat()
 /*
 	DRINK
 */
-vdrink()
+void vdrink(void)
 {
 	if (object != WATER)
 		rspeak(110);
@@ -567,7 +567,7 @@ vdrink()
 /*
 	THROW etc.
 */
-vthrow()
+void vthrow(void)
 {
 	int msg;
 	int i;
@@ -663,7 +663,7 @@ vthrow()
 /*
 	INVENTORY, FIND etc.
 */
-vfind()
+void vfind(void)
 {
 	int msg;
 	if (toting(object))
@@ -686,7 +686,7 @@ vfind()
 /*
 	FILL
 */
-vfill()
+void vfill(void)
 {
 	int msg;
 	int i;
@@ -726,7 +726,7 @@ vfill()
 /*
 	FEED
 */
-vfeed()
+void vfeed(void)
 {
 	int msg;
 
@@ -785,7 +785,7 @@ vfeed()
 /*
 	READ etc.
 */
-vread()
+void vread(void)
 {
 	int msg;
 
@@ -821,7 +821,7 @@ vread()
 /*
 	BLAST etc.
 */
-vblast()
+void vblast(void)
 {
 	if (prop[ROD2] < 0 || !closed)
 		actspk(verb);
@@ -839,7 +839,7 @@ vblast()
 /*
 	BREAK etc.
 */
-vbreak()
+void vbreak(void)
 {
 	int msg;
 	if (object == MIRROR) {
@@ -866,7 +866,7 @@ vbreak()
 /*
 	WAKE etc.
 */
-vwake()
+void vwake(void)
 {
 	if (object != DWARF || !closed)
 		actspk(verb);
@@ -879,8 +879,7 @@ vwake()
 /*
 	Routine to speak default verb message
 */
-actspk(verb)
-int verb;
+void actspk(int verb)
 {
 	char i;
 
@@ -896,7 +895,7 @@ int verb;
 	object for verb found.  Used mostly by
 	intransitive verbs.
 */
-needobj()
+void needobj(void)
 {
 	int wtype,wval;
 

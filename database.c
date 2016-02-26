@@ -37,8 +37,7 @@ extern	int	tolower();
 /*
 	Routine to fill travel array for a given location
 */
-gettrav(loc)
-int	loc;
+void gettrav(int loc)
 {
 	int	i;
 	long	t;
@@ -73,9 +72,7 @@ int	loc;
 	Function to scan a file up to a specified
 	point and either print or return a string.
 */
-rdupto(fdi, uptoc, print, string)
-FILE	*fdi;
-char	uptoc, print, *string;
+int rdupto(FILE *fdi, char uptoc, char print, char *string)
 {
 	int	c;
 
@@ -100,10 +97,7 @@ char	uptoc, print, *string;
 	of times, with or without repositioning
 	the file.
 */
-rdskip(fdi, skipc, n, rewind)
-FILE	*fdi;
-char	skipc, rewind;
-int	n;
+void rdskip(FILE *fdi, char skipc, int n, char rewind)
 {
 	int	c;
 
@@ -120,8 +114,7 @@ int	n;
 /*
 	Routine to request a yes or no answer to a question.
 */
-yes(msg1, msg2, msg3)
-int	msg1, msg2, msg3;
+int yes(int msg1, int msg2, int msg3)
 {
 	char	answer[80];
 
@@ -144,8 +137,7 @@ int	msg1, msg2, msg3;
 /*
 	Print a location description from "advent4.txt"
 */
-rspeak(msg)
-int	msg;
+void rspeak(int msg)
 {
 #ifdef EMBED
 	fputs(adventtxt4[msg-1], stdout);
@@ -165,8 +157,7 @@ int	msg;
 /*
 	Print an item message for a given state from "advent3.txt"
 */
-pspeak(item, state)
-int	item, state;
+void pspeak(int item, int state)
 {
 #ifdef EMBED
 	const char *p;
@@ -193,8 +184,7 @@ int	item, state;
 /*
 	Print a long location description from "advent1.txt"
 */
-desclg(loc)
-int	loc;
+void desclg(int loc)
 {
 #ifdef EMBED
 	fputs(adventtxt1[loc-1], stdout);
@@ -207,8 +197,7 @@ int	loc;
 /*
 	Print a short location description from "advent2.txt"
 */
-descsh(loc)
-int	loc;
+void descsh(int loc)
 {
 #ifdef EMBED
 	fputs(adventtxt2[loc-1], stdout);
@@ -227,9 +216,7 @@ int	loc;
 	val  is the minimum acceptable value,
 		if != 0 return %1000
 */
-vocab(word, val)
-char	*word;
-int	val;
+int vocab(char *word, int val)
 {
 	int	v1, v2;
 
@@ -251,10 +238,7 @@ int	val;
 		return(-1);
 }
 
-binary(w, wctable, maxwc)
-char	*w;
-int	maxwc;
-struct	wac	wctable[];
+int binary(char *w, struct wac wctable[], int maxwc)
 {
 	int	lo, mid, hi, check;
 
@@ -280,7 +264,7 @@ struct	wac	wctable[];
 /*
 	Routine to test for darkness
 */
-dark()
+int dark(void)
 {
 	return(!(cond[loc] & LIGHT) &&
 		(!prop[LAMP] ||
@@ -290,8 +274,7 @@ dark()
 /*
 	Routine to tell if an item is present.
 */
-here(item)
-int	item;
+int here(int item)
 {
 	return(place[item] == loc || toting(item));
 }
@@ -299,8 +282,7 @@ int	item;
 /*
 	Routine to tell if an item is being carried.
 */
-toting(item)
-int	item;
+int toting(int item)
 {
 	return(place[item] == -1);
 }
@@ -309,8 +291,7 @@ int	item;
 	Routine to tell if a location causes
 	a forced move.
 */
-forced(atloc)
-int	atloc;
+int forced(int atloc)
 {
 	return(cond[atloc] == 2);
 }
@@ -318,8 +299,7 @@ int	atloc;
 /*
 	Routine true x% of the time.
 */
-pct(x)
-int	x;
+int pct(int x)
 {
 	return(rand() % 100 < x);
 }
@@ -328,8 +308,7 @@ int	x;
 	Routine to tell if player is on
 	either side of a two sided object.
 */
-at(item)
-int	item;
+int at(int item)
 {
 	return(place[item] == loc || fixed[item] == loc);
 }
@@ -337,8 +316,7 @@ int	item;
 /*
 	Routine to destroy an object
 */
-dstroy(obj)
-int	obj;
+void dstroy(int obj)
 {
 	move(obj, 0);
 }
@@ -346,8 +324,7 @@ int	obj;
 /*
 	Routine to move an object
 */
-move(obj, where)
-int	obj, where;
+void move(int obj, int where)
 {
 	int	from;
 
@@ -361,16 +338,15 @@ int	obj, where;
 	Juggle an object
 	currently a no-op
 */
-juggle(loc)
-int	loc;
+void juggle(int loc)
 {
+	(void)loc;
 }
 
 /*
 	Routine to carry an object
 */
-carry(obj, where)
-int	obj, where;
+void carry(int obj, int where)
 {
 	if (obj<MAXOBJ){
 		if (place[obj] == -1)
@@ -383,8 +359,7 @@ int	obj, where;
 /*
 	Routine to drop an object
 */
-drop(obj, where)
-int	obj, where;
+void drop(int obj, int where)
 {
 	if (obj<MAXOBJ) {
 		if (place[obj] == -1)
@@ -400,8 +375,7 @@ int	obj, where;
 	value used to set the negated prop values
 	for the repository.
 */
-put(obj, where, pval)
-int	obj, where, pval;
+int put(int obj, int where, int pval)
 {
 	move(obj, where);
 	return((-1)-pval);
@@ -410,7 +384,7 @@ int	obj, where, pval;
 	Routine to check for presence
 	of dwarves..
 */
-dcheck()
+int dcheck(void)
 {
 	int	i;
 
@@ -423,7 +397,7 @@ dcheck()
 /*
 	Determine liquid in the bottle
 */
-liq()
+int liq(void)
 {
 	int	i, j;
 	i=prop[BOTTLE];
@@ -434,13 +408,12 @@ liq()
 /*
 	Determine liquid at a location
 */
-liqloc(loc)
-int	loc;
+int liqloc(int loc)
 {
 	if (cond[loc]&LIQUID)
 		return(liq2(cond[loc]&WATOIL));
-	else
-		return(liq2(1));
+
+	return(liq2(1));
 }
 
 /*
@@ -448,8 +421,7 @@ int	loc;
 		 1 to nothing
 		 2 to OIL
 */
-liq2(pbottle)
-int	pbottle;
+int liq2(int pbottle)
 {
 	return((1-pbottle)*WATER+(pbottle>>1)*(WATER+OIL));
 }
@@ -457,8 +429,7 @@ int	pbottle;
 /*
 	Fatal error routine
 */
-bug(n)
-int	n;
+void bug(int n)
 {
 	printf("Fatal error number %d\n", n);
 	exit(-1);

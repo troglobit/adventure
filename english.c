@@ -27,9 +27,8 @@ extern	int	sscanf();
 /*
 	Analyze a two word sentence
 */
-english()
+int english(void)
 {
-
 	char	*msg;
 	int	type1, type2, val1, val2;
 
@@ -106,9 +105,7 @@ english()
 /*
 		Routine to analyze a word.
 */
-analyze(word, type, value)
-char	*word;
-int	*type, *value;
+int analyze(char *word, int *type, int *value)
 {
 	int	wordval, msg;
 
@@ -136,7 +133,7 @@ int	*type, *value;
 	retrieve input line (max 80 chars), convert to lower case
 	 & rescan for first two words (max. WORDSIZE-1 chars).
 */
-getwords()
+void getwords(void)
 {
 	char	words[80], *wptr;
 
@@ -151,14 +148,13 @@ getwords()
 	sscanf(words, "%19s %19s", word1, word2);
 	if (dbugflg)
 		printf("WORD1 = %s, WORD2 = %s\n", word1, word2);
-	return;
 }
 
 /*
 	output adventure word list (motion/0xxx & verb/2xxx) only
 	6 words/line pausing at 20th line until keyboard active
 */
-outwords()
+void outwords(void)
 {
 	int	i, j, line;
 	char	words[80];

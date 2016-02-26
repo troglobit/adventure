@@ -37,9 +37,7 @@ extern	int	tolower();
 #define setmem(l,s,c)  memset(l,c,s)
 #endif
 
-main(argc, argv)
-int	argc;
-char	**argv;
+int main(int argc, char *argv[])
 {
 	int	rflag;		/* user restore request option	*/
 
@@ -83,17 +81,15 @@ char	**argv;
 	fclose(fd3);
 	fclose(fd4);
 #endif
-	exit(0);				/* exit = ok	*/
-}						/* main		*/
+	return(0);				/* exit = ok	*/
+}
 
 /* ************************************************************	*/
 
 /*
 	Initialize integer arrays with sscanf
 */
-scanint(pi, str)
-int	*pi;
-char	*str;
+void scanint(int *pi, char *str)
 {
 
 	while (*str) {
@@ -102,13 +98,12 @@ char	*str;
 		while (*str++ != ',')	/* advance str pointer	*/
 			;
 	}
-	return;
 }
 
 /*
 	Initialization of adventure play variables
 */
-initplay()
+void initplay(void)
 {
 	turns = 0;
 
@@ -176,7 +171,6 @@ initplay()
 	dflag = 0;
 	gaveup = 0;
 	saveflg = 0;
-	return;
 }
 
 /*
@@ -188,7 +182,7 @@ initplay()
 #define ADV3 "/usr/local/lib/games/advent3.txt"
 #define ADV4 "/usr/local/lib/games/advent4.txt"
 
-opentxt()
+void opentxt(void)
 {
 #ifndef EMBED
 	fd1 = fopen(ADV1, "r");
@@ -217,7 +211,7 @@ opentxt()
 /*
 		save adventure game
 */
-saveadv()
+void saveadv(void)
 {
 	char	*sptr;
 	FILE	*savefd;
@@ -288,7 +282,7 @@ saveadv()
 /*
 	restore saved game handler
 */
-restore()
+void restore(void)
 {
 	char	username[64];
 	FILE *restfd;
@@ -357,8 +351,7 @@ restore()
 	describe();
 }
 
-char *game_name(filename)
-char *filename;
+char *game_name(char *filename)
 {
 #ifndef EMBED
 	char *homedir;

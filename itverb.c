@@ -13,7 +13,7 @@
 /*
 	Routines to process intransitive verbs
 */
-itverb()
+void itverb(void)
 {
 	switch(verb) {
 	case DROP:
@@ -87,7 +87,7 @@ itverb()
 /*
 	CARRY, TAKE etc.
 */
-ivtake()
+void ivtake(void)
 {
 	int anobj,item;
 
@@ -112,7 +112,7 @@ ivtake()
 /*
 	OPEN, LOCK, UNLOCK
 */
-ivopen()
+void ivopen(void)
 {
 	if(here(CLAM))
 		object=CLAM;
@@ -139,7 +139,7 @@ ivopen()
 /*
 	ATTACK, KILL etc
 */
-ivkill()
+void ivkill(void)
 {
 	object1 = 0;
 	if(dcheck() && dflag >=2)
@@ -174,7 +174,7 @@ ivkill()
 /*
 	EAT
 */
-iveat()
+void iveat(void)
 {
 	if(!here(FOOD))
 		needobj();
@@ -187,7 +187,7 @@ iveat()
 /*
 	DRINK
 */
-ivdrink()
+void ivdrink(void)
 {
 	if(liqloc(loc) != WATER &&
 	  (liq()!= WATER || !here(BOTTLE)))
@@ -201,7 +201,7 @@ ivdrink()
 /*
 	QUIT
 */
-ivquit()
+void ivquit(void)
 {
 	if(gaveup=yes(22,54,54))
 		normend();
@@ -210,7 +210,7 @@ ivquit()
 /*
 	FILL
 */
-ivfill()
+void ivfill(void)
 {
 	if(!here(BOTTLE))
 		needobj();
@@ -223,7 +223,7 @@ ivfill()
 /*
 	Handle fee fie foe foo...
 */
-ivfoo()
+void ivfoo(void)
 {
 	char k,msg;
 	k = vocab(word1,3000);
@@ -280,7 +280,7 @@ ivread()
 /*
 	INVENTORY 
 */
-inventory()
+void inventory(void)
 {
 	char msg;
 	int i;
@@ -304,7 +304,7 @@ inventory()
 	ensure uniqueness as objects are searched
 	out for an intransitive verb
 */
-addobj(obj)
+void addobj(int obj)
 {
 	if(object1 != 0)
 		return;

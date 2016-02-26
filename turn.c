@@ -24,7 +24,7 @@ extern	int	printf();
 /*
 	Routine to take 1 turn
 */
-turn()
+void turn(void)
 {
 	char	i;
 	/*
@@ -122,7 +122,7 @@ turn()
 /*
 	Routine to describe current location
 */
-describe()
+void describe(void)
 {
 	if (toting(BEAR))
 		rspeak(141);
@@ -139,7 +139,7 @@ describe()
 /*
 	Routine to describe visible items
 */
-descitem()
+void descitem(void)
 {
 	int	i, state;
 
@@ -171,7 +171,7 @@ descitem()
 /*
 	Routine to handle motion requests
 */
-domove()
+void domove(void)
 {
 	gettrav(loc);
 	switch(motion) {
@@ -205,7 +205,7 @@ domove()
 	Routine to handle request to return
 	from whence we came!
 */
-goback()
+void goback(void)
 {
 	int	kk, k2, want, temp;
 	struct trav strav[MAXTRAV];
@@ -248,8 +248,7 @@ goback()
 /*
 	Routine to copy a travel array
 */
-copytrv(trav1, trav2)
-struct trav *trav1, *trav2;
+void copytrv(struct trav *trav1, struct trav *trav2)
 {
 	int	i;
 
@@ -264,7 +263,7 @@ struct trav *trav1, *trav2;
 	Routine to figure out a new location
 	given current location and a motion.
 */
-dotrav()
+void dotrav(void)
 {
 	char	mvflag, hitflag, kk;
 	int	rdest, rverb, rcond, robject;
@@ -332,7 +331,7 @@ dotrav()
 /*
 	The player tried a poor move option.
 */
-badmove()
+void badmove(void)
 {
 	int	msg;
 
@@ -350,8 +349,7 @@ badmove()
 /*
 	Routine to handle very special movement.
 */
-spcmove(rdest)
-int	rdest;
+void spcmove(int rdest)
 {
 	switch(rdest-300) {
 	case 1:  /* plover movement via alcove */
@@ -402,7 +400,7 @@ int	rdest;
 	Routine to handle player's demise via
 	waking up the dwarves...
 */
-dwarfend()
+void dwarfend(void)
 {
 	death();
 	normend();
@@ -411,7 +409,7 @@ dwarfend()
 /*
 	normal end of game
 */
-normend()
+void normend(void)
 {
 	score();
 	exit(-1);
@@ -420,7 +418,7 @@ normend()
 /*
 	scoring
 */
-score()
+void score(void)
 {
 	int	t, i, k, s;
 	s = t = k = 0;
@@ -473,7 +471,7 @@ score()
 	Routine to handle the passing on of one
 	of the player's incarnations...
 */
-death()
+void death(void)
 {
 	char	yea, i, j, k;
 
@@ -505,7 +503,7 @@ death()
 /*
 	Routine to process an object.
 */
-doobj()
+void doobj(void)
 {
 	char	i;
 	/*
@@ -566,7 +564,7 @@ doobj()
 	Routine to process an object being
 	referred to.
 */
-trobj()
+void trobj(void)
 {
 	if (verb)
 		trverb();
@@ -578,7 +576,7 @@ trobj()
 /*
 	Routine to print word corresponding to object
 */
-char *probj(object)
+char *probj(int object)
 {
 	int	wtype, wval;
 	analyze(word1, &wtype, &wval);
@@ -587,7 +585,7 @@ char *probj(object)
 /*
 	dwarf stuff.
 */
-dwarves()
+void dwarves(void)
 {
 	int	i, j, k, try, attack, stick, dtotal;
 	/*
@@ -694,7 +692,7 @@ dwarves()
 /*
 	pirate stuff
 */
-dopirate()
+void dopirate(void)
 {
 	int	j, k;
 	if (newloc == chloc || prop[CHEST] >= 0)
@@ -748,7 +746,7 @@ stealit:
 /*
 	special time limit stuff...
 */
-stimer()
+int stimer(void)
 {
 	int	i;
 	foobar = foobar > 0 ?  -foobar : 0;
@@ -855,8 +853,7 @@ stimer()
 */
 static	long	rnum = 0;
 
-srand(n)
-short	n;
+void srand(short n)
 {
 	rnum = (long)n;
 }
@@ -864,7 +861,7 @@ short	n;
 /*
 	random number
 */
-rand()
+short rand(void)
 {
 	rnum = rnum * 0x41C64E6D + 0x3039;
 	return((short)(rnum >> 16) & 0x7FFF);
