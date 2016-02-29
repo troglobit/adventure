@@ -93,15 +93,15 @@ void ivtake(void)
 
 	anobj = 0;
 	for(item=1;item<MAXOBJ;++item) {
-		if(place[item]==loc) {
-			if(anobj != 0) {
+		if (place[item]==loc) {
+			if (anobj != 0) {
 				needobj();
 				return;
 			}
 			anobj = item;
 		}
 	}
-	if(anobj==0|| (dcheck() && dflag>=2)) {
+	if (anobj==0|| (dcheck() && dflag>=2)) {
 		needobj();
 		return;
 	}
@@ -114,22 +114,22 @@ void ivtake(void)
 */
 void ivopen(void)
 {
-	if(here(CLAM))
+	if (here(CLAM))
 		object=CLAM;
-	if(here(OYSTER))
+	if (here(OYSTER))
 		object=OYSTER;
-	if(at(DOOR))
+	if (at(DOOR))
 		object=DOOR;
-	if(at(GRATE))
+	if (at(GRATE))
 		object=GRATE;
-	if(here(CHAIN)) {
-		if(object != 0) {
+	if (here(CHAIN)) {
+		if (object != 0) {
 			needobj();
 			return;
 		}
 		object=CHAIN;
 	}
-	if(object==0) {
+	if (object==0) {
 		rspeak(28);
 		return;
 	}
@@ -142,29 +142,29 @@ void ivopen(void)
 void ivkill(void)
 {
 	object1 = 0;
-	if(dcheck() && dflag >=2)
+	if (dcheck() && dflag >=2)
 		object=DWARF;
-	if(here(SNAKE))
+	if (here(SNAKE))
 		addobj(SNAKE);
-	if(at(DRAGON) && prop[DRAGON]==0)
+	if (at(DRAGON) && prop[DRAGON]==0)
 		addobj(DRAGON);
-	if(at(TROLL))
+	if (at(TROLL))
 		addobj(TROLL);
-	if(here(BEAR) && prop[BEAR]==0)
+	if (here(BEAR) && prop[BEAR]==0)
 		addobj(BEAR);
-	if(object1 != 0) {
+	if (object1 != 0) {
 		needobj();
 		return;
 	}
-	if(object != 0) {
+	if (object != 0) {
 		vkill();
 		return;
 	}
-	if(here(BIRD) && verb!= THROW)
+	if (here(BIRD) && verb!= THROW)
 		object=BIRD;
-	if(here(CLAM) || here(OYSTER))
+	if (here(CLAM) || here(OYSTER))
 		addobj(CLAM);
-	if(object1 != 0) {
+	if (object1 != 0) {
 		needobj();
 		return;
 	}
@@ -176,7 +176,7 @@ void ivkill(void)
 */
 void iveat(void)
 {
-	if(!here(FOOD))
+	if (!here(FOOD))
 		needobj();
 	else {
 		object=FOOD;
@@ -189,7 +189,7 @@ void iveat(void)
 */
 void ivdrink(void)
 {
-	if(liqloc(loc) != WATER &&
+	if (liqloc(loc) != WATER &&
 	  (liq()!= WATER || !here(BOTTLE)))
 		needobj();
 	else {
@@ -203,7 +203,7 @@ void ivdrink(void)
 */
 void ivquit(void)
 {
-	if((gaveup =yes(22,54,54)))
+	if ((gaveup =yes(22,54,54)))
 		normend();
 }
 
@@ -212,7 +212,7 @@ void ivquit(void)
 */
 void ivfill(void)
 {
-	if(!here(BOTTLE))
+	if (!here(BOTTLE))
 		needobj();
 	else {
 		object=BOTTLE;
@@ -306,9 +306,9 @@ void inventory(void)
 */
 void addobj(int obj)
 {
-	if(object1 != 0)
+	if (object1 != 0)
 		return;
-	if(object != 0) {
+	if (object != 0) {
 		object1 = -1;
 		return;
 	}

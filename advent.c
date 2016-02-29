@@ -358,7 +358,7 @@ char *game_name(char *filename)
 	char *homedir;
 
 	filename[0] = 0;
-	if(homedir = getenv("HOME")) {
+	if (homedir = getenv("HOME")) {
 		strcat(filename, homedir);
 		strcat(filename, "/");
 	}
