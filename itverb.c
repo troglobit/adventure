@@ -203,7 +203,7 @@ void ivdrink(void)
 */
 void ivquit(void)
 {
-	if(gaveup=yes(22,54,54))
+	if((gaveup =yes(22,54,54)))
 		normend();
 }
 

@@ -42,7 +42,7 @@ void turn(void)
 		see if a dwarf has seen him and has come
 		from where he wants to go.
 	*/
-	if (newloc != loc && !forced(loc) && cond[loc]&NOPIRAT  ==  0)
+	if (newloc != loc && !forced(loc) && (cond[loc] & NOPIRAT) == 0)
 		for (i = 1; i< (DWARFMAX-1); ++i)
 			if (odloc[i] == newloc && dseen[i]) {
 				newloc  =  loc;
@@ -635,7 +635,7 @@ void dwarves(void)
 		for (try = 1; try<20; ++try) {
 			j = rand()%106+15; /* allowed area */
 			if (j != odloc[i] && j != dloc[i] &&
-			    !(i == (DWARFMAX-1) && cond[j]&NOPIRAT == 1))
+			    !(i == (DWARFMAX - 1) && (cond[j] & NOPIRAT) == 1))
 				break;
 		}
 		if (j == 0)

@@ -44,7 +44,7 @@ void gettrav(int loc)
 	char	atrav[256], *aptr;
 
 	strcpy(atrav, cave[loc - 1]);
-	while (aptr = rindex(atrav, ','))
+	while ((aptr = rindex(atrav, ',')))
 		*aptr = '\0';		/* terminate substring	*/
 	aptr = &atrav[0];
 	for (i = 0; i < MAXTRAV; ++i) {

@@ -372,11 +372,11 @@ char *game_name(char *filename)
 	fflush(stdout);
 	if (NULL == fgets(username, 32, stdin))
 		exit(0);
-	if (sptr = strchr(username, '\n'))
+	if ((sptr = strchr(username, '\n')))
 		*sptr = '\0';
-	if (sptr = strchr(username, '\r'))
+	if ((sptr = strchr(username, '\r')))
 		*sptr = '\0';
-	if (sptr = strchr(username, '.'))
+	if ((sptr = strchr(username, '.')))
 		*sptr = '\0';		/* kill extension	*/
 	if (strlen(username) > 8)
 		username[8] = '\0';	/* max 8 char filename	*/

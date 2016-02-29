@@ -612,7 +612,7 @@ void vthrow(void)
 	/*
 	   at a dwarf...
 	*/
-	if (i = dcheck()) {
+	if ((i = dcheck())) {
 		msg = 48;
 		if (pct(33)) {
 			dseen[i] = dloc[i] = 0;
