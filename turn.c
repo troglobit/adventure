@@ -26,7 +26,7 @@ extern	int	printf();
 */
 void turn(void)
 {
-	char	i;
+	int	i;
 	/*
 		if closing, then he can't leave except via
 		the main office.
@@ -265,9 +265,9 @@ void copytrv(struct trav *trav1, struct trav *trav2)
 */
 void dotrav(void)
 {
-	char	mvflag, hitflag, kk;
+	char	mvflag, hitflag;
 	int	rdest, rverb, rcond, robject;
-	int	pctt;
+	int	pctt, kk;
 
 	newloc = loc;
 	mvflag = hitflag = 0;
