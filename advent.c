@@ -363,7 +363,6 @@ char *game_name(char *filename)
 		strcat(filename, "/");
 	}
 	strcat(filename, ".adventure");
-	return(filename);
 #else
 	char  username[32];
 	char *sptr;
@@ -384,6 +383,7 @@ char *game_name(char *filename)
 	strcpy(filename, "/var/tmp/");
 	strcat(filename, username);
 #endif
+	return(filename);
 }
 
 
