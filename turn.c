@@ -473,7 +473,7 @@ void score(void)
 */
 void death(void)
 {
-	char	yea, i, j, k;
+	char	yea, i, j;
 
 	if (!closing) {
 		yea = yes(81+numdie*2, 82+numdie*2, 54);
@@ -505,7 +505,6 @@ void death(void)
 */
 void doobj(void)
 {
-	char	i;
 	/*
 	   is object here?  if so, transitive
 	*/
@@ -579,7 +578,10 @@ void trobj(void)
 char *probj(int object)
 {
 	int	wtype, wval;
+
+	(void)object;
 	analyze(word1, &wtype, &wval);
+
 	return (wtype == 1 ? word1 : word2);
 }
 /*

@@ -228,6 +228,7 @@ void saveadv(void)
 		username[8] = '\0';	/* max 8 char filename	*/
 	strcat(username, ".adv");
 #else
+	(void)sptr;
 	game_name(username);
 #endif
 	savefd = fopen(username, "w");
@@ -285,8 +286,7 @@ void saveadv(void)
 void restore(void)
 {
 	char	username[64];
-	FILE *restfd;
-	int c;
+	FILE	*restfd;
 	char	*sptr;
 
 #ifndef __QNX__
@@ -300,6 +300,7 @@ void restore(void)
 		username[8] = '\0';	/* max 8 char filename	*/
 	strcat(username, ".adv"); 
 #else
+	(void)sptr;
 	game_name(username);
 #endif
 	restfd = fopen(username, "r");

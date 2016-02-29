@@ -348,6 +348,8 @@ void juggle(int loc)
 */
 void carry(int obj, int where)
 {
+	(void)where;
+
 	if (obj<MAXOBJ){
 		if (place[obj] == -1)
 			return;
