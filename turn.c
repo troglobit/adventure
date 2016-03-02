@@ -6,19 +6,19 @@
 
 
 #include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
+#include	<ctype.h>
+#include	<string.h>
+#include	<stdlib.h>
+
 #include	"advent.h"
 #include	"advdec.h"
 
-#ifndef __QNX__
-extern	int	printf();
-#else
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
+#ifndef atoi
 #define atoi atol
+#endif
+#ifndef rindex
 #define rindex strchr
 #endif
-
 
 
 /*
@@ -849,24 +849,3 @@ int stimer(void)
 	return(0);
 }
 
-#ifndef __QNX__
-/*
-	random number seed
-*/
-static	long	rnum = 0;
-
-void srand(short n)
-{
-	rnum = (long)n;
-}
-
-/*
-	random number
-*/
-short rand(void)
-{
-	rnum = rnum * 0x41C64E6D + 0x3039;
-	return((short)(rnum >> 16) & 0x7FFF);
-}
-
-#endif

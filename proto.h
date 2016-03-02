@@ -77,10 +77,6 @@ char *probj   (int object);
 void dwarves  (void);
 void dopirate (void);
 int stimer   (void);
-#ifndef __QNX__
-int srand    (short n);
-int rand     (void);
-#endif
 
 /* verb.c */
 void trverb (void);

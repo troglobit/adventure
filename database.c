@@ -6,6 +6,10 @@
 
 
 #include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
+#include	<ctype.h>
+#include	<string.h>
+#include	<stdlib.h>
+
 #include	"advent.h"
 #include	"advdec.h"
 
@@ -16,21 +20,11 @@
 #include "advent4.h"
 #endif
 
-#ifndef __QNX__
-extern	long	atoi();
-extern	int	fgetc();
-extern	char	*fgets();
-extern	int	fputc();
-extern	long	fseek();
-extern	char	*rindex();
-extern	char	*strcpy();
-extern	int	tolower();
-#else
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
+#ifndef atoi
 #define atoi atol
-#define rindex strrchr
+#endif
+#ifndef rindex
+#define rindex strchr
 #endif
 
 

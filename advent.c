@@ -6,6 +6,10 @@
 
 
 #include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
+#include	<ctype.h>
+#include	<string.h>
+#include	<stdlib.h>
+
 #include	"advent.h"	/* #define preprocessor equates	*/
 #include	"advword.h"	/* definition of "word" array	*/
 #include	"advcave.h"	/* definition of "cave" array	*/
@@ -14,28 +18,8 @@
 #endif
 #include	"advdef.h"
 
-#ifndef __QNX__
-#define	strchr	index
-
-extern	int	fclose();
-extern	int	fgetc();
-extern	FILE	*fopen();
-extern	int	fputc();
-extern	long	ftell();
-extern	int	printf();
-extern	int	setmem();
-extern	int	scanf();
-extern	int	sscanf();
-extern	char	*strcat();
-extern	char	*strchr();
-extern	unsigned	strlen();
-extern	int	tolower();
-#else
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
 #define setmem(l,s,c)  memset(l,c,s)
-#endif
+
 
 int main(int argc, char *argv[])
 {

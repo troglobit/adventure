@@ -6,22 +6,19 @@
 
 
 #include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
+#include	<ctype.h>
+#include	<string.h>
+#include	<stdlib.h>
+
 #include	"advent.h"
 #include	"advdec.h"
 
-#ifndef __QNX__
-extern	char	*fgets();
-extern	int	fputc();
-extern	int	printf();
-extern	int	sscanf();
-#else
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
+#ifndef atoi
 #define atoi atol
+#endif
+#ifndef rindex
 #define rindex strchr
 #endif
-
 
 
 /*
