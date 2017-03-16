@@ -6,7 +6,7 @@ standardization by Jerry D. Pohl. The last port to QNX 4 and bug fixes
 by James Lummel.  This last version should work without any change on
 HP-UX, Sun Solaris, *BSD and GNU/Linux systems.
 
-The actual licsense of this program is unknown, although most people
+The actual license of this program is unknown, although most people
 agree that it is likely to be considered to be under the public domain.
 
 See the files in the doc/ directory for the original documentation,
