@@ -1,18 +1,17 @@
 # Colossal Cave Adventure Makefile
 
-# HEADERS= advcave.h advdec.h advdef.h advent.h advtext.h advword.h proto.h
-HEADERS= advcave.h advdec.h advdef.h advent.h advword.h proto.h
-SRC= advent.c database.c english.c itverb.c turn.c verb.c
-OBJ= advent.o database.o english.o itverb.o turn.o verb.o
-DATA= advent1.txt advent2.txt advent3.txt advent4.txt
+#HEADERS         = advcave.h advdec.h advdef.h advent.h advtext.h advword.h proto.h
+HEADERS         = advcave.h advdec.h advdef.h advent.h advword.h proto.h
+SRC             = advent.c database.c english.c itverb.c turn.c verb.c
+OBJ             = advent.o database.o english.o itverb.o turn.o verb.o
+DATA            = advent1.txt advent2.txt advent3.txt advent4.txt
 
-CFLAGS += -DEMBED -D__QNX__ -funsigned-char
-# LDFLAGS=
-# CC= cc
+CPPFLAGS       += -DEMBED -D__QNX__
+CFLAGS         += -W -Wall -Wextra -funsigned-char
 
 all: advent4
 
-advent4: $(OBJ)
+advent4: advtext.h $(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(OBJ) $(LDLIBS)
 
 advent0: advent0.o
@@ -24,8 +23,7 @@ romfs:
 		-a "advent4 stream tcp nowait root /bin/advent4" /etc/inetd.conf
 
 clean:
-	rm -f *.o *.err advent4 advent4.elf advent4.gdb
-#	rm -f *.o *.err advent advent0 advtext.h
+	rm -f *.o *.err advent advent0 advent4 advtext.h
 
 install:
 	cp -f advent /usr/local/bin
@@ -33,12 +31,12 @@ install:
 	cp -f $(DATA) /usr/local/lib/games
 
 advtext.h: advent0 $(DATA)
-	advent0
+	./advent0
 
-advent.o: advent.c $(HEADERS)
+advent.o:   advent.c   $(HEADERS)
 database.o: database.c $(HEADERS)
-english.o: english.c $(HEADERS)
-itverb.o: itverb.c $(HEADERS)
-turn.o: turn.c $(HEADERS)
-verb.o: verb.c $(HEADERS)
+english.o:  english.c  $(HEADERS)
+itverb.o:   itverb.c   $(HEADERS)
+turn.o:     turn.c     $(HEADERS)
+verb.o:     verb.c     $(HEADERS)
 
