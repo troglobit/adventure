@@ -1,4 +1,4 @@
-AC_INIT([netcalc], [4.0], [https://github.com/troglobit/advent4/issues])
+AC_INIT([advent], [4.0], [https://github.com/troglobit/advent4/issues])
 AM_INIT_AUTOMAKE([1.11 foreign])
 
 AC_CONFIG_SRCDIR([src/advent.c])
