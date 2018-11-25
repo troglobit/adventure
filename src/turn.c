@@ -632,7 +632,8 @@ void dwarves(void)
 		*/
 		for (try = 1; try < 20; ++try) {
 			j = rand() % 106 + 15; /* allowed area */
-			if (j != odloc[i] && j != dloc[i] && !(i == (DWARFMAX - 1) && (cond[j] & NOPIRAT) == 1))
+			if (j != odloc[i] && j != dloc[i] &&
+			    !(i == (DWARFMAX - 1) && (cond[j] & NOPIRAT) == NOPIRAT))
 				break;
 		}
 		if (j == 0)
