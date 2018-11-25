@@ -11,8 +11,8 @@ char *game_name (char *username);
 
 /* database.c */
 void gettrav(int loc);
-int rdupto  (FILE *fdi , int uptoc , int print , char *string);
-void rdskip (FILE *fdi , int skipc , int n , int rewind);
+int rdupto  (FILE *fdi , char uptoc , char print , char *string);
+void rdskip (FILE *fdi , char skipc , int n , char rewind);
 int yes     (int msg1 , int msg2 , int msg3);
 void rspeak (int msg);
 void pspeak (int item , int state);
