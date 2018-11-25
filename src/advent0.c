@@ -7,28 +7,24 @@
 \*	header to be #included into "advent.c" before the	*\
 \*	header "advdef.h" is #included.				*/
 
-
-#include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
-#include	"advent.h"
+#include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
+#include "advent.h"
 
 #include <stdlib.h>
 #include <ctype.h>
 
-int Ltoa(int n, char *s) {
-int sz;
+int Ltoa(int n, char *s)
+{
+	int sz;
 	snprintf(s, 10, "%d%n", n, &sz);
 	return sz;
 }
 
-int
-main(argc, argv)
-int	argc;
-char	**argv;
+int main(int argc, char *argv[])
 {
-
-	FILE	*isam, *fd1, *fd2, *fd3, *fd4;
-	char	itxt[255], otxt[80], lstr[12];
-	int	cnt, llen;
+	FILE *isam, *fd1, *fd2, *fd3, *fd4;
+	char itxt[255], otxt[80], lstr[12];
+	int cnt, llen;
 
 	isam = fopen("advtext.h", "w");
 	if (!isam) {
@@ -59,12 +55,11 @@ char	**argv;
 	fprintf(isam, "\n/");
 	fprintf(isam, "*\theader: ADVTEXT.H\t\t\t\t\t*/\n\n\n");
 
-
 	cnt = -1;
 	lstr[0] = '\0';
 	fprintf(isam, "long\tidx1[MAXLOC] = {\n\t");
 	while (fgets(itxt, 255, fd1)) {
-/*		printf("%s", itxt); */
+//		printf("%s", itxt);
 		if (itxt[0] == '#') {
 			if (lstr[0])
 				fprintf(isam, "%s,", lstr);
@@ -72,20 +67,20 @@ char	**argv;
 			if (!llen) {
 				printf("Ltoa err in advent1.txt\n");
 				exit(-1);
-			}			/* if (!llen)	*/
+			}
 			if (++cnt == 5) {
 				fprintf(isam, "\n\t");
 				cnt = 0;
-			}			/* if (cnt)	*/
-		}				/* if (itxt[0])	*/
-	}					/* while fgets	*/
+			}
+		}
+	}
 	fprintf(isam, "%s\n\t};\n\n", lstr);
 
 	cnt = -1;
 	lstr[0] = '\0';
 	fprintf(isam, "long\tidx2[MAXLOC] = {\n\t");
 	while (fgets(itxt, 255, fd2)) {
-/*		printf("%s", itxt); */
+//		printf("%s", itxt);
 		if (itxt[0] == '#') {
 			if (lstr[0])
 				fprintf(isam, "%s,", lstr);
@@ -93,20 +88,20 @@ char	**argv;
 			if (!llen) {
 				printf("Ltoa err in advent2.txt\n");
 				exit(-1);
-			}			/* if (!llen)	*/
+			}
 			if (++cnt == 5) {
 				fprintf(isam, "\n\t");
 				cnt = 0;
-			}			/* if (cnt)	*/
-		}				/* if (itxt[0])	*/
-	}					/* while fgets	*/
+			}
+		}
+	}
 	fprintf(isam, "%s\n\t};\n\n", lstr);
 
 	cnt = -1;
 	lstr[0] = '\0';
 	fprintf(isam, "long\tidx3[MAXOBJ] = {\n\t");
 	while (fgets(itxt, 255, fd3)) {
-/*		printf("%s", itxt); */
+//		printf("%s", itxt);
 		if (itxt[0] == '#') {
 			if (lstr[0])
 				fprintf(isam, "%s,", lstr);
@@ -114,20 +109,20 @@ char	**argv;
 			if (!llen) {
 				printf("Ltoa err in advent3.txt\n");
 				exit(-1);
-			}			/* if (!llen)	*/
+			}
 			if (++cnt == 5) {
 				fprintf(isam, "\n\t");
 				cnt = 0;
-			}			/* if (cnt)	*/
-		}				/* if (itxt[0])	*/
-	}					/* while fgets	*/
+			}
+		}
+	}
 	fprintf(isam, "%s\n\t};\n\n", lstr);
 
 	cnt = -1;
 	lstr[0] = '\0';
 	fprintf(isam, "long\tidx4[MAXMSG] = {\n\t");
 	while (fgets(itxt, 255, fd4)) {
-/*		printf("%s", itxt); */
+//		printf("%s", itxt);
 		if (itxt[0] == '#') {
 			if (lstr[0])
 				fprintf(isam, "%s,", lstr);
@@ -135,13 +130,13 @@ char	**argv;
 			if (!llen) {
 				printf("Ltoa err in advent4.txt\n");
 				exit(-1);
-			}			/* if (!llen)	*/
+			}
 			if (++cnt == 5) {
 				fprintf(isam, "\n\t");
 				cnt = 0;
-			}			/* if (cnt)	*/
-		}				/* if (itxt[0])	*/
-	}					/* while fgets	*/
+			}
+		}
+	}
 	fprintf(isam, "%s\n\t};\n\n", lstr);
 
 	fclose(isam);
@@ -150,7 +145,5 @@ char	**argv;
 	fclose(fd3);
 	fclose(fd4);
 	printf("Datafile processing done!!\n");
-	return(0);
-}						/* main		*/
-
-
+	return 0;
+}

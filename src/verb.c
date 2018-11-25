@@ -4,14 +4,13 @@
 \*		including "advdef.h".				*\
 \*		All other modules use "advdec.h".		*/
 
+#include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-#include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
-#include	<ctype.h>
-#include	<string.h>
-#include	<stdlib.h>
-
-#include	"advent.h"
-#include	"advdec.h"
+#include "advent.h"
+#include "advdec.h"
 
 #ifndef atoi
 #define atoi atol
@@ -20,13 +19,12 @@
 #define rindex strchr
 #endif
 
-
 /*
 	Routine to process a transitive verb
 */
 void trverb(void)
 {
-	switch(verb){
+	switch (verb) {
 	case CALM:
 	case WALK:
 	case QUIT:
@@ -143,7 +141,7 @@ void vtake(void)
 	if (object == WATER || object == OIL) {
 		if (!here(BOTTLE) || liq() != object) {
 			object = BOTTLE;
-			if (toting(BOTTLE)&&prop[BOTTLE] == 1){
+			if (toting(BOTTLE) && prop[BOTTLE] == 1) {
 				vfill();
 				return;
 			}
@@ -174,10 +172,9 @@ void vtake(void)
 		}
 		prop[BIRD] = 1;
 	}
-	if ( (object == BIRD || object == CAGE) &&
-		prop[BIRD] != 0)
-		carry((BIRD+CAGE)-object,loc);
-	carry(object,loc);
+	if ((object == BIRD || object == CAGE) && prop[BIRD] != 0)
+		carry((BIRD + CAGE) - object, loc);
+	carry(object, loc);
 	/*
 	   handle liquid in bottle
 	*/
@@ -199,7 +196,7 @@ void vdrop(void)
 	*/
 	if (toting(ROD2) && object == ROD && !toting(ROD))
 		object = ROD2;
-	if (!toting(object)){
+	if (!toting(object)) {
 		actspk(verb);
 		return;
 	}
@@ -218,14 +215,14 @@ void vdrop(void)
 	*/
 	else if (object == COINS && here(VEND)) {
 		dstroy(COINS);
-		drop(BATTERIES,loc);
-		pspeak(BATTERIES,0);
+		drop(BATTERIES, loc);
+		pspeak(BATTERIES, 0);
 		return;
 	}
 	/*
 	   bird and dragon (ouch!!)
 	*/
-	else if (object == BIRD && at(DRAGON) && prop[DRAGON] == 0){
+	else if (object == BIRD && at(DRAGON) && prop[DRAGON] == 0) {
 		rspeak(154);
 		dstroy(BIRD);
 		prop[BIRD] = 0;
@@ -238,10 +235,10 @@ void vdrop(void)
 	*/
 	if (object == BEAR && at(TROLL)) {
 		rspeak(163);
-		move(TROLL,0);
-		move((TROLL+MAXOBJ),0);
-		move(TROLL2,117);
-		move((TROLL2+MAXOBJ),122);
+		move(TROLL, 0);
+		move((TROLL + MAXOBJ), 0);
+		move(TROLL2, 117);
+		move((TROLL2 + MAXOBJ), 122);
 		juggle(CHASM);
 		prop[TROLL] = 2;
 	}
@@ -253,7 +250,7 @@ void vdrop(void)
 			rspeak(54);
 		else {
 			prop[VASE] = at(PILLOW) ? 0 : 2;
-			pspeak(VASE,prop[VASE]+1);
+			pspeak(VASE, prop[VASE] + 1);
 			if (prop[VASE] != 0)
 				fixed[VASE] = -1;
 		}
@@ -270,10 +267,10 @@ void vdrop(void)
 	   handle bird and cage
 	*/
 	if (object == CAGE && prop[BIRD] != 0)
-		drop(BIRD,loc);
+		drop(BIRD, loc);
 	if (object == BIRD)
 		prop[BIRD] = 0;
-	drop(object,loc);
+	drop(object, loc);
 }
 
 /*
@@ -283,21 +280,21 @@ void vopen(void)
 {
 	int msg, oyclam;
 
-	switch(object) {
+	switch (object) {
 	case CLAM:
 	case OYSTER:
 		oyclam = (object == OYSTER ? 1 : 0);
 		if (verb == LOCK)
 			msg = 61;
 		else if (!toting(TRIDENT))
-			msg = 122+oyclam;
+			msg = 122 + oyclam;
 		else if (toting(object))
-			msg = 120+oyclam;
+			msg = 120 + oyclam;
 		else {
-			msg = 124+oyclam;
+			msg = 124 + oyclam;
 			dstroy(CLAM);
-			drop(OYSTER,loc);
-			drop(PEARL,105);
+			drop(OYSTER, loc);
+			drop(PEARL, 105);
 		}
 		break;
 	case DOOR:
@@ -320,12 +317,11 @@ void vopen(void)
 			else {
 				prop[CHAIN] = 2;
 				if (toting(CHAIN))
-					drop(CHAIN,loc);
-				fixed[CHAIN] =  -1;
+					drop(CHAIN, loc);
+				fixed[CHAIN] = -1;
 				msg = 172;
 			}
-		}
-		else {
+		} else {
 			if (prop[BEAR] == 0)
 				msg = 41;
 			else if (prop[CHAIN] == 0)
@@ -335,7 +331,7 @@ void vopen(void)
 				fixed[CHAIN] = 0;
 				if (prop[BEAR] != 3)
 					prop[BEAR] = 2;
-				fixed[BEAR] = 2-prop[BEAR];
+				fixed[BEAR] = 2 - prop[BEAR];
 				msg = 171;
 			}
 		}
@@ -349,11 +345,10 @@ void vopen(void)
 				++panic;
 			}
 			msg = 130;
-		}
-		else {
-			msg = 34+prop[GRATE];
+		} else {
+			msg = 34 + prop[GRATE];
 			prop[GRATE] = (verb == LOCK ? 0 : 1);
-			msg += 2*prop[GRATE];
+			msg += 2 * prop[GRATE];
 		}
 		break;
 	default:
@@ -367,10 +362,10 @@ void vopen(void)
 */
 void vsay(void)
 {
-	int wtype,wval;
+	int wtype, wval;
 
-	analyze(word1,&wtype,&wval);
-	printf("Okay.\n%s\n",wval == SAY ? word2 : word1);
+	analyze(word1, &wtype, &wval);
+	printf("Okay.\n%s\n", wval == SAY ? word2 : word1);
 }
 
 /*
@@ -380,7 +375,7 @@ void von(void)
 {
 	if (!here(LAMP))
 		actspk(verb);
-	else if (limit<0)
+	else if (limit < 0)
 		rspeak(184);
 	else {
 		prop[LAMP] = 1;
@@ -410,15 +405,13 @@ void voff(void)
 */
 void vwave(void)
 {
-	if (!toting(object) &&
-	   (object != ROD || !toting(ROD2)))
+	if (!toting(object) && (object != ROD || !toting(ROD2)))
 		rspeak(29);
-	else if (object != ROD || !at(FISSURE) ||
-		!toting(object) || closing)
+	else if (object != ROD || !at(FISSURE) || !toting(object) || closing)
 		actspk(verb);
 	else {
-		prop[FISSURE] = 1-prop[FISSURE];
-		pspeak(FISSURE,2-prop[FISSURE]);
+		prop[FISSURE] = 1 - prop[FISSURE];
+		pspeak(FISSURE, 2 - prop[FISSURE]);
 	}
 }
 
@@ -430,7 +423,7 @@ void vkill(void)
 	int msg;
 	int i;
 
-	switch(object) {
+	switch (object) {
 	case BIRD:
 		if (closed)
 			msg = 137;
@@ -461,25 +454,25 @@ void vkill(void)
 		msg = 157;
 		break;
 	case BEAR:
-		msg = 165+(prop[BEAR]+1)/2;
+		msg = 165 + (prop[BEAR] + 1) / 2;
 		break;
 	case DRAGON:
 		if (prop[DRAGON] != 0) {
 			msg = 167;
 			break;
 		}
-		if (!yes(49,0,0))
+		if (!yes(49, 0, 0))
 			break;
-		pspeak(DRAGON,1);
+		pspeak(DRAGON, 1);
 		prop[DRAGON] = 2;
 		prop[RUG] = 0;
-		move((DRAGON+MAXOBJ),-1);
-		move((RUG+MAXOBJ),0);
-		move(DRAGON,120);
-		move(RUG,120);
-		for(i = 1;i<MAXOBJ;++i)
+		move((DRAGON + MAXOBJ), -1);
+		move((RUG + MAXOBJ), 0);
+		move(DRAGON, 120);
+		move(RUG, 120);
+		for (i = 1; i < MAXOBJ; ++i)
 			if (place[i] == 119 || place[i] == 121)
-				move(i,120);
+				move(i, 120);
 		newloc = 120;
 		return;
 	default:
@@ -514,17 +507,15 @@ void vpour(void)
 		if (object != WATER)
 			rspeak(112);
 		else {
-			pspeak(PLANT,prop[PLANT]+1);
-			prop[PLANT] = (prop[PLANT]+2)%6;
-			prop[PLANT2] = prop[PLANT]/2;
+			pspeak(PLANT, prop[PLANT] + 1);
+			prop[PLANT] = (prop[PLANT] + 2) % 6;
+			prop[PLANT2] = prop[PLANT] / 2;
 			describe();
 		}
-	}
-	else if (at(DOOR)) {
+	} else if (at(DOOR)) {
 		prop[DOOR] = (object == OIL ? 1 : 0);
-		rspeak(113+prop[DOOR]);
-	}
-	else
+		rspeak(113 + prop[DOOR]);
+	} else
 		rspeak(77);
 }
 
@@ -535,13 +526,19 @@ void veat(void)
 {
 	int msg;
 
-	switch(object) {
+	switch (object) {
 	case FOOD:
 		dstroy(FOOD);
 		msg = 72;
 		break;
-	case BIRD: case SNAKE: case CLAM: case OYSTER:
-	case DWARF: case DRAGON: case TROLL: case BEAR:
+	case BIRD:
+	case SNAKE:
+	case CLAM:
+	case OYSTER:
+	case DWARF:
+	case DRAGON:
+	case TROLL:
+	case BEAR:
 		msg = 71;
 		break;
 	default:
@@ -584,13 +581,13 @@ void vthrow(void)
 	/*
 	   treasure to troll
 	*/
-	if (at(TROLL) && object >= 50 && object<MAXOBJ) {
+	if (at(TROLL) && object >= 50 && object < MAXOBJ) {
 		rspeak(159);
-		drop(object,0);
-		move(TROLL,0);
-		move((TROLL+MAXOBJ),0);
-		drop(TROLL2,117);
-		drop((TROLL2+MAXOBJ),122);
+		drop(object, 0);
+		move(TROLL, 0);
+		move((TROLL + MAXOBJ), 0);
+		drop(TROLL2, 117);
+		drop((TROLL2 + MAXOBJ), 122);
 		juggle(CHASM);
 		return;
 	}
@@ -628,7 +625,7 @@ void vthrow(void)
 	/*
 	   at a dragon...
 	*/
-	else if (at(DRAGON) && prop[DRAGON] == 0) 
+	else if (at(DRAGON) && prop[DRAGON] == 0)
 		msg = 152;
 	/*
 	   at the troll...
@@ -640,7 +637,7 @@ void vthrow(void)
 	*/
 	else if (here(BEAR) && prop[BEAR] == 0) {
 		rspeak(164);
-		drop(AXE,loc);
+		drop(AXE, loc);
 		fixed[AXE] = -1;
 		prop[AXE] = 1;
 		juggle(BEAR);
@@ -659,7 +656,7 @@ void vthrow(void)
 	   handle the left over axe...
 	*/
 	rspeak(msg);
-	drop(AXE,loc);
+	drop(AXE, loc);
 	describe();
 }
 
@@ -669,15 +666,14 @@ void vthrow(void)
 void vfind(void)
 {
 	int msg;
+
 	if (toting(object))
 		msg = 24;
 	else if (closed)
 		msg = 138;
 	else if (dcheck() && dflag >= 2 && object == DWARF)
 		msg = 94;
-	else if (at(object) ||
-		(liq() == object && here(BOTTLE)) ||
-		object == liqloc(loc))
+	else if (at(object) || (liq() == object && here(BOTTLE)) || object == liqloc(loc))
 		msg = 94;
 	else {
 		actspk(verb);
@@ -694,7 +690,7 @@ void vfill(void)
 	int msg;
 	int i;
 
-	switch(object) {
+	switch (object) {
 	case BOTTLE:
 		if (liq() != 0)
 			msg = 105;
@@ -733,7 +729,7 @@ void vfeed(void)
 {
 	int msg;
 
-	switch(object) {
+	switch (object) {
 	case BIRD:
 		msg = 100;
 		break;
@@ -755,7 +751,7 @@ void vfeed(void)
 				actspk(verb);
 				return;
 			}
-		break;
+			break;
 		}
 		dstroy(FOOD);
 		prop[BEAR] = 1;
@@ -794,10 +790,10 @@ void vread(void)
 
 	msg = 0;
 	if (dark()) {
-		printf("I see no %s here.\n",probj(object));
+		printf("I see no %s here.\n", probj(object));
 		return;
 	}
-	switch(object) {
+	switch (object) {
 	case MAGAZINE:
 		msg = 190;
 		break;
@@ -810,10 +806,9 @@ void vread(void)
 	case OYSTER:
 		if (!toting(OYSTER) || !closed)
 			break;
-		yes(192,193,54);
+		yes(192, 193, 54);
 		return;
-	default:
-		;
+	default:;
 	}
 	if (msg)
 		rspeak(msg);
@@ -845,21 +840,20 @@ void vblast(void)
 void vbreak(void)
 {
 	int msg;
+
 	if (object == MIRROR) {
 		msg = 148;
 		if (closed) {
 			rspeak(197);
 			dwarfend();
 		}
-	}
-	else if (object == VASE && prop[VASE] == 0) {
+	} else if (object == VASE && prop[VASE] == 0) {
 		msg = 198;
 		if (toting(VASE))
-			drop(VASE,loc);
+			drop(VASE, loc);
 		prop[VASE] = 2;
 		fixed[VASE] = -1;
-	}
-	else {
+	} else {
 		actspk(verb);
 		return;
 	}
@@ -886,7 +880,7 @@ void actspk(int verb)
 {
 	char i;
 
-	if (verb<1 || verb>31)
+	if (verb < 1 || verb > 31)
 		bug(39);
 	i = actmsg[verb];
 	if (i)
@@ -900,11 +894,8 @@ void actspk(int verb)
 */
 void needobj(void)
 {
-	int wtype,wval;
+	int wtype, wval;
 
-	analyze(word1,&wtype,&wval);
-	printf("%s what?\n",wtype == 2 ? word1 : word2);
+	analyze(word1, &wtype, &wval);
+	printf("%s what?\n", wtype == 2 ? word1 : word2);
 }
-
- 
-

@@ -4,34 +4,32 @@
 \*		including "advdef.h".				*\
 \*		All other modules use "advdec.h"		*/
 
+#include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-#include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
-#include	<ctype.h>
-#include	<string.h>
-#include	<stdlib.h>
-
-#include	"advent.h"	/* #define preprocessor equates	*/
-#include	"advword.h"	/* definition of "word" array	*/
-#include	"advcave.h"	/* definition of "cave" array	*/
+#include "advent.h"  /* #define preprocessor equates	*/
+#include "advword.h" /* definition of "word" array	*/
+#include "advcave.h" /* definition of "cave" array	*/
 #ifndef EMBED
-#include	"advtext.h"	/* definition of "text" arrays	*/
+#include "advtext.h" /* definition of "text" arrays	*/
 #endif
-#include	"advdef.h"
+#include "advdef.h"
 
-#define setmem(l,s,c)  memset(l,c,s)
-
+#define setmem(l, s, c) memset(l, c, s)
 
 int main(int argc, char *argv[])
 {
-	int	rflag;		/* user restore request option	*/
+	int rflag; /* user restore request option	*/
 
 	rflag = 0;
 	dbugflg = 0;
 	while (--argc > 0) {
 		++argv;
-		if (**argv !=  '-')
+		if (**argv != '-')
 			break;
-		switch(tolower(argv[0][1])) {
+		switch (tolower(argv[0][1])) {
 		case 'r':
 			++rflag;
 			continue;
@@ -41,10 +39,11 @@ int main(int argc, char *argv[])
 		default:
 			printf("unknown flag: %c\n", argv[0][1]);
 			continue;
-		}				/* switch	*/
-	}					/* while	*/
+		}
+	}
+
 	if (dbugflg < 2)
-		dbugflg = 0;	/* must request three times	*/
+		dbugflg = 0; /* must request three times	*/
 	opentxt();
 	initplay();
 	if (rflag)
@@ -54,8 +53,8 @@ int main(int argc, char *argv[])
 	else
 		limit = 330;
 	saveflg = 0;
-	srand(511);				/* seed random	*/
-	while(!saveflg)
+	srand(511); /* seed random	*/
+	while (!saveflg)
 		turn();
 	if (saveflg)
 		saveadv();
@@ -65,7 +64,7 @@ int main(int argc, char *argv[])
 	fclose(fd3);
 	fclose(fd4);
 #endif
-	return(0);				/* exit = ok	*/
+	return 0;
 }
 
 /* ************************************************************	*/
@@ -75,11 +74,10 @@ int main(int argc, char *argv[])
 */
 void scanint(int *pi, char *str)
 {
-
 	while (*str) {
-		if  ((sscanf(str, "%d,", pi++)) < 1)
-			bug(41);	/* failed before EOS	*/
-		while (*str++ != ',')	/* advance str pointer	*/
+		if ((sscanf(str, "%d,", pi++)) < 1)
+			bug(41);      /* failed before EOS	*/
+		while (*str++ != ',') /* advance str pointer	*/
 			;
 	}
 }
@@ -92,7 +90,7 @@ void initplay(void)
 	turns = 0;
 
 	/* initialize location status array */
-	setmem(cond, (sizeof(int))*MAXLOC, 0); 
+	setmem(cond, (sizeof(int)) * MAXLOC, 0);
 	scanint(&cond[1], "5,1,5,5,1,1,5,17,1,1,");
 	scanint(&cond[13], "32,0,0,2,0,0,64,2,");
 	scanint(&cond[21], "2,2,0,6,0,2,");
@@ -105,7 +103,7 @@ void initplay(void)
 	scanint(&cond[122], "8,8,8,8,8,8,8,8,8,");
 
 	/* initialize object locations */
-	setmem(place, (sizeof(int))*MAXOBJ, 0); 
+	setmem(place, (sizeof(int)) * MAXOBJ, 0);
 	scanint(&place[1], "3,3,8,10,11,0,14,13,94,96,");
 	scanint(&place[11], "19,17,101,103,0,106,0,0,3,3,");
 	scanint(&place[23], "109,25,23,111,35,0,97,");
@@ -114,7 +112,7 @@ void initplay(void)
 	scanint(&place[56], "92,95,97,100,101,0,119,127,130,");
 
 	/* initialize second (fixed) locations */
-	setmem(fixed, (sizeof(int))*MAXOBJ, 0); 
+	setmem(fixed, (sizeof(int)) * MAXOBJ, 0);
 	scanint(&fixed[3], "9,0,0,0,15,0,-1,");
 	scanint(&fixed[11], "-1,27,-1,0,0,0,-1,");
 	scanint(&fixed[23], "-1,-1,67,-1,110,0,-1,-1,");
@@ -127,9 +125,9 @@ void initplay(void)
 	scanint(&actmsg[21], "174,109,67,13,147,155,195,146,110,13,13,");
 
 	/* initialize various flags and other variables */
-	setmem(visited, (sizeof(int))*MAXLOC, 0);
-	setmem(prop, (sizeof(int))*MAXOBJ, 0);
-	setmem(&prop[50], (sizeof(int))*(MAXOBJ-50), 0xff); 
+	setmem(visited, (sizeof(int)) * MAXLOC, 0);
+	setmem(prop, (sizeof(int)) * MAXOBJ, 0);
+	setmem(&prop[50], (sizeof(int)) * (MAXOBJ - 50), 0xff);
 	wzdark = closed = closing = holding = detail = 0;
 	limit = 100;
 	tally = 15;
@@ -139,7 +137,7 @@ void initplay(void)
 	knfloc = 0;
 	chloc = 114;
 	chloc2 = 140;
-/*	dloc[DWARFMAX-1] = chloc				*/
+	/*	dloc[DWARFMAX-1] = chloc				*/
 	scanint(dloc, "0,19,27,33,44,64,114,");
 	scanint(odloc, "0,0,0,0,0,0,0,");
 	dkill = 0;
@@ -197,9 +195,9 @@ void opentxt(void)
 */
 void saveadv(void)
 {
-	char	*sptr;
-	FILE	*savefd;
-	char	username[64];
+	char *sptr;
+	FILE *savefd;
+	char username[64];
 
 #ifndef __QNX__
 	printf("What do you want to name the saved game? ");
@@ -207,9 +205,9 @@ void saveadv(void)
 	if (NULL == gets(username))
 		exit(0);
 	if (sptr = strchr(username, '.'))
-		*sptr = '\0';		/* kill extension	*/
+		*sptr = '\0'; /* kill extension	*/
 	if (strlen(username) > 8)
-		username[8] = '\0';	/* max 8 char filename	*/
+		username[8] = '\0'; /* max 8 char filename	*/
 	strcat(username, ".adv");
 #else
 	(void)sptr;
@@ -220,45 +218,44 @@ void saveadv(void)
 		printf("Sorry, I can't save your game...\nAborting program...\n");
 		exit(-1);
 	}
-	fwrite( &turns, sizeof(int), 1, savefd);
-	fwrite( &loc, sizeof(int), 1, savefd);
-	fwrite( &oldloc, sizeof(int), 1, savefd);
-	fwrite( &oldloc2, sizeof(int), 1, savefd);
-	fwrite( &newloc, sizeof(int), 1, savefd);	/* location variables */
-	fwrite( &cond[0], sizeof(int), MAXLOC, savefd);			/* location status	*/
-	fwrite( &place[0], sizeof(int), MAXOBJ, savefd);		/* object location	*/
-	fwrite( &fixed[0], sizeof(int), MAXOBJ, savefd);		/* second object loc	*/
-	fwrite( &visited[0], sizeof(int), MAXLOC, savefd);		/* >0 if has been here	*/
-	fwrite( &prop[0], sizeof(int), MAXOBJ, savefd);			/* status of object	*/
-	fwrite( &tally, sizeof(int), 1, savefd);
-	fwrite( &tally2, sizeof(int), 1, savefd);		/* item counts		*/
-	fwrite( &limit, sizeof(int), 1, savefd);			/* time limit		*/
-	fwrite( &lmwarn, sizeof(int), 1, savefd);			/* lamp warning flag	*/
-	fwrite( &wzdark, sizeof(int), 1, savefd);
-	fwrite( &closing, sizeof(int), 1, savefd);
-	fwrite( &closed, sizeof(int), 1, savefd);	/* game state flags	*/
-	fwrite( &holding, sizeof(int), 1, savefd);		/* count of held items	*/
-	fwrite( &detail, sizeof(int), 1, savefd);			/* LOOK count		*/
-	fwrite( &knfloc, sizeof(int), 1, savefd);			/* knife location	*/
-	fwrite( &clock1, sizeof(int), 1, savefd);
-	fwrite( &clock2, sizeof(int), 1, savefd);
-	fwrite( &panic, sizeof(int), 1, savefd);	/* timing variables	*/
-	fwrite( &dloc[0], sizeof(int), DWARFMAX, savefd);			/* dwarf locations	*/
-	fwrite( &dflag, sizeof(int), 1, savefd);			/* dwarf flag		*/
-	fwrite( &dseen[0], sizeof(int), DWARFMAX, savefd);		/* dwarf seen flag	*/
-	fwrite( &odloc[0], sizeof(int), DWARFMAX, savefd);		/* dwarf old locations	*/
-	fwrite( &daltloc, sizeof(int), 1, savefd);		/* alternate appearance	*/
-	fwrite( &dkill, sizeof(int), 1, savefd);			/* dwarves killed	*/
-	fwrite( &chloc, sizeof(int), 1, savefd);
-	fwrite( &chloc2, sizeof(int), 1, savefd);		/* chest locations	*/
-	fwrite( &bonus, sizeof(int), 1, savefd);			/* to pass to end	*/
-	fwrite( &numdie, sizeof(int), 1, savefd);			/* number of deaths	*/
-	fwrite( &object1, sizeof(int), 1, savefd);		/* to help intrans.	*/
-	fwrite( &gaveup, sizeof(int), 1, savefd);			/* 1 if he quit early	*/
-	fwrite( &foobar, sizeof(int), 1, savefd);			/* fie fie foe foo...	*/
-	if (fclose(savefd)  ==  -1) {
-		printf("Sorry, I can't close the file...%s\n", \
-		       username);
+	fwrite(&turns, sizeof(int), 1, savefd);
+	fwrite(&loc, sizeof(int), 1, savefd);
+	fwrite(&oldloc, sizeof(int), 1, savefd);
+	fwrite(&oldloc2, sizeof(int), 1, savefd);
+	fwrite(&newloc, sizeof(int), 1, savefd);	  /* location variables */
+	fwrite(&cond[0], sizeof(int), MAXLOC, savefd);    /* location status	*/
+	fwrite(&place[0], sizeof(int), MAXOBJ, savefd);   /* object location	*/
+	fwrite(&fixed[0], sizeof(int), MAXOBJ, savefd);   /* second object loc	*/
+	fwrite(&visited[0], sizeof(int), MAXLOC, savefd); /* >0 if has been here	*/
+	fwrite(&prop[0], sizeof(int), MAXOBJ, savefd);    /* status of object	*/
+	fwrite(&tally, sizeof(int), 1, savefd);
+	fwrite(&tally2, sizeof(int), 1, savefd); /* item counts		*/
+	fwrite(&limit, sizeof(int), 1, savefd);  /* time limit		*/
+	fwrite(&lmwarn, sizeof(int), 1, savefd); /* lamp warning flag	*/
+	fwrite(&wzdark, sizeof(int), 1, savefd);
+	fwrite(&closing, sizeof(int), 1, savefd);
+	fwrite(&closed, sizeof(int), 1, savefd);  /* game state flags	*/
+	fwrite(&holding, sizeof(int), 1, savefd); /* count of held items	*/
+	fwrite(&detail, sizeof(int), 1, savefd);  /* LOOK count		*/
+	fwrite(&knfloc, sizeof(int), 1, savefd);  /* knife location	*/
+	fwrite(&clock1, sizeof(int), 1, savefd);
+	fwrite(&clock2, sizeof(int), 1, savefd);
+	fwrite(&panic, sizeof(int), 1, savefd);		  /* timing variables	*/
+	fwrite(&dloc[0], sizeof(int), DWARFMAX, savefd);  /* dwarf locations	*/
+	fwrite(&dflag, sizeof(int), 1, savefd);		  /* dwarf flag		*/
+	fwrite(&dseen[0], sizeof(int), DWARFMAX, savefd); /* dwarf seen flag	*/
+	fwrite(&odloc[0], sizeof(int), DWARFMAX, savefd); /* dwarf old locations	*/
+	fwrite(&daltloc, sizeof(int), 1, savefd);	 /* alternate appearance	*/
+	fwrite(&dkill, sizeof(int), 1, savefd);		  /* dwarves killed	*/
+	fwrite(&chloc, sizeof(int), 1, savefd);
+	fwrite(&chloc2, sizeof(int), 1, savefd);  /* chest locations	*/
+	fwrite(&bonus, sizeof(int), 1, savefd);   /* to pass to end	*/
+	fwrite(&numdie, sizeof(int), 1, savefd);  /* number of deaths	*/
+	fwrite(&object1, sizeof(int), 1, savefd); /* to help intrans.	*/
+	fwrite(&gaveup, sizeof(int), 1, savefd);  /* 1 if he quit early	*/
+	fwrite(&foobar, sizeof(int), 1, savefd);  /* fie fie foe foo...	*/
+	if (fclose(savefd) == -1) {
+		printf("Sorry, I can't close the file...%s\n", username);
 		exit(-1);
 	}
 	printf("Game saved -- see you later...\n");
@@ -269,9 +266,9 @@ void saveadv(void)
 */
 void restore(void)
 {
-	char	username[64];
-	FILE	*restfd;
-	char	*sptr;
+	char username[64];
+	FILE *restfd;
+	char *sptr;
 
 #ifndef __QNX__
 	printf("What is the name of the saved game? ");
@@ -279,10 +276,10 @@ void restore(void)
 	if (NULL == gets(username))
 		exit(0);
 	if (sptr = strchr(username, '.'))
-		*sptr = '\0';		/* kill extension	*/
+		*sptr = '\0'; /* kill extension	*/
 	if (strlen(username) > 8)
-		username[8] = '\0';	/* max 8 char filename	*/
-	strcat(username, ".adv"); 
+		username[8] = '\0'; /* max 8 char filename	*/
+	strcat(username, ".adv");
 #else
 	(void)sptr;
 	game_name(username);
@@ -292,45 +289,44 @@ void restore(void)
 		printf("Sorry, no game to load...\n");
 		return;
 	}
-	fread( &turns, sizeof(int), 1, restfd);
-	fread( &loc, sizeof(int), 1, restfd);
-	fread( &oldloc, sizeof(int), 1, restfd);
-	fread( &oldloc2, sizeof(int), 1, restfd);
-	fread( &newloc, sizeof(int), 1, restfd);	/* location variables */
-	fread( &cond[0], sizeof(int), MAXLOC, restfd);			/* location status	*/
-	fread( &place[0], sizeof(int), MAXOBJ, restfd);		/* object location	*/
-	fread( &fixed[0], sizeof(int), MAXOBJ, restfd);		/* second object loc	*/
-	fread( &visited[0], sizeof(int), MAXLOC, restfd);		/* >0 if has been here	*/
-	fread( &prop[0], sizeof(int), MAXOBJ, restfd);			/* status of object	*/
-	fread( &tally, sizeof(int), 1, restfd);
-	fread( &tally2, sizeof(int), 1, restfd);		/* item counts		*/
-	fread( &limit, sizeof(int), 1, restfd);			/* time limit		*/
-	fread( &lmwarn, sizeof(int), 1, restfd);			/* lamp warning flag	*/
-	fread( &wzdark, sizeof(int), 1, restfd);
-	fread( &closing, sizeof(int), 1, restfd);
-	fread( &closed, sizeof(int), 1, restfd);	/* game state flags	*/
-	fread( &holding, sizeof(int), 1, restfd);		/* count of held items	*/
-	fread( &detail, sizeof(int), 1, restfd);			/* LOOK count		*/
-	fread( &knfloc, sizeof(int), 1, restfd);			/* knife location	*/
-	fread( &clock1, sizeof(int), 1, restfd);
-	fread( &clock2, sizeof(int), 1, restfd);
-	fread( &panic, sizeof(int), 1, restfd);	/* timing variables	*/
-	fread( &dloc[0], sizeof(int), DWARFMAX, restfd);			/* dwarf locations	*/
-	fread( &dflag, sizeof(int), 1, restfd);			/* dwarf flag		*/
-	fread( &dseen[0], sizeof(int), DWARFMAX, restfd);		/* dwarf seen flag	*/
-	fread( &odloc[0], sizeof(int), DWARFMAX, restfd);		/* dwarf old locations	*/
-	fread( &daltloc, sizeof(int), 1, restfd);		/* alternate appearance	*/
-	fread( &dkill, sizeof(int), 1, restfd);			/* dwarves killed	*/
-	fread( &chloc, sizeof(int), 1, restfd);
-	fread( &chloc2, sizeof(int), 1, restfd);		/* chest locations	*/
-	fread( &bonus, sizeof(int), 1, restfd);			/* to pass to end	*/
-	fread( &numdie, sizeof(int), 1, restfd);			/* number of deaths	*/
-	fread( &object1, sizeof(int), 1, restfd);		/* to help intrans.	*/
-	fread( &gaveup, sizeof(int), 1, restfd);			/* 1 if he quit early	*/
-	fread( &foobar, sizeof(int), 1, restfd);			/* fie fie foe foo...	*/
-	if (fclose(restfd)  ==  -1) {
-		printf("Warning -- can't close save file...%s\n", \
-		       username);
+	fread(&turns, sizeof(int), 1, restfd);
+	fread(&loc, sizeof(int), 1, restfd);
+	fread(&oldloc, sizeof(int), 1, restfd);
+	fread(&oldloc2, sizeof(int), 1, restfd);
+	fread(&newloc, sizeof(int), 1, restfd);		 /* location variables */
+	fread(&cond[0], sizeof(int), MAXLOC, restfd);    /* location status	*/
+	fread(&place[0], sizeof(int), MAXOBJ, restfd);   /* object location	*/
+	fread(&fixed[0], sizeof(int), MAXOBJ, restfd);   /* second object loc	*/
+	fread(&visited[0], sizeof(int), MAXLOC, restfd); /* >0 if has been here	*/
+	fread(&prop[0], sizeof(int), MAXOBJ, restfd);    /* status of object	*/
+	fread(&tally, sizeof(int), 1, restfd);
+	fread(&tally2, sizeof(int), 1, restfd); /* item counts		*/
+	fread(&limit, sizeof(int), 1, restfd);  /* time limit		*/
+	fread(&lmwarn, sizeof(int), 1, restfd); /* lamp warning flag	*/
+	fread(&wzdark, sizeof(int), 1, restfd);
+	fread(&closing, sizeof(int), 1, restfd);
+	fread(&closed, sizeof(int), 1, restfd);  /* game state flags	*/
+	fread(&holding, sizeof(int), 1, restfd); /* count of held items	*/
+	fread(&detail, sizeof(int), 1, restfd);  /* LOOK count		*/
+	fread(&knfloc, sizeof(int), 1, restfd);  /* knife location	*/
+	fread(&clock1, sizeof(int), 1, restfd);
+	fread(&clock2, sizeof(int), 1, restfd);
+	fread(&panic, sizeof(int), 1, restfd);		 /* timing variables	*/
+	fread(&dloc[0], sizeof(int), DWARFMAX, restfd);  /* dwarf locations	*/
+	fread(&dflag, sizeof(int), 1, restfd);		 /* dwarf flag		*/
+	fread(&dseen[0], sizeof(int), DWARFMAX, restfd); /* dwarf seen flag	*/
+	fread(&odloc[0], sizeof(int), DWARFMAX, restfd); /* dwarf old locations	*/
+	fread(&daltloc, sizeof(int), 1, restfd);	 /* alternate appearance	*/
+	fread(&dkill, sizeof(int), 1, restfd);		 /* dwarves killed	*/
+	fread(&chloc, sizeof(int), 1, restfd);
+	fread(&chloc2, sizeof(int), 1, restfd);  /* chest locations	*/
+	fread(&bonus, sizeof(int), 1, restfd);   /* to pass to end	*/
+	fread(&numdie, sizeof(int), 1, restfd);  /* number of deaths	*/
+	fread(&object1, sizeof(int), 1, restfd); /* to help intrans.	*/
+	fread(&gaveup, sizeof(int), 1, restfd);  /* 1 if he quit early	*/
+	fread(&foobar, sizeof(int), 1, restfd);  /* fie fie foe foo...	*/
+	if (fclose(restfd) == -1) {
+		printf("Warning -- can't close save file...%s\n", username);
 	}
 	printf("Game restored...\n");
 	describe();
@@ -348,9 +344,9 @@ char *game_name(char *filename)
 	}
 	strcat(filename, ".adventure");
 #else
-	char  username[32];
+	char username[32];
 	char *sptr;
-	
+
 	printf("What is the name of the saved game? ");
 	fflush(stdout);
 	if (NULL == fgets(username, 32, stdin))
@@ -360,14 +356,12 @@ char *game_name(char *filename)
 	if ((sptr = strchr(username, '\r')))
 		*sptr = '\0';
 	if ((sptr = strchr(username, '.')))
-		*sptr = '\0';		/* kill extension	*/
+		*sptr = '\0'; /* kill extension	*/
 	if (strlen(username) > 8)
-		username[8] = '\0';	/* max 8 char filename	*/
+		username[8] = '\0'; /* max 8 char filename	*/
 	strcat(username, ".adv");
 	strcpy(filename, "/var/tmp/");
 	strcat(filename, username);
 #endif
-	return(filename);
+	return filename;
 }
-
-

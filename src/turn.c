@@ -4,14 +4,13 @@
 \*		including "advdef.h".				*\
 \*		All other modules use "advdec.h".		*/
 
+#include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-#include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
-#include	<ctype.h>
-#include	<string.h>
-#include	<stdlib.h>
-
-#include	"advent.h"
-#include	"advdec.h"
+#include "advent.h"
+#include "advdec.h"
 
 #ifndef atoi
 #define atoi atol
@@ -20,13 +19,12 @@
 #define rindex strchr
 #endif
 
-
 /*
 	Routine to take 1 turn
 */
 void turn(void)
 {
-	int	i;
+	int i;
 	/*
 		if closing, then he can't leave except via
 		the main office.
@@ -43,75 +41,77 @@ void turn(void)
 		from where he wants to go.
 	*/
 	if (newloc != loc && !forced(loc) && (cond[loc] & NOPIRAT) == 0)
-		for (i = 1; i< (DWARFMAX-1); ++i)
+		for (i = 1; i < (DWARFMAX - 1); ++i)
 			if (odloc[i] == newloc && dseen[i]) {
-				newloc  =  loc;
+				newloc = loc;
 				rspeak(2);
 				break;
 			}
 
-	dwarves();	/* & special dwarf(pirate who steals)	*/
+	dwarves(); /* & special dwarf(pirate who steals)	*/
 
 	/* added by BDS C conversion */
 	if (loc != newloc) {
 		++turns;
 		loc = newloc;
 /*	causes occasional "move" with two describe & descitem	*/
-/*	}	*/			/* if (loc != newloc)	*/
+/*	}	*/
+/*	if (loc != newloc)	*/
 
-	/* check for death */
-	if (loc == 0) {
-		death();
-		return;
-	}
+		/* check for death */
+		if (loc == 0) {
+			death();
+			return;
+		}
 
-	/* check for forced move */
-	if (forced (loc)) {
+		/* check for forced move */
+		if (forced(loc)) {
+			describe();
+			domove();
+			return;
+		}
+
+		/* check for wandering in dark */
+		if (wzdark && dark() && pct(35)) {
+			rspeak(23);
+			oldloc2 = loc;
+			death();
+			return;
+		}
+
+		/* describe his situation */
 		describe();
-		domove();
-		return;
-	}
-
-	/* check for wandering in dark */
-	if (wzdark && dark() && pct(35)) {
-		rspeak(23);
-		oldloc2 = loc;
-		death();
-		return;
-	}
-
-	/* describe his situation */
-	describe();
-	if (!dark ()) {
-		++visited[loc];
-		descitem();
-	}
+		if (!dark()) {
+			++visited[loc];
+			descitem();
+		}
 /*	causes occasional "move" with no describe & descitem	*/
-	}				/* if (loc != newloc)	*/
+	}
 
 	if (closed) {
-		if (prop[OYSTER] < 0 && toting (OYSTER))
+		if (prop[OYSTER] < 0 && toting(OYSTER))
 			pspeak(OYSTER, 1);
 		for (i = 1; i <= MAXOBJ; ++i)
-			if (toting (i) && prop[i] < 0)
-				prop[i] = -1-prop[i];
+			if (toting(i) && prop[i] < 0)
+				prop[i] = -1 - prop[i];
 	}
 
 	wzdark = dark();
 	if (knfloc > 0 && knfloc != loc)
-		knfloc  =  0;
+		knfloc = 0;
 
-	if (stimer())	/* as the grains of sand slip by	*/
+	if (stimer()) /* as the grains of sand slip by	*/
 		return;
 
-	while (!english())	/* retrieve player instructions	*/
+	while (!english()) /* retrieve player instructions	*/
 		;
 
 	if (dbugflg)
 		printf("loc = %d, verb = %d, object = %d, \
-		motion = %d\n", loc, verb, object, motion);
+		motion = %d\n",
+		       loc, verb, object, motion);
 
-	if (motion)		/* execute player instructions	*/
+	if (motion) /* execute player instructions	*/
 		domove();
 	else if (object)
 		doobj();
@@ -141,21 +141,20 @@ void describe(void)
 */
 void descitem(void)
 {
-	int	i, state;
+	int i, state;
 
-	for (i = 1;i<MAXOBJ; ++i) {
+	for (i = 1; i < MAXOBJ; ++i) {
 		if (at(i)) {
 			if (i == STEPS && toting(NUGGET))
 				continue;
-			if (prop[i]<0) {
+			if (prop[i] < 0) {
 				if (closed)
 					continue;
-				else {
-					prop[i] = 0;
-					if (i == RUG || i == CHAIN)
-						++prop[i];
-					--tally;
-				}
+
+				prop[i] = 0;
+				if (i == RUG || i == CHAIN)
+					++prop[i];
+				--tally;
 			}
 			if (i == STEPS && loc == fixed[STEPS])
 				state = 1;
@@ -174,14 +173,14 @@ void descitem(void)
 void domove(void)
 {
 	gettrav(loc);
-	switch(motion) {
+	switch (motion) {
 	case NULLX:
 		break;
 	case BACK:
 		goback();
 		break;
 	case LOOK:
-		if (detail++<3)
+		if (detail++ < 3)
 			rspeak(15);
 		wzdark = 0;
 		visited[loc] = 0;
@@ -189,7 +188,7 @@ void domove(void)
 		loc = 0;
 		break;
 	case CAVE:
-		if (loc<8)
+		if (loc < 8)
 			rspeak(57);
 		else
 			rspeak(58);
@@ -207,7 +206,7 @@ void domove(void)
 */
 void goback(void)
 {
-	int	kk, k2, want, temp;
+	int kk, k2, want, temp;
 	struct trav strav[MAXTRAV];
 
 	if (forced(oldloc))
@@ -240,8 +239,7 @@ void goback(void)
 	if (k2) {
 		motion = travel[k2].tverb;
 		dotrav();
-	}
-	else
+	} else
 		rspeak(140);
 }
 
@@ -250,12 +248,12 @@ void goback(void)
 */
 void copytrv(struct trav *trav1, struct trav *trav2)
 {
-	int	i;
+	int i;
 
-	for (i = 0; i<MAXTRAV; ++i) {
-		trav2 -> tdest = trav1 -> tdest;
-		trav2 -> tverb = trav1 -> tverb;
-		trav2 -> tcond = trav1 -> tcond;
+	for (i = 0; i < MAXTRAV; ++i) {
+		trav2->tdest = trav1->tdest;
+		trav2->tverb = trav1->tverb;
+		trav2->tcond = trav1->tcond;
 	}
 }
 
@@ -265,34 +263,33 @@ void copytrv(struct trav *trav1, struct trav *trav2)
 */
 void dotrav(void)
 {
-	char	mvflag, hitflag;
-	int	rdest, rverb, rcond, robject;
-	int	pctt, kk;
+	char mvflag, hitflag;
+	int rdest, rverb, rcond, robject;
+	int pctt, kk;
 
 	newloc = loc;
 	mvflag = hitflag = 0;
-	pctt = rand()%100;
+	pctt = rand() % 100;
 
-	for (kk = 0; travel[kk].tdest>=0 && !mvflag; ++kk) {
+	for (kk = 0; travel[kk].tdest >= 0 && !mvflag; ++kk) {
 		rdest = travel[kk].tdest;
 		rverb = travel[kk].tverb;
 		rcond = travel[kk].tcond;
-		robject = rcond%100;
+		robject = rcond % 100;
 
 		if (dbugflg)
 			printf("rdest = %d, rverb = %d, rcond = %d, \
-			robject = %d in dotrav\n", rdest, rverb, \
-			rcond, robject);
+			robject = %d in dotrav\n",
+			       rdest, rverb, rcond, robject);
 		if ((rverb != 1) && (rverb != motion) && !hitflag)
 			continue;
 		++hitflag;
-		switch(rcond/100) {
+		switch (rcond / 100) {
 		case 0:
 			if ((rcond == 0) || (pctt < rcond))
 				++mvflag;
 			if (rcond && dbugflg)
-				printf("%% move %d %d\n",
-					pctt, mvflag);
+				printf("%% move %d %d\n", pctt, mvflag);
 			break;
 		case 1:
 			if (robject == 0)
@@ -308,7 +305,7 @@ void dotrav(void)
 		case 4:
 		case 5:
 		case 7:
-			if (prop[robject] != (rcond/100)-3)
+			if (prop[robject] != (rcond / 100) - 3)
 				++mvflag;
 			break;
 		default:
@@ -317,9 +314,9 @@ void dotrav(void)
 	}
 	if (!mvflag)
 		badmove();
-	else if (rdest>500)
-		rspeak(rdest-500);
-	else if (rdest>300)
+	else if (rdest > 500)
+		rspeak(rdest - 500);
+	else if (rdest > 300)
 		spcmove(rdest);
 	else {
 		newloc = rdest;
@@ -333,16 +330,23 @@ void dotrav(void)
 */
 void badmove(void)
 {
-	int	msg;
+	int msg;
 
 	msg = 12;
-	if (motion >= 43 && motion <=50) msg = 9;
-	if (motion == 29 || motion == 30) msg = 9;
-	if (motion == 7 || motion == 36 || motion == 37) msg = 10;
-	if (motion == 11 || motion == 19) msg = 11;
-	if (verb == FIND || verb == INVENTORY) msg = 59;
-	if (motion == 62 || motion == 65) msg = 42;
-	if (motion == 17) msg = 80;
+	if (motion >= 43 && motion <= 50)
+		msg = 9;
+	if (motion == 29 || motion == 30)
+		msg = 9;
+	if (motion == 7 || motion == 36 || motion == 37)
+		msg = 10;
+	if (motion == 11 || motion == 19)
+		msg = 11;
+	if (verb == FIND || verb == INVENTORY)
+		msg = 59;
+	if (motion == 62 || motion == 65)
+		msg = 42;
+	if (motion == 17)
+		msg = 80;
 	rspeak(msg);
 }
 
@@ -351,32 +355,31 @@ void badmove(void)
 */
 void spcmove(int rdest)
 {
-	switch(rdest-300) {
-	case 1:  /* plover movement via alcove */
+	switch (rdest - 300) {
+	case 1: /* plover movement via alcove */
 		if (!holding || (holding == 1 && toting(EMERALD)))
-			newloc = (99+100)-loc;
+			newloc = (99 + 100) - loc;
 		else
 			rspeak(117);
 		break;
-	case 2:  /* trying to remove plover, bad route */
+	case 2: /* trying to remove plover, bad route */
 		drop(EMERALD, loc);
 		break;
-	case 3:  /* troll bridge */
+	case 3: /* troll bridge */
 		if (prop[TROLL] == 1) {
 			pspeak(TROLL, 1);
 			prop[TROLL] = 0;
 			move(TROLL2, 0);
-			move((TROLL2+MAXOBJ), 0);
+			move((TROLL2 + MAXOBJ), 0);
 			move(TROLL, 117);
-			move((TROLL+MAXOBJ), 122);
+			move((TROLL + MAXOBJ), 122);
 			juggle(CHASM);
 			newloc = loc;
-		}
-		else {
+		} else {
 			newloc = (loc == 117 ? 122 : 117);
 			if (prop[TROLL] == 0)
 				++prop[TROLL];
-			if (!toting (BEAR))
+			if (!toting(BEAR))
 				return;
 			rspeak(162);
 			prop[CHASM] = 1;
@@ -384,7 +387,7 @@ void spcmove(int rdest)
 			drop(BEAR, newloc);
 			fixed[BEAR] = -1;
 			prop[BEAR] = 3;
-			if (prop[SPICES]<0)
+			if (prop[SPICES] < 0)
 				++tally2;
 			oldloc2 = newloc;
 			death();
@@ -394,7 +397,6 @@ void spcmove(int rdest)
 		bug(38);
 	}
 }
-
 
 /*
 	Routine to handle player's demise via
@@ -420,22 +422,22 @@ void normend(void)
 */
 void score(void)
 {
-	int	t, i, k, s;
+	int t, i, k, s;
 	s = t = k = 0;
-	for (i = 50; i<=MAXTRS; ++i) {
+	for (i = 50; i <= MAXTRS; ++i) {
 		if (i == CHEST)
 			k = 14;
 		else if (i > CHEST)
 			k = 16;
-		else 
+		else
 			k = 12;
 		if (prop[i] >= 0)
 			t += 2;
 		if (place[i] == 3 && prop[i] == 0)
-			t += k-2;
+			t += k - 2;
 	}
 	printf("%-20s%d\n", "Treasures:", s = t);
-	t = (MAXDIE - numdie)*10;
+	t = (MAXDIE - numdie) * 10;
 	if (t)
 		printf("%-20s%d\n", "Survival:", t);
 	s += t;
@@ -473,20 +475,20 @@ void score(void)
 */
 void death(void)
 {
-	char	yea, i, j;
+	char yea, i, j;
 
 	if (!closing) {
-		yea = yes(81+numdie*2, 82+numdie*2, 54);
+		yea = yes(81 + numdie * 2, 82 + numdie * 2, 54);
 		if (++numdie >= MAXDIE || !yea)
 			normend();
 		place[WATER] = 0;
 		place[OIL] = 0;
 		if (toting(LAMP))
 			prop[LAMP] = 0;
-		for (j = 1; j<101; ++j) {
-			i = 101-j;
-			if (toting (i))
-				drop(i, i == LAMP ? 1:oldloc2);
+		for (j = 1; j < 101; ++j) {
+			i = 101 - j;
+			if (toting(i))
+				drop(i, i == LAMP ? 1 : oldloc2);
 		}
 		newloc = 3;
 		oldloc = loc;
@@ -517,8 +519,7 @@ void doobj(void)
 		if (loc == 1 || loc == 4 || loc == 7) {
 			motion = DEPRESSION;
 			domove();
-		}
-		else if (loc>9 && loc<15) {
+		} else if (loc > 9 && loc < 15) {
 			motion = ENTRANCE;
 			domove();
 		}
@@ -533,11 +534,9 @@ void doobj(void)
 	/*
 	   is he trying to get/use a liquid?
 	*/
-	else if ((liq() == object && here(BOTTLE)) ||
-		 liqloc(loc) == object)
+	else if ((liq() == object && here(BOTTLE)) || liqloc(loc) == object)
 		trobj();
-	else if (object == PLANT && at(PLANT2) &&
-		prop[PLANT2] == 0) {
+	else if (object == PLANT && at(PLANT2) && prop[PLANT2] == 0) {
 		object = PLANT2;
 		trobj();
 	}
@@ -554,8 +553,7 @@ void doobj(void)
 	else if (object == ROD && here(ROD2)) {
 		object = ROD2;
 		trobj();
-	}
-	else
+	} else
 		printf("I see no %s here.\n", probj(object));
 }
 
@@ -568,8 +566,7 @@ void trobj(void)
 	if (verb)
 		trverb();
 	else
-		printf("What do you want to do with the %s?\n",
-			probj(object));
+		printf("What do you want to do with the %s?\n", probj(object));
 }
 
 /*
@@ -577,23 +574,24 @@ void trobj(void)
 */
 char *probj(int object)
 {
-	int	wtype, wval;
+	int wtype, wval;
 
 	(void)object;
 	analyze(word1, &wtype, &wval);
 
-	return (wtype == 1 ? word1 : word2);
+	return wtype == 1 ? word1 : word2;
 }
 /*
 	dwarf stuff.
 */
 void dwarves(void)
 {
-	int	i, j, k, try, attack, stick, dtotal;
+	int i, j, k, try, attack, stick, dtotal;
+
 	/*
 		see if dwarves allowed here
 	*/
-	if (newloc == 0 || forced(newloc) || cond[newloc]&NOPIRAT)
+	if (newloc == 0 || forced(newloc) || cond[newloc] & NOPIRAT)
 		return;
 	/*
 		see if dwarves are active.
@@ -608,13 +606,13 @@ void dwarves(void)
 		kill 0, 1 or 2
 	*/
 	if (dflag == 1) {
-		if (newloc < 15 || pct (95))
+		if (newloc < 15 || pct(95))
 			return;
 		++dflag;
-		for (i = 1; i<3; ++i)
-			if (pct (50))
-				dloc[rand()%5+1] = 0;
-		for (i = 1; i< (DWARFMAX-1); ++i) {
+		for (i = 1; i < 3; ++i)
+			if (pct(50))
+				dloc[rand() % 5 + 1] = 0;
+		for (i = 1; i < (DWARFMAX - 1); ++i) {
 			if (dloc[i] == newloc)
 				dloc[i] = daltloc;
 			odloc[i] = dloc[i];
@@ -624,7 +622,7 @@ void dwarves(void)
 		return;
 	}
 	dtotal = attack = stick = 0;
-	for (i = 1; i<DWARFMAX; ++i) {
+	for (i = 1; i < DWARFMAX; ++i) {
 		if (dloc[i] == 0)
 			continue;
 		/*
@@ -632,18 +630,16 @@ void dwarves(void)
 			have a matrix around to do it
 			as in the original version...
 		*/
-		for (try = 1; try<20; ++try) {
-			j = rand()%106+15; /* allowed area */
-			if (j != odloc[i] && j != dloc[i] &&
-			    !(i == (DWARFMAX - 1) && (cond[j] & NOPIRAT) == 1))
+		for (try = 1; try < 20; ++try) {
+			j = rand() % 106 + 15; /* allowed area */
+			if (j != odloc[i] && j != dloc[i] && !(i == (DWARFMAX - 1) && (cond[j] & NOPIRAT) == 1))
 				break;
 		}
 		if (j == 0)
 			j = odloc[i];
 		odloc[i] = dloc[i];
 		dloc[i] = j;
-		if ((dseen[i] && newloc >= 15) ||
-		    dloc[i] == newloc || odloc[i] == newloc)
+		if ((dseen[i] && newloc >= 15) || dloc[i] == newloc || odloc[i] == newloc)
 			dseen[i] = 1;
 		else
 			dseen[i] = 0;
@@ -658,7 +654,7 @@ void dwarves(void)
 				++attack;
 				if (knfloc >= 0)
 					knfloc = newloc;
-				if (rand()%1000 < 95*(dflag-2))
+				if (rand() % 1000 < 95 * (dflag - 2))
 					++stick;
 			}
 		}
@@ -676,17 +672,15 @@ void dwarves(void)
 	if (attack > 1) {
 		printf("%d of them throw knives at you!!\n", attack);
 		k = 6;
-	}
-	else {
+	} else {
 		rspeak(5);
 		k = 52;
 	}
 	if (stick <= 1) {
-		rspeak(stick+k);
+		rspeak(stick + k);
 		if (stick == 0)
 			return;
-	}
-	else
+	} else
 		printf("%d of them get you !!!\n", stick);
 	oldloc2 = newloc;
 	death();
@@ -696,21 +690,20 @@ void dwarves(void)
 */
 void dopirate(void)
 {
-	int	j, k;
+	int j, k;
+
 	if (newloc == chloc || prop[CHEST] >= 0)
 		return;
+
 	k = 0;
-	for (j = 50; j<=MAXTRS; ++j)
-		if (j != PYRAMID ||
-		    (newloc != place[PYRAMID] &&
-		     newloc != place[EMERALD])) {
+	for (j = 50; j <= MAXTRS; ++j)
+		if (j != PYRAMID || (newloc != place[PYRAMID] && newloc != place[EMERALD])) {
 			if (toting(j))
 				goto stealit;
 			if (here(j))
 				++k;
 		}
-	if (tally == tally2+1 && k == 0 && place[CHEST] == 0 &&
-	    here(LAMP) && prop[LAMP] == 1) {
+	if (tally == tally2 + 1 && k == 0 && place[CHEST] == 0 && here(LAMP) && prop[LAMP] == 1) {
 		rspeak(186);
 		move(CHEST, chloc);
 		move(MESSAGE, chloc2);
@@ -731,10 +724,8 @@ stealit:
 	if (place[MESSAGE] == 0)
 		move(CHEST, chloc);
 	move(MESSAGE, chloc2);
-	for (j = 50; j<=MAXTRS; ++j) {
-		if (j == PYRAMID &&
-		    (newloc == place[PYRAMID] ||
-		     newloc == place[EMERALD]))
+	for (j = 50; j <= MAXTRS; ++j) {
+		if (j == PYRAMID && (newloc == place[PYRAMID] || newloc == place[EMERALD]))
 			continue;
 		if (at(j) && fixed[j] == 0)
 			carry(j, newloc);
@@ -750,8 +741,9 @@ stealit:
 */
 int stimer(void)
 {
-	int	i;
-	foobar = foobar > 0 ?  -foobar : 0;
+	int i;
+
+	foobar = foobar > 0 ? -foobar : 0;
 	if (tally == 0 && loc >= 15 && loc != 33)
 		--clock1;
 	if (clock1 == 0) {
@@ -760,12 +752,12 @@ int stimer(void)
 		*/
 		prop[GRATE] = 0;
 		prop[FISSURE] = 0;
-		for (i = 1; i<DWARFMAX; ++i)
+		for (i = 1; i < DWARFMAX; ++i)
 			dseen[i] = 0;
 		move(TROLL, 0);
-		move((TROLL+MAXOBJ), 0);
+		move((TROLL + MAXOBJ), 0);
 		move(TROLL2, 117);
-		move((TROLL2+MAXOBJ), 122);
+		move((TROLL2 + MAXOBJ), 122);
 		juggle(CHASM);
 		if (prop[BEAR] != 3)
 			dstroy(BEAR);
@@ -776,7 +768,7 @@ int stimer(void)
 		rspeak(129);
 		clock1 = -1;
 		closing = 1;
-		return(0);
+		return 0;
 	}
 	if (clock1 < 0)
 		--clock2;
@@ -802,32 +794,30 @@ int stimer(void)
 		prop[PILLOW] = put(PILLOW, 116, 0);
 		prop[MIRROR] = put(MIRROR, 115, 0);
 		fixed[MIRROR] = 116;
-		for (i = 1; i<= MAXOBJ; ++i)
+		for (i = 1; i <= MAXOBJ; ++i)
 			if (toting(i))
 				dstroy(i);
 		rspeak(132);
 		closed = 1;
-		return(1);
+		return 1;
 	}
 	if (prop[LAMP] == 1)
 		--limit;
-	if (limit <= 30 &&
-	    here(BATTERIES) && prop[BATTERIES] == 0 &&
-	    here(LAMP)) {
+	if (limit <= 30 && here(BATTERIES) && prop[BATTERIES] == 0 && here(LAMP)) {
 		rspeak(188);
 		prop[BATTERIES] = 1;
 		if (toting(BATTERIES))
 			drop(BATTERIES, loc);
 		limit += 2500;
 		lmwarn = 0;
-		return(0);
+		return 0;
 	}
 	if (limit == 0) {
 		--limit;
 		prop[LAMP] = 0;
 		if (here(LAMP))
 			rspeak(184);
-		return(0);
+		return 0;
 	}
 	if (limit < 0 && loc <= 8) {
 		rspeak(185);
@@ -836,7 +826,7 @@ int stimer(void)
 	}
 	if (limit <= 30) {
 		if (lmwarn || !here(LAMP))
-			return(0);
+			return 0;
 		lmwarn = 1;
 		i = 187;
 		if (place[BATTERIES] == 0)
@@ -844,8 +834,7 @@ int stimer(void)
 		if (prop[BATTERIES] == 1)
 			i = 189;
 		rspeak(i);
-		return(0);
+		return 0;
 	}
-	return(0);
+	return 0;
 }
-

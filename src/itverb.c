@@ -4,18 +4,16 @@
 \*		including "advdef.h".				*\
 \*		All other modules use "advdec.h".		*/
 
-
-#include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
-#include	"advent.h"
-#include	"advdec.h"
-
+#include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
+#include "advent.h"
+#include "advdec.h"
 
 /*
 	Routines to process intransitive verbs
 */
 void itverb(void)
 {
-	switch(verb) {
+	switch (verb) {
 	case DROP:
 	case SAY:
 	case WAVE:
@@ -89,11 +87,11 @@ void itverb(void)
 */
 void ivtake(void)
 {
-	int anobj,item;
+	int anobj, item;
 
 	anobj = 0;
-	for(item=1;item<MAXOBJ;++item) {
-		if (place[item]==loc) {
+	for (item = 1; item < MAXOBJ; ++item) {
+		if (place[item] == loc) {
 			if (anobj != 0) {
 				needobj();
 				return;
@@ -101,7 +99,7 @@ void ivtake(void)
 			anobj = item;
 		}
 	}
-	if (anobj==0|| (dcheck() && dflag>=2)) {
+	if (anobj == 0 || (dcheck() && dflag >= 2)) {
 		needobj();
 		return;
 	}
@@ -115,21 +113,21 @@ void ivtake(void)
 void ivopen(void)
 {
 	if (here(CLAM))
-		object=CLAM;
+		object = CLAM;
 	if (here(OYSTER))
-		object=OYSTER;
+		object = OYSTER;
 	if (at(DOOR))
-		object=DOOR;
+		object = DOOR;
 	if (at(GRATE))
-		object=GRATE;
+		object = GRATE;
 	if (here(CHAIN)) {
 		if (object != 0) {
 			needobj();
 			return;
 		}
-		object=CHAIN;
+		object = CHAIN;
 	}
-	if (object==0) {
+	if (object == 0) {
 		rspeak(28);
 		return;
 	}
@@ -142,15 +140,15 @@ void ivopen(void)
 void ivkill(void)
 {
 	object1 = 0;
-	if (dcheck() && dflag >=2)
-		object=DWARF;
+	if (dcheck() && dflag >= 2)
+		object = DWARF;
 	if (here(SNAKE))
 		addobj(SNAKE);
-	if (at(DRAGON) && prop[DRAGON]==0)
+	if (at(DRAGON) && prop[DRAGON] == 0)
 		addobj(DRAGON);
 	if (at(TROLL))
 		addobj(TROLL);
-	if (here(BEAR) && prop[BEAR]==0)
+	if (here(BEAR) && prop[BEAR] == 0)
 		addobj(BEAR);
 	if (object1 != 0) {
 		needobj();
@@ -160,8 +158,8 @@ void ivkill(void)
 		vkill();
 		return;
 	}
-	if (here(BIRD) && verb!= THROW)
-		object=BIRD;
+	if (here(BIRD) && verb != THROW)
+		object = BIRD;
 	if (here(CLAM) || here(OYSTER))
 		addobj(CLAM);
 	if (object1 != 0) {
@@ -179,7 +177,7 @@ void iveat(void)
 	if (!here(FOOD))
 		needobj();
 	else {
-		object=FOOD;
+		object = FOOD;
 		veat();
 	}
 }
@@ -189,11 +187,10 @@ void iveat(void)
 */
 void ivdrink(void)
 {
-	if (liqloc(loc) != WATER &&
-	  (liq()!= WATER || !here(BOTTLE)))
+	if (liqloc(loc) != WATER && (liq() != WATER || !here(BOTTLE)))
 		needobj();
 	else {
-		object=WATER;
+		object = WATER;
 		vdrink();
 	}
 }
@@ -203,7 +200,7 @@ void ivdrink(void)
 */
 void ivquit(void)
 {
-	if ((gaveup =yes(22,54,54)))
+	if ((gaveup = yes(22, 54, 54)))
 		normend();
 }
 
@@ -215,7 +212,7 @@ void ivfill(void)
 	if (!here(BOTTLE))
 		needobj();
 	else {
-		object=BOTTLE;
+		object = BOTTLE;
 		vfill();
 	}
 }
@@ -225,10 +222,10 @@ void ivfill(void)
 */
 void ivfoo(void)
 {
-	char k,msg;
-	k = vocab(word1,3000);
+	char k, msg;
+	k = vocab(word1, 3000);
 	msg = 42;
-	if (foobar != 1-k) {
+	if (foobar != 1 - k) {
 		if (foobar != 0)
 			msg = 151;
 		rspeak(msg);
@@ -238,13 +235,11 @@ void ivfoo(void)
 	if (k != 4)
 		return;
 	foobar = 0;
-	if (place[EGGS] == 92 ||
-	   (toting(EGGS) && loc == 92)) {
+	if (place[EGGS] == 92 || (toting(EGGS) && loc == 92)) {
 		rspeak(msg);
 		return;
 	}
-	if (place[EGGS] == 0 && place[TROLL] == 0 &&
-	    prop[TROLL] == 0)
+	if (place[EGGS] == 0 && place[TROLL] == 0 && prop[TROLL] == 0)
 		prop[TROLL] = 1;
 	if (here(EGGS))
 		k = 1;
@@ -252,8 +247,8 @@ void ivfoo(void)
 		k = 0;
 	else
 		k = 2;
-	move(EGGS,92);
-	pspeak(EGGS,k);
+	move(EGGS, 92);
+	pspeak(EGGS, k);
 	return;
 }
 
@@ -278,7 +273,7 @@ ivread()
 */
 
 /*
-	INVENTORY 
+	INVENTORY
 */
 void inventory(void)
 {
@@ -286,13 +281,13 @@ void inventory(void)
 	int i;
 
 	msg = 98;
-	for (i=1; i<=MAXOBJ; ++i) {
-		if (i==BEAR || !toting(i))
+	for (i = 1; i <= MAXOBJ; ++i) {
+		if (i == BEAR || !toting(i))
 			continue;
 		if (msg)
 			rspeak(99);
 		msg = 0;
-		pspeak(i,-1);
+		pspeak(i, -1);
 	}
 	if (toting(BEAR))
 		msg = 141;
@@ -314,5 +309,3 @@ void addobj(int obj)
 	}
 	object = obj;
 }
-
-

@@ -4,14 +4,13 @@
 \*		including "advdef.h".				*\
 \*		All other modules use "advdec.h".		*/
 
+#include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-#include	<stdio.h>	/* drv = 1.1st file 2.def 3.A	*/
-#include	<ctype.h>
-#include	<string.h>
-#include	<stdlib.h>
-
-#include	"advent.h"
-#include	"advdec.h"
+#include "advent.h"
+#include "advdec.h"
 
 #ifdef EMBED
 #include "advent1.h"
@@ -27,36 +26,35 @@
 #define rindex strchr
 #endif
 
-
 /*
 	Routine to fill travel array for a given location
 */
 void gettrav(int loc)
 {
-	int	i;
-	long	t;
-	char	atrav[256], *aptr;
+	int i;
+	long t;
+	char atrav[256], *aptr;
 
 	strcpy(atrav, cave[loc - 1]);
 	while ((aptr = rindex(atrav, ',')))
-		*aptr = '\0';		/* terminate substring	*/
+		*aptr = '\0'; /* terminate substring	*/
 	aptr = &atrav[0];
 	for (i = 0; i < MAXTRAV; ++i) {
-		t = atoi(aptr);		/* convert to long int	*/
-		travel[i].tcond = (int) (t % 1000L);
+		t = atoi(aptr); /* convert to long int	*/
+		travel[i].tcond = (int)(t % 1000L);
 		t /= 1000L;
-		travel[i].tverb = (int) (t % 1000L);
+		travel[i].tverb = (int)(t % 1000L);
 		t /= 1000L;
-		travel[i].tdest = (int) (t % 1000L);
-		while (*(aptr++));		/* to next substring	*/
+		travel[i].tdest = (int)(t % 1000L);
+		while (*(aptr++))
+			; /* to next substring	*/
 		if (!(*aptr)) {
-		    travel[++i].tdest = -1;/* end of array	*/
-		    if (dbugflg)
-			for (i = 0; i < MAXTRAV; ++i)
-				printf("cave[%d] = %d %d %d\n", \
-				loc, travel[i].tdest, \
-				travel[i].tverb, travel[i].tcond);
-		    return;		/* terminate for loop	*/
+			travel[++i].tdest = -1; /* end of array	*/
+			if (dbugflg)
+				for (i = 0; i < MAXTRAV; ++i)
+					printf("cave[%d] = %d %d %d\n", loc,
+					       travel[i].tdest, travel[i].tverb, travel[i].tcond);
+			return; /* terminate for loop	*/
 		}
 	}
 	bug(33);
@@ -68,11 +66,11 @@ void gettrav(int loc)
 */
 int rdupto(FILE *fdi, char uptoc, char print, char *string)
 {
-	int	c;
+	int c;
 
 	while ((c = fgetc(fdi)) != uptoc) {
 		if (c == EOF)
-			return(0);
+			return 0;
 		if (c == '\r')
 			continue;
 		if (print)
@@ -82,7 +80,7 @@ int rdupto(FILE *fdi, char uptoc, char print, char *string)
 	}
 	if (!print)
 		*string = '\0';
-	return(1);
+	return 1;
 }
 
 /*
@@ -93,7 +91,7 @@ int rdupto(FILE *fdi, char uptoc, char print, char *string)
 */
 void rdskip(FILE *fdi, char skipc, int n, char rewind)
 {
-	int	c;
+	int c;
 
 	if (rewind)
 		if (fseek(fdi, 0, 0) == -1)
@@ -110,7 +108,7 @@ void rdskip(FILE *fdi, char skipc, int n, char rewind)
 */
 int yes(int msg1, int msg2, int msg3)
 {
-	char	answer[80];
+	char answer[80];
 
 	if (msg1)
 		rspeak(msg1);
@@ -121,11 +119,11 @@ int yes(int msg1, int msg2, int msg3)
 	if (tolower(answer[0]) == 'n') {
 		if (msg3)
 			rspeak(msg3);
-		return(0);
+		return 0;
 	}
 	if (msg2)
 		rspeak(msg2);
-	return(1);
+	return 1;
 }
 
 /*
@@ -134,13 +132,13 @@ int yes(int msg1, int msg2, int msg3)
 void rspeak(int msg)
 {
 #ifdef EMBED
-	fputs(adventtxt4[msg-1], stdout);
+	fputs(adventtxt4[msg - 1], stdout);
 #else
 	if (msg == 54)
 		printf("ok.\n");
 	else {
 		if (dbugflg)
-		    printf("Seek loc msg #%d @ %ld\n", msg, idx4[msg]);
+			printf("Seek loc msg #%d @ %ld\n", msg, idx4[msg]);
 		fseek(fd4, idx4[msg - 1], 0);
 		rdupto(fd4, '#', 1, 0);
 	}
@@ -155,22 +153,23 @@ void pspeak(int item, int state)
 {
 #ifdef EMBED
 	const char *p;
-	p = adventtxt3[item-1];
-	if (p == NULL) bug(31);
+	p = adventtxt3[item - 1];
+	if (p == NULL)
+		bug(31);
 	else {
-		int	c;
-		int     n = state+2;
+		int c;
+		int n = state + 2;
 
 		while (n--)
 			while ((c = *p++) != '/')
 				if (c == '\0')
 					bug(32);
-		for (n=0; p[n] != '\0' && p[n] != '/'; n++)
+		for (n = 0; p[n] != '\0' && p[n] != '/'; n++)
 			putchar(p[n]);
 	}
 #else
 	fseek(fd3, idx3[item - 1], 0);
-	rdskip(fd3, '/', state+2, 0);
+	rdskip(fd3, '/', state + 2, 0);
 	rdupto(fd3, '/', 1, 0);
 #endif
 }
@@ -181,7 +180,7 @@ void pspeak(int item, int state)
 void desclg(int loc)
 {
 #ifdef EMBED
-	fputs(adventtxt1[loc-1], stdout);
+	fputs(adventtxt1[loc - 1], stdout);
 #else
 	fseek(fd1, idx1[loc - 1], 0);
 	rdupto(fd1, '#', 1, 0);
@@ -194,7 +193,7 @@ void desclg(int loc)
 void descsh(int loc)
 {
 #ifdef EMBED
-	fputs(adventtxt2[loc-1], stdout);
+	fputs(adventtxt2[loc - 1], stdout);
 #else
 	fseek(fd2, idx2[loc - 1], 0);
 	rdupto(fd2, '#', 1, 0);
@@ -212,29 +211,27 @@ void descsh(int loc)
 */
 int vocab(char *word, int val)
 {
-	int	v1, v2;
+	int v1, v2;
 
 	if ((v1 = binary(word, wc, MAXWC)) >= 0) {
-		v2 = binary(word, wc, MAXWC-1);
+		v2 = binary(word, wc, MAXWC - 1);
 		if (v2 < 0)
 			v2 = v1;
 		if (!val)
-			return(wc[v1].acode < wc[v2].acode\
-			       ? wc[v1].acode : wc[v2].acode);
+			return wc[v1].acode < wc[v2].acode ? wc[v1].acode : wc[v2].acode;
 		if (val <= wc[v1].acode)
-			return(wc[v1].acode % 1000);
+			return wc[v1].acode % 1000;
 		else if (val <= wc[v2].acode)
-			return(wc[v2].acode % 1000);
+			return wc[v2].acode % 1000;
 		else
-			return(-1);
-	}
-	else
-		return(-1);
+			return -1;
+	} else
+		return -1;
 }
 
 int binary(char *w, struct wac wctable[], int maxwc)
 {
-	int	lo, mid, hi, check;
+	int lo, mid, hi, check;
 
 	lo = 0;
 	hi = maxwc - 1;
@@ -245,11 +242,10 @@ int binary(char *w, struct wac wctable[], int maxwc)
 		else if (check > 0)
 			lo = mid + 1;
 		else
-			return(mid);
+			return mid;
 	}
-	return(-1);
+	return -1;
 }
-
 
 /*
 	Utility Routines
@@ -260,9 +256,7 @@ int binary(char *w, struct wac wctable[], int maxwc)
 */
 int dark(void)
 {
-	return(!(cond[loc] & LIGHT) &&
-		(!prop[LAMP] ||
-		!here(LAMP)));
+	return !(cond[loc] & LIGHT) && (!prop[LAMP] || !here(LAMP));
 }
 
 /*
@@ -270,7 +264,7 @@ int dark(void)
 */
 int here(int item)
 {
-	return(place[item] == loc || toting(item));
+	return place[item] == loc || toting(item);
 }
 
 /*
@@ -278,7 +272,7 @@ int here(int item)
 */
 int toting(int item)
 {
-	return(place[item] == -1);
+	return place[item] == -1;
 }
 
 /*
@@ -287,7 +281,7 @@ int toting(int item)
 */
 int forced(int atloc)
 {
-	return(cond[atloc] == 2);
+	return cond[atloc] == 2;
 }
 
 /*
@@ -295,7 +289,7 @@ int forced(int atloc)
 */
 int pct(int x)
 {
-	return(rand() % 100 < x);
+	return rand() % 100 < x;
 }
 
 /*
@@ -304,7 +298,7 @@ int pct(int x)
 */
 int at(int item)
 {
-	return(place[item] == loc || fixed[item] == loc);
+	return place[item] == loc || fixed[item] == loc;
 }
 
 /*
@@ -320,10 +314,10 @@ void dstroy(int obj)
 */
 void move(int obj, int where)
 {
-	int	from;
+	int from;
 
-	from = (obj<MAXOBJ) ? place[obj] : fixed[obj];
-	if (from>0 && from<=300)
+	from = (obj < MAXOBJ) ? place[obj] : fixed[obj];
+	if (from > 0 && from <= 300)
 		carry(obj, from);
 	drop(obj, where);
 }
@@ -344,10 +338,10 @@ void carry(int obj, int where)
 {
 	(void)where;
 
-	if (obj<MAXOBJ){
+	if (obj < MAXOBJ) {
 		if (place[obj] == -1)
 			return;
-		place[obj]=-1;
+		place[obj] = -1;
 		++holding;
 	}
 }
@@ -357,13 +351,12 @@ void carry(int obj, int where)
 */
 void drop(int obj, int where)
 {
-	if (obj<MAXOBJ) {
+	if (obj < MAXOBJ) {
 		if (place[obj] == -1)
 			--holding;
-		place[obj]=where;
-	}
-	else
-		fixed[obj-MAXOBJ]=where;
+		place[obj] = where;
+	} else
+		fixed[obj - MAXOBJ] = where;
 }
 
 /*
@@ -374,7 +367,7 @@ void drop(int obj, int where)
 int put(int obj, int where, int pval)
 {
 	move(obj, where);
-	return((-1)-pval);
+	return (-1) - pval;
 }
 /*
 	Routine to check for presence
@@ -382,12 +375,12 @@ int put(int obj, int where, int pval)
 */
 int dcheck(void)
 {
-	int	i;
+	int i;
 
-	for (i =1; i < (DWARFMAX-1); ++i)
+	for (i = 1; i < (DWARFMAX - 1); ++i)
 		if (dloc[i] == loc)
-			return(i);
-	return(0);
+			return i;
+	return 0;
 }
 
 /*
@@ -395,10 +388,10 @@ int dcheck(void)
 */
 int liq(void)
 {
-	int	i, j;
-	i=prop[BOTTLE];
-	j=-1-i;
-	return(liq2(i>j ? i : j));
+	int i, j;
+	i = prop[BOTTLE];
+	j = -1 - i;
+	return liq2(i > j ? i : j);
 }
 
 /*
@@ -406,10 +399,10 @@ int liq(void)
 */
 int liqloc(int loc)
 {
-	if (cond[loc]&LIQUID)
-		return(liq2(cond[loc]&WATOIL));
+	if (cond[loc] & LIQUID)
+		return liq2(cond[loc] & WATOIL);
 
-	return(liq2(1));
+	return liq2(1);
 }
 
 /*
@@ -419,7 +412,7 @@ int liqloc(int loc)
 */
 int liq2(int pbottle)
 {
-	return((1-pbottle)*WATER+(pbottle>>1)*(WATER+OIL));
+	return (1 - pbottle) * WATER + (pbottle >> 1) * (WATER + OIL);
 }
 
 /*
@@ -430,7 +423,3 @@ void bug(int n)
 	printf("Fatal error number %d\n", n);
 	exit(-1);
 }
-
-
-	
-
