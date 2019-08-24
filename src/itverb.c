@@ -222,7 +222,8 @@ void ivfill(void)
 */
 void ivfoo(void)
 {
-	char k, msg;
+	int k, msg;
+
 	k = vocab(word1, 3000);
 	msg = 42;
 	if (foobar != 1 - k) {
@@ -231,14 +232,17 @@ void ivfoo(void)
 		rspeak(msg);
 		return;
 	}
+
 	foobar = k;
 	if (k != 4)
 		return;
+
 	foobar = 0;
 	if (place[EGGS] == 92 || (toting(EGGS) && loc == 92)) {
 		rspeak(msg);
 		return;
 	}
+
 	if (place[EGGS] == 0 && place[TROLL] == 0 && prop[TROLL] == 0)
 		prop[TROLL] = 1;
 	if (here(EGGS))
@@ -277,8 +281,7 @@ ivread()
 */
 void inventory(void)
 {
-	char msg;
-	int i;
+	int i, msg;
 
 	msg = 98;
 	for (i = 1; i <= MAXOBJ; ++i) {
