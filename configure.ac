@@ -11,4 +11,11 @@ AC_PROG_INSTALL
 
 AC_HEADER_STDC
 
+AC_ARG_ENABLE([builtin],
+	AS_HELP_STRING([--disable-builtin], [disable built-in .txt files]),,
+	enable_builtin=yes)
+
+AS_IF([test "x$enable_builtin" != "xno"],
+	AC_DEFINE([BUILTIN], 1, [Enable built-in .txt files (default)]))
+
 AC_OUTPUT

@@ -12,7 +12,7 @@
 #include "advent.h"
 #include "advdec.h"
 
-#ifdef EMBED
+#ifdef BUILTIN
 #include "advent1.h"
 #include "advent2.h"
 #include "advent3.h"
@@ -53,7 +53,7 @@ void gettrav(int loc)
 	}
 	bug(33);
 }
-#ifndef EMBED
+#ifndef BUILTIN
 /*
 	Function to scan a file up to a specified
 	point and either print or return a string.
@@ -125,7 +125,7 @@ int yes(int msg1, int msg2, int msg3)
 */
 void rspeak(int msg)
 {
-#ifdef EMBED
+#ifdef BUILTIN
 	fputs(adventtxt4[msg - 1], stdout);
 #else
 	if (msg == 54)
@@ -145,7 +145,7 @@ void rspeak(int msg)
 */
 void pspeak(int item, int state)
 {
-#ifdef EMBED
+#ifdef BUILTIN
 	const char *p;
 	p = adventtxt3[item - 1];
 	if (p == NULL)
@@ -173,7 +173,7 @@ void pspeak(int item, int state)
 */
 void desclg(int loc)
 {
-#ifdef EMBED
+#ifdef BUILTIN
 	fputs(adventtxt1[loc - 1], stdout);
 #else
 	fseek(fd1, idx1[loc - 1], 0);
@@ -186,7 +186,7 @@ void desclg(int loc)
 */
 void descsh(int loc)
 {
-#ifdef EMBED
+#ifdef BUILTIN
 	fputs(adventtxt2[loc - 1], stdout);
 #else
 	fseek(fd2, idx2[loc - 1], 0);

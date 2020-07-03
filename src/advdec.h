@@ -7,7 +7,7 @@
 */
 extern struct wac wc[]; /* see ADVWORD.H		*/
 extern char *cave[];    /* see ADVCAVE.H		*/
-#ifndef EMBED
+#ifndef BUILTIN
 extern long idx1[]; /* see ADVTEXT.H		*/
 extern long idx2[]; /* see ADVTEXT.H		*/
 extern long idx3[]; /* see ADVTEXT.H		*/
@@ -15,7 +15,7 @@ extern long idx4[]; /* see ADVTEXT.H		*/
 #endif
 
 extern struct trav travel[];
-#ifndef EMBED
+#ifndef BUILTIN
 extern FILE *fd1, *fd2, *fd3, *fd4;
 #endif
 extern int actmsg[]; /* action messages	*/

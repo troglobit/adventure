@@ -6,7 +6,7 @@
 	Database variables
 */
 struct trav travel[MAXTRAV];
-#ifndef EMBED
+#ifndef BUILTIN
 FILE *fd1, *fd2, *fd3, *fd4;
 #endif
 int actmsg[32]; /* action messages	*/

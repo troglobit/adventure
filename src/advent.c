@@ -12,7 +12,7 @@
 #include "advent.h"  /* #define preprocessor equates	*/
 #include "advword.h" /* definition of "word" array	*/
 #include "advcave.h" /* definition of "cave" array	*/
-#ifndef EMBED
+#ifndef BUILTIN
 #include "advtext.h" /* definition of "text" arrays	*/
 #endif
 #include "advdef.h"
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 		turn();
 	if (saveflg)
 		saveadv();
-#ifndef EMBED
+#ifndef BUILTIN
 	fclose(fd1);
 	fclose(fd2);
 	fclose(fd3);
@@ -166,7 +166,7 @@ void initplay(void)
 
 void opentxt(void)
 {
-#ifndef EMBED
+#ifndef BUILTIN
 	fd1 = fopen(ADV1, "r");
 	if (!fd1) {
 		printf("Sorry, I can't open advent1.txt...\n");
@@ -339,11 +339,12 @@ void restore(void)
 
 char *game_name(char *filename)
 {
-#ifndef EMBED
+#ifndef BUILTIN
 	char *homedir;
 
 	filename[0] = 0;
-	if (homedir = getenv("HOME")) {
+	homedir = getenv("HOME");
+	if (homedir) {
 		strcat(filename, homedir);
 		strcat(filename, "/");
 	}

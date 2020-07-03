@@ -138,3 +138,4 @@ struct trav {
 };
 
 #include "proto.h"
+#include "config.h"
