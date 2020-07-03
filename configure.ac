@@ -1,4 +1,5 @@
-AC_INIT([advent], [4.0], [https://github.com/troglobit/advent4/issues])
+AC_INIT([advent], [4.1-dev], [https://github.com/troglobit/advent4/issues])
+AC_CONFIG_AUX_DIR(aux)
 AM_INIT_AUTOMAKE([1.11 foreign])
 
 AC_CONFIG_SRCDIR([src/advent.c])
