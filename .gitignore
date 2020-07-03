@@ -22,6 +22,5 @@ configure
 depcomp
 install-sh
 missing
-advent
 stamp-h1
 test-driver
