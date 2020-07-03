@@ -15,3 +15,6 @@ Port to QNX 4, incl. various bug fixes
 
 - James Lummel
 
+Port to Linux, incl. various cleanup:
+
+- Joachim Nilsson
