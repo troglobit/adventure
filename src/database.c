@@ -19,12 +19,6 @@
 #include "advent4.h"
 #endif
 
-#ifndef atoi
-#define atoi atol
-#endif
-#ifndef rindex
-#define rindex strchr
-#endif
 
 /*
 	Routine to fill travel array for a given location
@@ -36,11 +30,11 @@ void gettrav(int loc)
 	char atrav[256], *aptr;
 
 	strcpy(atrav, cave[loc - 1]);
-	while ((aptr = rindex(atrav, ',')))
+	while ((aptr = strrchr(atrav, ',')))
 		*aptr = '\0'; /* terminate substring	*/
 	aptr = &atrav[0];
 	for (i = 0; i < MAXTRAV; ++i) {
-		t = atoi(aptr); /* convert to long int	*/
+		t = atol(aptr); /* convert to long int	*/
 		travel[i].tcond = (int)(t % 1000L);
 		t /= 1000L;
 		travel[i].tverb = (int)(t % 1000L);

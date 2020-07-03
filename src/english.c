@@ -12,12 +12,6 @@
 #include "advent.h"
 #include "advdec.h"
 
-#ifndef atoi
-#define atoi atol
-#endif
-#ifndef rindex
-#define rindex strchr
-#endif
 
 /*
 	Analyze a two word sentence
