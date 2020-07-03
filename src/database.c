@@ -106,7 +106,7 @@ int yes(int msg1, int msg2, int msg3)
 
 	if (msg1)
 		rspeak(msg1);
-	fputc('>', stdout);
+	fputs("> ", stdout);
 	fflush(stdout);
 	if (NULL == fgets(answer, 80, stdin))
 		exit(0);

@@ -120,7 +120,7 @@ void getwords(void)
 {
 	char words[80], *wptr;
 
-	fputc('>', stdout);
+	fputs("> ", stdout);
 	word1[0] = word2[0] = '\0';
 	fflush(stdout);
 	if (NULL == fgets(words, 80, stdin))
