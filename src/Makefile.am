@@ -1,5 +1,6 @@
 AM_CFLAGS          = -W -Wall -Wextra
 AM_CPPFLAGS        = -I$(top_srcdir)
+EXTRA_DIST         = advent.desktop.in
 
 desktopdir         = $(datadir)/applications
 desktop_DATA       = advent.desktop

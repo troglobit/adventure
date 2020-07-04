@@ -1,5 +1,5 @@
 SUBDIRS         = doc src
-EXTRA_DIST      = README.md LICENSE advent.desktop
+EXTRA_DIST      = README.md LICENSE
 doc_DATA        = README.md LICENSE
 
 ## Generate .deb package
