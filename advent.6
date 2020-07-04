@@ -1,0 +1,33 @@
+.\"                                                              -*- nroff -*-
+.Dd Dec 7, 2019
+.Dt ADVENT 6
+.Sh NAME
+.Nm advent
+.Nd Colossal Cave Adventure
+.Sh SYNOPSIS
+.Nm
+.Op Fl r
+.Sh DESCRIPTION
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+.Sh OPTIONS
+This program follows the usual UNIX command line syntax:
+.Bl -tag -width Ds
+.It Fl r
+Restore previously saved game.
+.El
+.Sh COMMANDS
+This program has many interactive commands, the built-in
+.Pa help
+and the context will guide you.  Use
+.Pa quit
+to leave the game and
+.Pa suspend
+to save your location for a later time.
+.Sh AUTHORS
+.Nm
+was originally written by William Crowther, with major features added by
+Don Woods.  The conversion to BDS C was done by Jay R.  Jaeger, ported
+to UNIX by Jerry D. Pohl.  The last port to QNX 4, which this version is
+based on, was maed by James Lummel.
