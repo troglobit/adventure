@@ -27,3 +27,24 @@ AS_IF([test "x$with_savedir" != "xno"], [
 	AC_DEFINE([SAVEDIR], "$with_savedir", [Global savedir instead of $HOME])])
 
 AC_OUTPUT
+
+cat <<EOF
+
+------------------ Summary ------------------
+ $PACKAGE_NAME version $PACKAGE_VERSION
+  Prefix................: $prefix
+  Localstatedir.........: `eval echo $localstatedir`
+  C Compiler............: $CC $CFLAGS $CPPFLAGS $LDFLAGS $LIBS
+
+Optional features:
+  Built-in .txt files...: $enable_builtin
+  Global save directory.: $with_savedir
+
+------------- Compiler version --------------
+$($CC --version || true)
+---------------------------------------------
+
+Check the above options and compile with:
+ ${MAKE-make}
+
+EOF
