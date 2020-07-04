@@ -5,6 +5,9 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 %:
 	dh $@ --with autoreconf
 
+override_dh_auto_configure:
+	dh_auto_configure -- --prefix=/usr --bindir=/usr/games --program-suffix=4
+
 override_dh_auto_install:
 	dh_auto_install
 	find debian/ -name LICENSE -delete
