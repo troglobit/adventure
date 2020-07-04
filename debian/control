@@ -1,0 +1,19 @@
+Source: advent
+Section: games
+Priority: optional
+Maintainer: Joachim Nilsson <troglobit@gmail.com>
+Homepage: https://github.com/troglobit/advent4
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.3.0
+Vcs-Git: https://github.com/troglobit/advent4.git
+Vcs-Browser: https://github.com/troglobit/advent4/commits/
+
+Package: advent
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Colossal Cave Adventure
+ This is the UNIX port of the classic text adventure Colossal Cave:
+ .
+ You are standing at the end of a road before a small brick
+ building.  Around you is a forest.  A small stream flows out
+ of the building and down a gully.

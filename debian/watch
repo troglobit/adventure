@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/advent-$1\.tar\.gz/ \
+  https://github.com/troglobit/advent4/releases .*/advent-?(\d\S*)\.tar\.gz

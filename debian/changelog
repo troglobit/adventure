@@ -1,0 +1,17 @@
+advent (4.1) stable; urgency=high
+
+  * Change narrative back to original, start outside building
+  * Change prompt slightly, add space after '>'
+  * Fix verb matching that broke in 4.0, issue #1
+  * Fix game restore that broke in 4.0
+  * Change save game to default to use ~/.adventure
+  * Add .desktop entry
+  * Initial Debian packaging
+
+ -- Joachim Nilsson <troglobit@gmail.com>  Sat, 04 Jul 2020 19:04:23 +0200
+
+advent (4.0) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Joachim Nilsson <troglobit@gmail.com>  Sun, 25 Nov 2018 12:10:25 +0100

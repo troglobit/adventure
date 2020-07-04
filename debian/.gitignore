@@ -1,0 +1,5 @@
+*.substvars
+autoreconf.*
+debhelper-build-stamp
+files
+advent/
