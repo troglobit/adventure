@@ -480,7 +480,7 @@ const char *adventtxt4[201] = {
 	"The axe misses and lands near the bear where you can't get\n"
 	"at it.\n",
 // 165
-	"With what?  Your bare hands?  Agains HIS bear hands??\n",
+	"With what?  Your bare hands?  Against HIS bear hands??\n",
 // 166
 	"The bear is confused;  he only wants to be your friend.\n",
 // 167
