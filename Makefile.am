@@ -2,9 +2,6 @@ SUBDIRS         = doc src
 EXTRA_DIST      = README.md LICENSE advent.desktop
 doc_DATA        = README.md LICENSE
 
-desktopdir      = $(datadir)/applications
-desktop_DATA    = advent.desktop
-
 ## Generate .deb package
 package:
 	@debuild -uc -us -B --lintian-opts --profile debian -i -I --show-overrides

@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE([1.11 foreign])
 
 AC_CONFIG_SRCDIR([src/advent.c])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile doc/Makefile src/Makefile advent.desktop])
+AC_CONFIG_FILES([Makefile doc/Makefile src/Makefile src/advent.desktop])
 
 AC_PROG_CC
 AC_PROG_INSTALL
