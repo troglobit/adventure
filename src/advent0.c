@@ -11,6 +11,7 @@
 #include "advent.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 
 int Ltoa(int n, char *s)
@@ -18,6 +19,90 @@ int Ltoa(int n, char *s)
 	int sz;
 	snprintf(s, 10, "%d%n", n, &sz);
 	return sz;
+}
+
+char *chomp(char *str)
+{
+	char *ptr;
+
+	ptr = str + strlen(str) - 1;
+        while (ptr >= str && *ptr == '\n')
+		*ptr-- = 0;
+
+	return str;
+}
+
+char *escape(char *str)
+{
+	char *ptr;
+
+	for (ptr = str; *ptr; ptr++) {
+		if (*ptr != '"')
+			continue;
+
+		memmove(ptr + 1, ptr, strlen(ptr) + 1);
+		*ptr++ = '\\';
+	}
+
+	return str;
+}
+
+int txtoh(const char *fn)
+{
+	FILE *fpt, *fph;
+	char buf[80];
+	int num = 0;
+	char *ptr;
+	int idx;
+
+	strcpy(buf, fn);
+	ptr = strrchr(buf, '.');
+	if (!ptr)
+		return -1;
+	*ptr-- = 0;
+	idx = atoi(ptr++);
+	strcat(ptr, ".h");
+
+	fpt = fopen(fn, "r");
+	if (!fpt)
+		return -1;
+	fph = fopen(buf, "w");
+	if (!fph) {
+		fclose(fpt);
+		return -1;
+	}
+
+	while (fgets(buf, sizeof(buf), fpt)) {
+		if (buf[0] == '#')
+			num++;
+	}
+	rewind(fpt);
+
+	fprintf(fph, "const char *adventtxt%d[%d] = {\n", idx, num);
+	idx = 0;
+	num = 0;
+	while (fgets(buf, sizeof(buf), fpt)) {
+		chomp(buf);
+
+		if (buf[0] == '#') {
+			if (idx != 0 && num == 0)
+				fprintf(fph, "\n\tNULL");
+			num = 0;
+			if (idx++ != 0)
+				fprintf(fph, ",\n");
+			fprintf(fph, "// %s", &buf[1]);
+			continue;
+		}
+
+		num++;
+		fprintf(fph, "\n\t\"%s\\n\"", escape(buf));
+	}
+	fprintf(fph, "\n};\n");
+
+	fclose(fph);
+	fclose(fpt);
+
+	return 0;
 }
 
 int main(int argc, char *argv[])
@@ -144,6 +229,15 @@ int main(int argc, char *argv[])
 	fclose(fd2);
 	fclose(fd3);
 	fclose(fd4);
+
 	printf("Datafile processing done!!\n");
+
+	txtoh("advent1.txt");
+	txtoh("advent2.txt");
+	txtoh("advent3.txt");
+	txtoh("advent4.txt");
+
+	printf("Header file processing done!!\n");
+
 	return 0;
 }
