@@ -15,7 +15,15 @@ AC_ARG_ENABLE([builtin],
 	AS_HELP_STRING([--disable-builtin], [disable built-in .txt files]),,
 	enable_builtin=yes)
 
+AC_ARG_WITH([savedir],
+	[AS_HELP_STRING([--with-savedir=DIR], [use global save directory, default $HOME])],
+	[with_savedir=$withval], [with_savedir=no])
+
 AS_IF([test "x$enable_builtin" != "xno"],
 	AC_DEFINE([BUILTIN], 1, [Enable built-in .txt files (default)]))
+
+AS_IF([test "x$with_savedir" != "xno"], [
+	AS_IF([test "x$with_savedir" = "xyes"], [with_savedir=${localstatedir}/games])
+	AC_DEFINE([SAVEDIR], "$with_savedir", [Global savedir instead of $HOME])])
 
 AC_OUTPUT

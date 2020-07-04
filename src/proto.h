@@ -7,7 +7,7 @@ void initplay   (void);
 void opentxt    (void);
 void saveadv    (void);
 void restore    (void);
-char *game_name (char *username);
+char *savefile  (int save, char *path, size_t len);
 
 /* database.c */
 void gettrav (int loc);

@@ -195,25 +195,12 @@ void opentxt(void)
 */
 void saveadv(void)
 {
-	char *sptr;
+	char nm[64];
 	FILE *savefd;
-	char username[64];
 
-#ifndef __QNX__
-	printf("What do you want to name the saved game? ");
-	fflush(stdout);
-	if (NULL == gets(username))
-		exit(0);
-	if (sptr = strchr(username, '.'))
-		*sptr = '\0'; /* kill extension	*/
-	if (strlen(username) > 8)
-		username[8] = '\0'; /* max 8 char filename	*/
-	strcat(username, ".adv");
-#else
-	(void)sptr;
-	game_name(username);
-#endif
-	savefd = fopen(username, "w");
+	savefile(1, nm, sizeof(nm));
+
+	savefd = fopen(nm, "w");
 	if (savefd == NULL) {
 		printf("Sorry, I can't save your game...\nAborting program...\n");
 		exit(-1);
@@ -255,7 +242,7 @@ void saveadv(void)
 	fwrite(&gaveup, sizeof(int), 1, savefd);  /* 1 if he quit early	*/
 	fwrite(&foobar, sizeof(int), 1, savefd);  /* fie fie foe foo...	*/
 	if (fclose(savefd) == -1) {
-		printf("Sorry, I can't close the file...%s\n", username);
+		printf("Sorry, I can't close the file...%s\n", nm);
 		exit(-1);
 	}
 	printf("Game saved -- see you later...\n");
@@ -266,25 +253,12 @@ void saveadv(void)
 */
 void restore(void)
 {
-	char username[64];
+	char nm[64];
 	FILE *restfd;
-	char *sptr;
 
-#ifndef __QNX__
-	printf("What is the name of the saved game? ");
-	fflush(stdout);
-	if (NULL == gets(username))
-		exit(0);
-	if (sptr = strchr(username, '.'))
-		*sptr = '\0'; /* kill extension	*/
-	if (strlen(username) > 8)
-		username[8] = '\0'; /* max 8 char filename	*/
-	strcat(username, ".adv");
-#else
-	(void)sptr;
-	game_name(username);
-#endif
-	restfd = fopen(username, "r");
+	savefile(0, nm, sizeof(nm));
+
+	restfd = fopen(nm, "r");
 	if (restfd == NULL) {
 		printf("Sorry, no game to load...\n");
 		return;
@@ -331,43 +305,55 @@ void restore(void)
 		return;
 	}
 	if (fclose(restfd) == -1) {
-		printf("Warning -- can't close save file...%s\n", username);
+		printf("Warning -- can't close save file...%s\n", nm);
 	}
 	printf("Game restored...\n");
 	describe();
 }
 
-char *game_name(char *filename)
+char *savefile(int save, char *path, size_t len)
 {
-#ifndef BUILTIN
-	char *homedir;
+	char *home;
 
-	filename[0] = 0;
-	homedir = getenv("HOME");
-	if (homedir) {
-		strcat(filename, homedir);
-		strcat(filename, "/");
-	}
-	strcat(filename, ".adventure");
+#ifndef SAVEDIR
+	(void)save;
+
+	home = getenv("HOME");
+	if (!home)
+		home = ".";
+	snprintf(path, len, "%s/.adventure", home);
 #else
-	char username[32];
-	char *sptr;
+	char fn[32];
 
-	printf("What is the name of the saved game? ");
+	if (save)
+		printf("What do you want to name the saved game? ");
+	else
+		printf("What is the name of the saved game? ");
 	fflush(stdout);
-	if (NULL == fgets(username, 32, stdin))
-		exit(0);
-	if ((sptr = strchr(username, '\n')))
-		*sptr = '\0';
-	if ((sptr = strchr(username, '\r')))
-		*sptr = '\0';
-	if ((sptr = strchr(username, '.')))
-		*sptr = '\0'; /* kill extension	*/
-	if (strlen(username) > 8)
-		username[8] = '\0'; /* max 8 char filename	*/
-	strcat(username, ".adv");
-	strcpy(filename, "/var/tmp/");
-	strcat(filename, username);
+
+	if (!fgets(fn, 32, stdin)) {
+		home = getenv("LOGNAME");
+		if (!home)
+			exit(0);
+		snprintf(fn, sizeof(fn), "%s", home);
+	} else {
+		char *sptr;
+
+		if ((sptr = strchr(fn, '\n')))
+			*sptr = '\0';
+		if ((sptr = strchr(fn, '\r')))
+			*sptr = '\0';
+		if ((sptr = strchr(fn, '.')))
+			*sptr = '\0'; /* kill extension	*/
+	}
+
+	if (strlen(fn) > 8)
+		fn[8] = '\0'; /* max 8 char filename	*/
+	strcat(fn, ".adv");
+
+	snprintf(path, len, "%s/%s", SAVEDIR, fn);
+
 #endif
-	return filename;
+
+	return path;
 }
