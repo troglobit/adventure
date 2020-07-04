@@ -73,6 +73,10 @@ The Wikipedia entry:
 Other writings on this cult classic:
 
 - http://www.wurb.com/if/game/1
+- http://www.spitenet.com/cave/
+- http://advent.jenandcal.familyds.org/
 - http://www.rickadams.org/adventure/a_history.html
+- https://github.com/Quuxplusone/Advent
 
- -- Compiled on July 26th, 2009 by Joachim Nilsson <troglobit@gmail.com>
+ -- Compiled on July 26th, 2009 and updated July 4th 2020
+    by Joachim Nilsson <troglobit@gmail.com>
