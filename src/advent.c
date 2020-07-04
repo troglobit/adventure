@@ -133,8 +133,8 @@ void initplay(void)
 	limit = 100;
 	tally = 15;
 	tally2 = 0;
-	newloc = 3;
-	loc = oldloc = oldloc2 = 1;
+	newloc = 1;
+	loc = oldloc = oldloc2 = 3;
 	knfloc = 0;
 	chloc = 114;
 	chloc2 = 140;
