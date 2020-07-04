@@ -1,6 +1,6 @@
 SUBDIRS         = src
-EXTRA_DIST      = README LICENSE
-doc_DATA        = README LICENSE
+EXTRA_DIST      = README.md LICENSE
+doc_DATA        = README.md LICENSE
 
 desktopdir      = $(datadir)/applications
 desktop_DATA    = advent.desktop
