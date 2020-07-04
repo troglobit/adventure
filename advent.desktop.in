@@ -2,7 +2,7 @@
 Version=1.0
 Name=Colossal Cave Adventure
 Comment=The original text based adventure
-Exec=advent
+Exec=advent@SUFFIX@
 Icon=utilities-terminal
 Terminal=true
 Type=Application

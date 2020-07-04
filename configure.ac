@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE([1.11 foreign])
 
 AC_CONFIG_SRCDIR([src/advent.c])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile advent.desktop])
 
 AC_PROG_CC
 AC_PROG_INSTALL
@@ -25,6 +25,10 @@ AS_IF([test "x$enable_builtin" != "xno"],
 AS_IF([test "x$with_savedir" != "xno"], [
 	AS_IF([test "x$with_savedir" = "xyes"], [with_savedir=${localstatedir}/games])
 	AC_DEFINE([SAVEDIR], "$with_savedir", [Global savedir instead of $HOME])])
+
+AS_IF([test "x$program_suffix" != "xNONE"],
+	[SUFFIX=$program_suffix], [SUFFIX=])
+AC_SUBST(SUFFIX)
 
 AC_OUTPUT
 
