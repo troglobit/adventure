@@ -8,7 +8,7 @@ advent (4.1) stable; urgency=high
   * Add .desktop entry
   * Initial Debian packaging
 
- -- Joachim Nilsson <troglobit@gmail.com>  Sat, 04 Jul 2020 19:04:23 +0200
+ -- Joachim Nilsson <troglobit@gmail.com>  Sat, 04 Jul 2020 23:30:46 +0200
 
 advent (4.0) unstable; urgency=medium
 
