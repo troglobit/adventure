@@ -63,7 +63,7 @@ const char *adventtxt2[140] = {
 	"You are in the west side chamber of the hall of the\n"
 	"mountain king.  A passage continues west and up here.\n",
 // 31
-	">$<",
+	">$<\n",
 // 32
 	"You can't get by the snake.\n",
 // 33

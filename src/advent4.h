@@ -144,7 +144,7 @@ const char *adventtxt4[201] = {
 // 53
 	"It gets you!\n",
 // 54
-	"ok.\n",
+	"OK\n",
 // 55
 	"You can't unlock the keys.\n",
 // 56
