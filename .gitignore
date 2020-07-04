@@ -3,6 +3,7 @@
 *.o
 *.trs
 *~
+.clang-format
 .deps
 GPATH
 GRTAGS
@@ -11,6 +12,7 @@ GTAGS
 Makefile
 Makefile.in
 aclocal.m4
+advent.desktop
 autom4te.cache
 compile
 config.guess
