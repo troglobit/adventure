@@ -105,10 +105,10 @@ int txtoh(const char *fn)
 	return 0;
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	FILE *isam, *fd1, *fd2, *fd3, *fd4;
-	char itxt[255], otxt[80], lstr[12];
+	char itxt[255], lstr[12];
 	int cnt, llen;
 
 	isam = fopen("advtext.h", "w");
