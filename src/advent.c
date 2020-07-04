@@ -4,6 +4,7 @@
 \*		including "advdef.h".				*\
 \*		All other modules use "advdec.h"		*/
 
+#include <err.h>
 #include <stdio.h> /* drv = 1.1st file 2.def 3.A	*/
 #include <ctype.h>
 #include <string.h>
@@ -201,51 +202,49 @@ void saveadv(void)
 	savefile(1, nm, sizeof(nm));
 
 	fp = fopen(nm, "w");
-	if (fp == NULL) {
-		printf("Sorry, I can't save your game...\nAborting program...\n");
-		exit(-1);
-	}
-	fwrite(&turns, sizeof(int), 1, fp);
-	fwrite(&loc, sizeof(int), 1, fp);
-	fwrite(&oldloc, sizeof(int), 1, fp);
-	fwrite(&oldloc2, sizeof(int), 1, fp);
-	fwrite(&newloc, sizeof(int), 1, fp);	  /* location variables */
-	fwrite(&cond[0], sizeof(int), MAXLOC, fp);    /* location status	*/
-	fwrite(&place[0], sizeof(int), MAXOBJ, fp);   /* object location	*/
-	fwrite(&fixed[0], sizeof(int), MAXOBJ, fp);   /* second object loc	*/
+	if (!fp)
+		err(1, "Sorry, I cannot save your game to %s", nm);
+
+	fwrite(&turns,      sizeof(int), 1, fp);
+	fwrite(&loc,        sizeof(int), 1, fp);
+	fwrite(&oldloc,     sizeof(int), 1, fp);
+	fwrite(&oldloc2,    sizeof(int), 1, fp);
+	fwrite(&newloc,     sizeof(int), 1, fp);      /* location variables */
+	fwrite(&cond[0],    sizeof(int), MAXLOC, fp); /* location status	*/
+	fwrite(&place[0],   sizeof(int), MAXOBJ, fp); /* object location	*/
+	fwrite(&fixed[0],   sizeof(int), MAXOBJ, fp); /* second object loc	*/
 	fwrite(&visited[0], sizeof(int), MAXLOC, fp); /* >0 if has been here	*/
-	fwrite(&prop[0], sizeof(int), MAXOBJ, fp);    /* status of object	*/
-	fwrite(&tally, sizeof(int), 1, fp);
-	fwrite(&tally2, sizeof(int), 1, fp); /* item counts		*/
-	fwrite(&limit, sizeof(int), 1, fp);  /* time limit		*/
-	fwrite(&lmwarn, sizeof(int), 1, fp); /* lamp warning flag	*/
-	fwrite(&wzdark, sizeof(int), 1, fp);
-	fwrite(&closing, sizeof(int), 1, fp);
-	fwrite(&closed, sizeof(int), 1, fp);  /* game state flags	*/
-	fwrite(&holding, sizeof(int), 1, fp); /* count of held items	*/
-	fwrite(&detail, sizeof(int), 1, fp);  /* LOOK count		*/
-	fwrite(&knfloc, sizeof(int), 1, fp);  /* knife location	*/
-	fwrite(&clock1, sizeof(int), 1, fp);
-	fwrite(&clock2, sizeof(int), 1, fp);
-	fwrite(&panic, sizeof(int), 1, fp);		  /* timing variables	*/
-	fwrite(&dloc[0], sizeof(int), DWARFMAX, fp);  /* dwarf locations	*/
-	fwrite(&dflag, sizeof(int), 1, fp);		  /* dwarf flag		*/
-	fwrite(&dseen[0], sizeof(int), DWARFMAX, fp); /* dwarf seen flag	*/
-	fwrite(&odloc[0], sizeof(int), DWARFMAX, fp); /* dwarf old locations	*/
-	fwrite(&daltloc, sizeof(int), 1, fp);	 /* alternate appearance	*/
-	fwrite(&dkill, sizeof(int), 1, fp);		  /* dwarves killed	*/
-	fwrite(&chloc, sizeof(int), 1, fp);
-	fwrite(&chloc2, sizeof(int), 1, fp);  /* chest locations	*/
-	fwrite(&bonus, sizeof(int), 1, fp);   /* to pass to end	*/
-	fwrite(&numdie, sizeof(int), 1, fp);  /* number of deaths	*/
-	fwrite(&object1, sizeof(int), 1, fp); /* to help intrans.	*/
-	fwrite(&gaveup, sizeof(int), 1, fp);  /* 1 if he quit early	*/
-	fwrite(&foobar, sizeof(int), 1, fp);  /* fie fie foe foo...	*/
-	if (fclose(fp) == -1) {
-		printf("Sorry, I can't close the file...%s\n", nm);
-		exit(-1);
-	}
-	printf("Game saved -- see you later...\n");
+	fwrite(&prop[0],    sizeof(int), MAXOBJ, fp); /* status of object	*/
+	fwrite(&tally,      sizeof(int), 1, fp);
+	fwrite(&tally2,     sizeof(int), 1, fp);      /* item counts		*/
+	fwrite(&limit,      sizeof(int), 1, fp);      /* time limit		*/
+	fwrite(&lmwarn,     sizeof(int), 1, fp);      /* lamp warning flag	*/
+	fwrite(&wzdark,     sizeof(int), 1, fp);
+	fwrite(&closing,    sizeof(int), 1, fp);
+	fwrite(&closed,     sizeof(int), 1, fp);      /* game state flags	*/
+	fwrite(&holding,    sizeof(int), 1, fp);      /* count of held items	*/
+	fwrite(&detail,     sizeof(int), 1, fp);      /* LOOK count		*/
+	fwrite(&knfloc,     sizeof(int), 1, fp);      /* knife location	*/
+	fwrite(&clock1,     sizeof(int), 1, fp);
+	fwrite(&clock2,     sizeof(int), 1, fp);
+	fwrite(&panic,      sizeof(int), 1, fp);      /* timing variables	*/
+	fwrite(&dloc[0],    sizeof(int), DWARFMAX, fp);  /* dwarf locations	*/
+	fwrite(&dflag,      sizeof(int), 1, fp);      /* dwarf flag		*/
+	fwrite(&dseen[0],   sizeof(int), DWARFMAX, fp); /* dwarf seen flag	*/
+	fwrite(&odloc[0],   sizeof(int), DWARFMAX, fp); /* dwarf old locations	*/
+	fwrite(&daltloc,    sizeof(int), 1, fp);      /* alternate appearance	*/
+	fwrite(&dkill,      sizeof(int), 1, fp);      /* dwarves killed	*/
+	fwrite(&chloc,      sizeof(int), 1, fp);
+	fwrite(&chloc2,     sizeof(int), 1, fp);      /* chest locations	*/
+	fwrite(&bonus,      sizeof(int), 1, fp);      /* to pass to end	*/
+	fwrite(&numdie,     sizeof(int), 1, fp);      /* number of deaths	*/
+	fwrite(&object1,    sizeof(int), 1, fp);      /* to help intrans.	*/
+	fwrite(&gaveup,     sizeof(int), 1, fp);      /* 1 if he quit early	*/
+	fwrite(&foobar,     sizeof(int), 1, fp);      /* fie fie foe foo...	*/
+	if (fclose(fp) == -1)
+		err(1, "Sorry, I cannot seem to close the save game file %s", nm);
+
+	printf("Game saved -- see you later!\n");
 }
 
 /*
@@ -260,54 +259,54 @@ void restore(void)
 
 	fp = fopen(nm, "r");
 	if (fp == NULL) {
-		printf("Sorry, no game to load...\n");
+		printf("Sorry, cannot find any saved game to load.\n");
 		return;
 	}
 
-	if (fread(&turns,      sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&loc,        sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&oldloc,     sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&oldloc2,    sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&newloc,     sizeof(int), 1, fp) < sizeof(int) ||	       /* location variables	*/
-	    fread(&cond[0],    sizeof(int), MAXLOC, fp) < sizeof(int) ||   /* location status	*/
-	    fread(&place[0],   sizeof(int), MAXOBJ, fp) < sizeof(int) ||   /* object location	*/
-	    fread(&fixed[0],   sizeof(int), MAXOBJ, fp) < sizeof(int) ||   /* second object loc	*/
-	    fread(&visited[0], sizeof(int), MAXLOC, fp) < sizeof(int) ||   /* >0 if has been here	*/
-	    fread(&prop[0],    sizeof(int), MAXOBJ, fp) < sizeof(int) ||   /* status of object	*/
-	    fread(&tally,      sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&tally2,     sizeof(int), 1, fp) < sizeof(int) ||        /* item counts		*/
-	    fread(&limit,      sizeof(int), 1, fp) < sizeof(int) ||        /* time limit		*/
-	    fread(&lmwarn,     sizeof(int), 1, fp) < sizeof(int) ||        /* lamp warning flag	*/
-	    fread(&wzdark,     sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&closing,    sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&closed,     sizeof(int), 1, fp) < sizeof(int) ||        /* game state flags	*/
-	    fread(&holding,    sizeof(int), 1, fp) < sizeof(int) ||        /* count of held items	*/
-	    fread(&detail,     sizeof(int), 1, fp) < sizeof(int) ||        /* LOOK count		*/
-	    fread(&knfloc,     sizeof(int), 1, fp) < sizeof(int) ||        /* knife location	*/
-	    fread(&clock1,     sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&clock2,     sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&panic,      sizeof(int), 1, fp) < sizeof(int) ||	       /* timing variables	*/
-	    fread(&dloc[0],    sizeof(int), DWARFMAX, fp) < sizeof(int) || /* dwarf locations	*/
-	    fread(&dflag,      sizeof(int), 1, fp) < sizeof(int) ||	       /* dwarf flag		*/
-	    fread(&dseen[0],   sizeof(int), DWARFMAX, fp) < sizeof(int) || /* dwarf seen flag	*/
-	    fread(&odloc[0],   sizeof(int), DWARFMAX, fp) < sizeof(int) || /* dwarf old locations	*/
-	    fread(&daltloc,    sizeof(int), 1, fp) < sizeof(int) ||	       /* alternate appearance	*/
-	    fread(&dkill,      sizeof(int), 1, fp) < sizeof(int) ||	       /* dwarves killed	*/
-	    fread(&chloc,      sizeof(int), 1, fp) < sizeof(int) ||
-	    fread(&chloc2,     sizeof(int), 1, fp) < sizeof(int) ||        /* chest locations	*/
-	    fread(&bonus,      sizeof(int), 1, fp) < sizeof(int) ||        /* to pass to end	*/
-	    fread(&numdie,     sizeof(int), 1, fp) < sizeof(int) ||        /* number of deaths	*/
-	    fread(&object1,    sizeof(int), 1, fp) < sizeof(int) ||        /* to help intrans.	*/
-	    fread(&gaveup,     sizeof(int), 1, fp) < sizeof(int) ||        /* 1 if he quit early	*/
-	    fread(&foobar,     sizeof(int), 1, fp) < sizeof(int)) {        /* fie fie foe foo...	*/
-		printf("Failed reading saved gave ..\n.");
+	if (fread(&turns,      sizeof(int), 1, fp) != 1 ||
+	    fread(&loc,        sizeof(int), 1, fp) != 1 ||
+	    fread(&oldloc,     sizeof(int), 1, fp) != 1 ||
+	    fread(&oldloc2,    sizeof(int), 1, fp) != 1 ||
+	    fread(&newloc,     sizeof(int), 1, fp) != 1 ||	       /* location variables	*/
+	    fread(&cond[0],    sizeof(int), MAXLOC, fp) != MAXLOC ||   /* location status	*/
+	    fread(&place[0],   sizeof(int), MAXOBJ, fp) != MAXOBJ ||   /* object location	*/
+	    fread(&fixed[0],   sizeof(int), MAXOBJ, fp) != MAXOBJ ||   /* second object loc	*/
+	    fread(&visited[0], sizeof(int), MAXLOC, fp) != MAXLOC ||   /* >0 if has been here	*/
+	    fread(&prop[0],    sizeof(int), MAXOBJ, fp) != MAXOBJ ||   /* status of object	*/
+	    fread(&tally,      sizeof(int), 1, fp) != 1 ||
+	    fread(&tally2,     sizeof(int), 1, fp) != 1 ||        /* item counts		*/
+	    fread(&limit,      sizeof(int), 1, fp) != 1 ||        /* time limit		*/
+	    fread(&lmwarn,     sizeof(int), 1, fp) != 1 ||        /* lamp warning flag	*/
+	    fread(&wzdark,     sizeof(int), 1, fp) != 1 ||
+	    fread(&closing,    sizeof(int), 1, fp) != 1 ||
+	    fread(&closed,     sizeof(int), 1, fp) != 1 ||        /* game state flags	*/
+	    fread(&holding,    sizeof(int), 1, fp) != 1 ||        /* count of held items	*/
+	    fread(&detail,     sizeof(int), 1, fp) != 1 ||        /* LOOK count		*/
+	    fread(&knfloc,     sizeof(int), 1, fp) != 1 ||        /* knife location	*/
+	    fread(&clock1,     sizeof(int), 1, fp) != 1 ||
+	    fread(&clock2,     sizeof(int), 1, fp) != 1 ||
+	    fread(&panic,      sizeof(int), 1, fp) != 1 ||	       /* timing variables	*/
+	    fread(&dloc[0],    sizeof(int), DWARFMAX, fp) != DWARFMAX || /* dwarf locations	*/
+	    fread(&dflag,      sizeof(int), 1, fp) != 1 ||	       /* dwarf flag		*/
+	    fread(&dseen[0],   sizeof(int), DWARFMAX, fp) != DWARFMAX || /* dwarf seen flag	*/
+	    fread(&odloc[0],   sizeof(int), DWARFMAX, fp) != DWARFMAX || /* dwarf old locations	*/
+	    fread(&daltloc,    sizeof(int), 1, fp) != 1 ||	       /* alternate appearance	*/
+	    fread(&dkill,      sizeof(int), 1, fp) != 1 ||	       /* dwarves killed	*/
+	    fread(&chloc,      sizeof(int), 1, fp) != 1 ||
+	    fread(&chloc2,     sizeof(int), 1, fp) != 1 ||        /* chest locations	*/
+	    fread(&bonus,      sizeof(int), 1, fp) != 1 ||        /* to pass to end	*/
+	    fread(&numdie,     sizeof(int), 1, fp) != 1 ||        /* number of deaths	*/
+	    fread(&object1,    sizeof(int), 1, fp) != 1 ||        /* to help intrans.	*/
+	    fread(&gaveup,     sizeof(int), 1, fp) != 1 ||        /* 1 if he quit early	*/
+	    fread(&foobar,     sizeof(int), 1, fp) != 1) {        /* fie fie foe foo...	*/
+		printf("Failed reading saved gave file, data format error.\n");
 		fclose(fp);
 		return;
 	}
-	if (fclose(fp) == -1) {
-		printf("Warning -- can't close save file...%s\n", nm);
-	}
-	printf("Game restored...\n");
+
+	fclose(fp);
+
+	printf("Game restored.\n");
 	describe();
 }
 
