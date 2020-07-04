@@ -1,0 +1,23 @@
+#! /bin/sh
+set -e
+
+action="$1"
+
+case "$action" in
+
+    remove|deconfigure)
+        update-alternatives --remove \
+                adventure /usr/games/advent4
+        ;;
+
+    upgrade|failed-upgrade)
+        ;;
+
+    *)
+        printf "prerm called with unknown action ‘%s’\n" "$action" >&2
+        exit 1
+        ;;
+
+esac
+
+exit 0

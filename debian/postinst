@@ -1,0 +1,29 @@
+#!/bin/sh
+set -e
+
+action="$1"
+
+ADVENTURE_PRIORITY=99
+
+case "$action" in
+
+    configure)
+        update-alternatives --install \
+                /usr/games/adventure adventure \
+                /usr/games/advent4 $ADVENTURE_PRIORITY \
+                --slave \
+                    /usr/share/man/man6/adventure.6.gz adventure.6.gz \
+                    /usr/share/man/man6/advent4.6.gz
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        printf "postinst called with unknown action ‘%s’\n" "$action" >&2
+        exit 1
+        ;;
+
+esac
+
+exit 0
