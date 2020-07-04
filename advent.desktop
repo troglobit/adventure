@@ -1,6 +1,5 @@
 [Desktop Entry]
 Version=1.0
-Encoding=UTF-8
 Name=Colossal Cave Adventure
 Comment=The original text based adventure
 Exec=advent
@@ -9,3 +8,4 @@ Terminal=true
 Type=Application
 StartupNotify=true
 Categories=Game;
+Keywords=adventure;colossal;cave;
