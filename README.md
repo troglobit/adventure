@@ -1,7 +1,35 @@
 Colossal Cave Adventure
 =======================
 
-This is a port of the original Colossal Cave text adventure to UNIX.
+This is the real, full-blown adventure program written by Will Crowther
+and Don Woods at SAIL in the early seventies.  This Public Domain
+version has been translated from BDS C to CII by Jerry D. Pohl,
+including UNIX standardization.
+
+Before you begin, a few suggestions:
+
+1. Make a map.  There are two common ways to handle this. You can use a
+   piece of butcher paper and a pencil and sketch in all the rooms as
+   circles or whatever with directions marked for the lines between
+   rooms.  The other way to make a map is to make a word table with the
+   room names down one side along with numbers you've assigned each
+   room.  Along the top of the table you put N, NW, W, SW, S, SE, E and
+   so on.  (don't forget up and down).  Then you can tell at a glance
+   which directions you have tried and haven't tried.
+
+2. Save the game every half hour or so (unless you have spent a lot of
+   moves getting nowhere).
+
+3. Take your time.  I've seen major gamers spend 6 months working on
+   this one.  They were spending 2 or 3 hours a day and they weren't
+   beginners!
+
+Try everything!
+
+Sometimes you will have to go back to a previous location to be able to
+do something.  The game parser uses simple two word (verb-noun) commands
+(after all, this is the first text adventure game. Infocom wasn't to be
+for a while yet!)
 
 
 Build & Install
