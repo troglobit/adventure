@@ -44,10 +44,12 @@ void gettrav(int loc)
 			; /* to next substring	*/
 		if (!(*aptr)) {
 			travel[++i].tdest = -1; /* end of array	*/
-			if (dbugflg)
-				for (i = 0; i < MAXTRAV; ++i)
+			if (dbugflg) {
+				for (i = 0; i < MAXTRAV; ++i) {
 					printf("cave[%d] = %d %d %d\n", loc,
 					       travel[i].tdest, travel[i].tverb, travel[i].tcond);
+				}
+			}
 			return; /* terminate for loop	*/
 		}
 	}
@@ -90,10 +92,12 @@ void rdskip(FILE *fdi, char skipc, int n, char rewind)
 	if (rewind)
 		if (fseek(fdi, 0, 0) == -1)
 			bug(31);
-	while (n--)
-		while ((c = fgetc(fdi)) != skipc)
+	while (n--) {
+		while ((c = fgetc(fdi)) != skipc) {
 			if (c == EOF)
 				bug(32);
+		}
+	}
 }
 #endif
 
@@ -154,10 +158,12 @@ void pspeak(int item, int state)
 		int c;
 		int n = state + 2;
 
-		while (n--)
-			while ((c = *p++) != '/')
+		while (n--) {
+			while ((c = *p++) != '/') {
 				if (c == '\0')
 					bug(32);
+			}
+		}
 		for (n = 0; p[n] != '\0' && p[n] != '/'; n++)
 			putchar(p[n]);
 	}
@@ -371,9 +377,10 @@ int dcheck(void)
 {
 	int i;
 
-	for (i = 1; i < (DWARFMAX - 1); ++i)
+	for (i = 1; i < (DWARFMAX - 1); ++i){
 		if (dloc[i] == loc)
 			return i;
+	}
 	return 0;
 }
 

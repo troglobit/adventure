@@ -39,9 +39,10 @@ int english(void)
 		return 1;
 	}
 
-	if (*word2)
+	if (*word2) {
 		if (!analyze(word2, &type2, &val2))
 			return 0; /* didn't know it	*/
+	}
 
 	/* check his grammar */
 	if ((type1 == 3) && (type2 == 3) &&
