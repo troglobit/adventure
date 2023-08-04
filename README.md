@@ -78,5 +78,5 @@ Other writings on this cult classic:
 - http://www.rickadams.org/adventure/a_history.html
 - https://github.com/Quuxplusone/Advent
 
- -- Compiled on July 26th, 2009 and updated July 4th 2020
-    by Joachim Nilsson <troglobit@gmail.com>
+ -- Compiled on July 26th, 2009 and updated August 4th 2023
+    by Joachim Wiberg <troglobit@gmail.com>

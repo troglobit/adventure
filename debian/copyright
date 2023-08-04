@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: advent
 Upstream-Contact: troglobit@gmail.com
-Source: https://github.com/troglobit/advent4
+Source: https://github.com/troglobit/adventure
 
 Files: *
 Copyright: 1975-1977  William Crowther

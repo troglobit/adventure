@@ -1,12 +1,12 @@
 Source: advent
 Section: games
 Priority: optional
-Maintainer: Joachim Nilsson <troglobit@gmail.com>
-Homepage: https://github.com/troglobit/advent4
+Maintainer: Joachim Wiberg <troglobit@gmail.com>
+Homepage: https://github.com/troglobit/adventure
 Build-Depends: debhelper (>= 10)
 Standards-Version: 4.3.0
-Vcs-Git: https://github.com/troglobit/advent4.git
-Vcs-Browser: https://github.com/troglobit/advent4/commits/
+Vcs-Git: https://github.com/troglobit/adventure.git
+Vcs-Browser: https://github.com/troglobit/adventure/commits/
 
 Package: advent
 Architecture: any
