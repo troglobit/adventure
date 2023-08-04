@@ -1,0 +1,89 @@
+name: Bob the Builder
+
+# Run on all branches, including all pull requests, except the 'dev'
+# branch since that's where we run Coverity Scan (limited tokens/day)
+on:
+  push:
+    branches:
+      - '**'
+      - '!dev'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    # Verify we can build on latest Ubuntu with both gcc and clang
+    name: ${{ matrix.compiler }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+      fail-fast: false
+    env:
+      MAKEFLAGS: -j3
+      CC: ${{ matrix.compiler }}
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install tree
+      - uses: actions/checkout@v3
+      - name: Configure
+        run: |
+          ./autogen.sh
+          ./configure --prefix=
+      - name: Build
+        run: |
+          make V=1
+      - name: Install to ~/tmp and Inspect
+        run: |
+          DESTDIR=~/tmp make install-strip
+          tree ~/tmp
+          ldd ~/tmp/bin/advent
+          size ~/tmp/bin/advent
+  msys2:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: git gcc make autoconf automake ncurses tree
+      - name: Configure
+        run: |
+          ./autogen.sh
+          ./configure --prefix=
+      - name: Build
+        run: |
+          make
+      - name: Install
+        run: |
+          DESTDIR=~/tmp make install-strip
+          tree ~/tmp
+          ldd  ~/tmp/mingw64/bin/advent.exe
+          size ~/tmp/mingw64/bin/advent.exe
+  debian:
+    # Verify that Debian packages can be built
+    name: Debian Package
+    runs-on: ubuntu-latest
+    container: debian:stable
+    steps:
+      - uses: actions/checkout@v3
+      - name: Installing dependencies
+        run: |
+          apt-get update
+          apt-get install -y build-essential libncurses-dev autoconf automake \
+          		     dpkg-dev debhelper devscripts
+      - name: Building Debian package
+        run: |
+          ./autogen.sh
+          ./configure
+          make distcheck
+          make package
+          echo "== advent.changes ================================================"
+          cat ../advent*.changes
