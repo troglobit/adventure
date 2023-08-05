@@ -316,7 +316,7 @@ void move(int obj, int where)
 {
 	int from;
 
-	from = (obj < MAXOBJ) ? place[obj] : fixed[obj];
+	from = (obj < MAXOBJ) ? place[obj] : fixed[obj - MAXOBJ];
 	if (from > 0 && from <= 300)
 		carry(obj, from);
 	drop(obj, where);
