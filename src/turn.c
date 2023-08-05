@@ -87,7 +87,7 @@ void turn(void)
 	if (closed) {
 		if (prop[OYSTER] < 0 && toting(OYSTER))
 			pspeak(OYSTER, 1);
-		for (i = 1; i <= MAXOBJ; ++i) {
+		for (i = 1; i < MAXOBJ; ++i) {
 			if (toting(i) && prop[i] < 0)
 				prop[i] = -1 - prop[i];
 		}
@@ -792,7 +792,7 @@ int stimer(void)
 		prop[PILLOW] = put(PILLOW, 116, 0);
 		prop[MIRROR] = put(MIRROR, 115, 0);
 		fixed[MIRROR] = 116;
-		for (i = 1; i <= MAXOBJ; ++i) {
+		for (i = 1; i < MAXOBJ; ++i) {
 			if (toting(i))
 				dstroy(i);
 		}
