@@ -482,8 +482,8 @@ void death(void)
 		place[OIL] = 0;
 		if (toting(LAMP))
 			prop[LAMP] = 0;
-		for (j = 1; j < 101; ++j) {
-			i = 101 - j;
+		for (j = 1; j < MAXOBJ; ++j) {
+			i = MAXOBJ - j;
 			if (toting(i))
 				drop(i, i == LAMP ? 1 : oldloc2);
 		}
