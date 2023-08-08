@@ -33,7 +33,7 @@ void gettrav(int loc)
 	while ((aptr = strrchr(atrav, ',')))
 		*aptr = '\0'; /* terminate substring	*/
 	aptr = &atrav[0];
-	for (i = 0; i < MAXTRAV; ++i) {
+	for (i = 0; i < MAXTRAV - 1; ++i) {
 		t = atol(aptr); /* convert to long int	*/
 		travel[i].tcond = (int)(t % 1000L);
 		t /= 1000L;
