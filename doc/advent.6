@@ -1,5 +1,5 @@
 .\"                                                              -*- nroff -*-
-.Dd Dec 7, 2019
+.Dd Aug 8, 2023
 .Dt ADVENT 6
 .Sh NAME
 .Nm advent
@@ -8,10 +8,11 @@
 .Nm
 .Op Fl r
 .Sh DESCRIPTION
-This is the real, full-blown adventure program written by Will Crowther
-and Don Woods at SAIL in the early seventies.  This Public Domain
-version has been translated from BDS C to CII by Jerry D. Pohl,
-including UNIX standardization.
+This is the real, full-blown Colossal Cave Adventure game, written by
+Will Crowther and Don Woods at Stanford AI Lab in the early '70s.  It is
+the first interactive fiction game where the computer simulates and
+describes a situation, and the user types in what to do next, in simple
+English.
 .Ss Example
 .Pp
 .Bd -literal
@@ -19,9 +20,22 @@ You are standing at the end of a road before a small brick building.
 Around you is a forest.  A small stream flows out of the building and
 down a gully.
 
-> ▇
+> █
 .Ed
-.Pp
+.Sh OPTIONS
+This program follows the usual UNIX command line syntax:
+.Bl -tag -width Ds
+.It Fl r
+Restore previously saved game.
+.El
+.Sh COMMANDS
+This program has many interactive commands, the built-in
+.Pa help
+and the context will guide you.  Use
+.Pa quit
+to leave the game and
+.Pa suspend
+to save your location for a later time.
 .Sh TIPS
 Before you begin, a few suggestions:
 .Bl -enum
@@ -49,23 +63,14 @@ Sometimes you will have to go back to a previous location to be able to
 do something.  The game parser uses simple two word (verb-noun) commands
 (after all, this is the first text adventure game. Infocom wasn't to be
 for a while yet!)
-.Sh OPTIONS
-This program follows the usual UNIX command line syntax:
-.Bl -tag -width Ds
-.It Fl r
-Restore previously saved game.
+.Sh FILES
+.Bl -tag -width ~/.adventure -compact
+.It Pa ~/.adventure
+Save game file.
 .El
-.Sh COMMANDS
-This program has many interactive commands, the built-in
-.Pa help
-and the context will guide you.  Use
-.Pa quit
-to leave the game and
-.Pa suspend
-to save your location for a later time.
 .Sh AUTHORS
 .Nm
 was originally written by William Crowther, with major features added by
 Don Woods.  The conversion to BDS C was done by Jay R.  Jaeger, ported
 to UNIX by Jerry D. Pohl.  The last port to QNX 4, which this version is
-based on, was maed by James Lummel.
+based on, was made by James Lummel.
