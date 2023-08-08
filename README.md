@@ -2,52 +2,68 @@ Colossal Cave Adventure
 =======================
 [![License Badge][]][License] [![GitHub Status][]][GitHub] [![Coverity Status]][Coverity Scan]
 
-> You are standing at the end of a road before a small brick
-> building.  Around you is a forest.  A small stream flows out
-> of the building and down a gully.
+This is the real, full-blown Colossal Cave Adventure game, written by
+Will Crowther and Don Woods at Stanford AI Lab in the early '70s.  It is
+the first interactive fiction game where the computer simulates and
+describes a situation, and the user types in what to do next, in simple
+English.
 
-This is the real, full-blown adventure program, originally written by
-Will Crowther and Don Woods at SAIL in the early 70's.
+```
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+
+> █
+```
+
+
+Tips
+----
 
 Before you begin, a few suggestions:
 
-1. Make a map.  There are two common ways to handle this. You can use a
-   piece of butcher paper and a pencil and sketch in all the rooms as
-   circles or whatever with directions marked for the lines between
+1. Make a [map][].  There are two common ways to handle this.  You can
+   use a piece of butcher paper and a pencil and sketch in all the rooms
+   as circles or whatever with directions marked for the lines between
    rooms.  The other way to make a map is to make a word table with the
    room names down one side along with numbers you've assigned each
    room.  Along the top of the table you put N, NW, W, SW, S, SE, E and
-   so on.  (don't forget up and down).  Then you can tell at a glance
-   which directions you have tried and haven't tried.
+   so on.  (Remember up and down).  Then you can tell at a glance which
+   directions you have tried and haven't tried.
 
-2. Save the game every half hour or so (unless you have spent a lot of
-   moves getting nowhere).
+2. Save the game every half hour or so, using the `suspend` command,
+   unless you have spent a lot of moves getting nowhere, of course.
+   Start with `advent -r` next time to resume from where you were.
 
-3. Take your time.  I've seen major gamers spend 6 months working on
-   this one.  They were spending 2 or 3 hours a day and they weren't
-   beginners!
+3. Take your time.  Gamers have been known to spend months on this one.
+   They were spending 2 or 3 hours a day and they weren't beginners!
 
 Try everything!
 
-Sometimes you will have to go back to a previous location to be able to
-do something.  The game parser uses simple two word (verb-noun) commands
-(after all, this is the first text adventure game. Infocom wasn't to be
-for a while yet!)
+**Note:** sometimes you will have to go back to a previous location to
+be able to do something.  The game parser uses only simple two word
+(verb-noun) commands, after all, this is the first text adventure game.
 
 
 Build & Install
 ---------------
 
-We recommend using released tarballs since they include a ready-made
-configure script which generates a portable `Makefile`.  The only
-requirements for building released versions is `make` and a working
+It is highly recommended to use released tarballs since they include a
+ready-made configure script which generates a portable `Makefile`.  The
+only requirements for building released versions is `make` and a working
 C compiler:
 
-    ./configure --prefix=/usr --localstatedir=/var
-    make -j5
+    ./configure
+    make
+
+The following command installs the game into `/usr/local/bin`, and the
+manual and other documents in `/usr/local/share`.  You can change this
+by calling `configure --prefix=PATH`, to install elsewhere.  For more
+help, see `configure --help`:
+
     sudo make install-strip
 
-**Note:** When checking out code from GIT, use <kbd>./autogen.sh</kbd>
+**Note:** when checking out code from GIT, use <kbd>./autogen.sh</kbd>
 to generate a `configure` script.  It is a generated file and otherwise
 only included in released tarballs.  This is the only time you need the
 `autoconf` and `automake` tools.
@@ -66,26 +82,27 @@ The actual license of this program is unknown, although most people
 agree that it is likely to be considered to be under the public domain.
 
 See the files in the `doc/` directory for the original documentation,
-including cheat codes and some history.
+including [cheat][] codes, some history, and a [map][].
 
-The original code, uncovered:
-- http://groups.google.com/group/rec.arts.int-fiction/browse_thread/thread/607acaf1a279d4dd/9181d75148500b30
+Relevant Resources:
 
-The Wikipedia entry:
-
-- http://en.wikipedia.org/wiki/Colossal_Cave_Adventure
+ - https://rickadams.org/adventure/
+ - http://www.spitenet.com/cave/
+ - http://groups.google.com/group/rec.arts.int-fiction/browse_thread/thread/607acaf1a279d4dd/9181d75148500b30 (original code, uncovered)
+ - http://en.wikipedia.org/wiki/Colossal_Cave_Adventure
 
 Other writings on this cult classic:
 
-- http://www.wurb.com/if/game/1
-- http://www.spitenet.com/cave/
-- http://advent.jenandcal.familyds.org/
-- http://www.rickadams.org/adventure/a_history.html
-- https://github.com/Quuxplusone/Advent
+ - http://www.wurb.com/if/game/1
+ - http://www.spitenet.com/cave/
+ - http://advent.jenandcal.familyds.org/
+ - https://github.com/Quuxplusone/Advent
 
- -- Compiled on July 26th, 2009 and updated August 4th 2023
+ -- Compiled on July 26th, 2009 and updated August 8th 2023
     by Joachim Wiberg <troglobit@gmail.com>
 
+[cheat]:           doc/cheat.txt
+[map]:             doc/map.jpg
 [License]:         https://unlicense.org/
 [License Badge]:   https://img.shields.io/badge/License-Unlicense-blue.svg
 [GitHub]:          https://github.com/troglobit/adventure/actions/workflows/build.yml
