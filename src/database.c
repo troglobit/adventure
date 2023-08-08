@@ -25,9 +25,10 @@
 */
 void gettrav(int loc)
 {
-	int i;
+	char atrav[240] = { 0 }; /* max length of any cave pos = 144 bytes */
+	char *aptr;
 	long t;
-	char atrav[256], *aptr;
+	int i;
 
 	if (loc <= 0 || loc >= (int)cavesz)
 		bug(42);
