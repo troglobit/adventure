@@ -55,6 +55,9 @@ int txtoh(const char *fn)
 	char *ptr;
 	int idx;
 
+	if (!fn || strlen(fn) > sizeof(buf))
+		return -1;
+
 	strcpy(buf, fn);
 	ptr = strrchr(buf, '.');
 	if (!ptr)
