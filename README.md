@@ -2,10 +2,12 @@ Colossal Cave Adventure
 =======================
 [![License Badge][]][License] [![GitHub Status][]][GitHub] [![Coverity Status]][Coverity Scan]
 
-This is the real, full-blown adventure program written by Will Crowther
-and Don Woods at SAIL in the early seventies.  This Public Domain
-version has been translated from BDS C to CII by Jerry D. Pohl,
-including UNIX standardization.
+> You are standing at the end of a road before a small brick
+> building.  Around you is a forest.  A small stream flows out
+> of the building and down a gully.
+
+This is the real, full-blown adventure program, originally written by
+Will Crowther and Don Woods at SAIL in the early 70's.
 
 Before you begin, a few suggestions:
 
@@ -36,8 +38,10 @@ for a while yet!)
 Build & Install
 ---------------
 
-This library was initially built for and developed on GNU/Linux systems
-as a light weight utility library, these days NetBSD should also work.
+We recommend using released tarballs since they include a ready-made
+configure script which generates a portable `Makefile`.  The only
+requirements for building released versions is `make` and a working
+C compiler:
 
     ./configure --prefix=/usr --localstatedir=/var
     make -j5
@@ -46,7 +50,7 @@ as a light weight utility library, these days NetBSD should also work.
 **Note:** When checking out code from GIT, use <kbd>./autogen.sh</kbd>
 to generate a `configure` script.  It is a generated file and otherwise
 only included in released tarballs.  This is the only time you need the
-autoconf and automake tools.
+`autoconf` and `automake` tools.
 
 
 Origin & References
@@ -61,7 +65,7 @@ HP-UX, Sun Solaris, *BSD and GNU/Linux systems.
 The actual license of this program is unknown, although most people
 agree that it is likely to be considered to be under the public domain.
 
-See the files in the doc/ directory for the original documentation,
+See the files in the `doc/` directory for the original documentation,
 including cheat codes and some history.
 
 The original code, uncovered:
