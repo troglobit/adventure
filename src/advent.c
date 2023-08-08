@@ -159,33 +159,36 @@ void initplay(void)
 /*
 	Open advent?.txt files
 */
+#ifndef DATADIR
+#define DATADIR "/usr/local/lib/games"
+#endif
 
-#define ADV1 "/usr/local/lib/games/advent1.txt"
-#define ADV2 "/usr/local/lib/games/advent2.txt"
-#define ADV3 "/usr/local/lib/games/advent3.txt"
-#define ADV4 "/usr/local/lib/games/advent4.txt"
+#define ADV1 DATADIR "/advent1.txt"
+#define ADV2 DATADIR "/advent2.txt"
+#define ADV3 DATADIR "/advent3.txt"
+#define ADV4 DATADIR "/advent4.txt"
 
 void opentxt(void)
 {
 #ifndef BUILTIN
 	fd1 = fopen(ADV1, "r");
 	if (!fd1) {
-		printf("Sorry, I can't open advent1.txt...\n");
+		printf("Sorry, I cannot open %s...\n", ADV1);
 		exit(-1);
 	}
 	fd2 = fopen(ADV2, "r");
 	if (!fd2) {
-		printf("Sorry, I can't open advent2.txt...\n");
+		printf("Sorry, I cannot open %s...\n", ADV2);
 		exit(-1);
 	}
 	fd3 = fopen(ADV3, "r");
 	if (!fd3) {
-		printf("Sorry, I can't open advent3.txt...\n");
+		printf("Sorry, I cannot open %s...\n", ADV3);
 		exit(-1);
 	}
 	fd4 = fopen(ADV4, "r");
 	if (!fd4) {
-		printf("Sorry, I can't open advent4.txt...\n");
+		printf("Sorry, I cannot open %s...\n", ADV4);
 		exit(-1);
 	}
 #endif

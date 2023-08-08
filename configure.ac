@@ -12,7 +12,7 @@ AC_PROG_INSTALL
 AC_HEADER_STDC
 
 AC_ARG_ENABLE([builtin],
-	AS_HELP_STRING([--disable-builtin], [disable built-in .txt files]),,
+	AS_HELP_STRING([--disable-builtin], [disable built-in game data .txt files]),,
 	enable_builtin=yes)
 
 AC_ARG_WITH([savedir],
@@ -21,6 +21,7 @@ AC_ARG_WITH([savedir],
 
 AS_IF([test "x$enable_builtin" != "xno"],
 	AC_DEFINE([BUILTIN], 1, [Enable built-in .txt files (default)]))
+AM_CONDITIONAL(GAMEDATA, [test "x$enable_builtin" != "xyes"])
 
 AS_IF([test "x$with_savedir" != "xno"], [
 	AS_IF([test "x$with_savedir" = "xyes"], [with_savedir=${localstatedir}/games])
@@ -30,6 +31,13 @@ AS_IF([test "x$program_suffix" != "xNONE"],
 	[SUFFIX=$program_suffix], [SUFFIX=])
 AC_SUBST(SUFFIX)
 
+# Expand $sbindir early, into $SBINDIR, for systemd unit file
+# NOTE: This does *not* take prefix/exec_prefix override at "make
+#       install" into account, unfortunately.
+test "x$prefix" = xNONE && prefix=$ac_default_prefix
+test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+DATADIR=`eval echo $datadir`
+GAMEDATADIR=`eval echo $DATADIR/$PACKAGE_NAME`
 AC_OUTPUT
 
 cat <<EOF
@@ -37,7 +45,7 @@ cat <<EOF
 ------------------ Summary ------------------
  $PACKAGE_NAME version $PACKAGE_VERSION
   Prefix................: $prefix
-  Localstatedir.........: `eval echo $localstatedir`
+  Game datadir..........: $GAMEDATADIR
   C Compiler............: $CC $CFLAGS $CPPFLAGS $LDFLAGS $LIBS
 
 Optional features:
