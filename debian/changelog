@@ -9,6 +9,7 @@ advent (4.2) stable; urgency=medium
       actually work, in particular for "odd" objects.  (What isn't odd in
       the Colossal Cave?)
   * Fix lots of other out-of-bounds issues found by Coverity Scan
+  * Log save game filename in error and status messages
 
  -- Joachim Wiberg <troglobit@gmail.com>  Tue, 08 Aug 2023 09:45:49 +0200
 

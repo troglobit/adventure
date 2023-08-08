@@ -1,4 +1,4 @@
-AC_INIT([advent],[4.2-dev],[https://github.com/troglobit/adventure/issues])
+AC_INIT([advent],[4.2],[https://github.com/troglobit/adventure/issues])
 AC_CONFIG_AUX_DIR(aux)
 AM_INIT_AUTOMAKE([1.11 foreign])
 AM_SILENT_RULES([yes])

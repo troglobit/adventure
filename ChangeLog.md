@@ -13,6 +13,9 @@ All relevant changes to the project are documented in this file.
    the classic game intro.
  - Update maintainer surname and project name: advent4 -> adventure
  - Add `map.jpg` from https://rickadams.org/adventure/e_downloads.html
+ - Add `Dockerfile` and auto-builder for tiny containers
+ - Shrink stack usage for `gettrav()`
+ - Log save game filename in error and status messages
 
 ### Fixes
  - Fix out-of-bounds problems reported in issue #2
@@ -20,6 +23,8 @@ All relevant changes to the project are documented in this file.
      actually work, in particular for "odd" objects.  (What isn't odd in
      the Colossal Cave?)
  - Fix lots of other out-of-bounds issues found by Coverity Scan
+ - Use `SEEK_SET` with `fseek()` instead of `0`
+ - Fix missing game data when built with `--disable-builtin`
 
 
 [v4.1][] - 2020-07-05
