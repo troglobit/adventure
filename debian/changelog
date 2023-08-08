@@ -1,3 +1,17 @@
+advent (4.2) stable; urgency=medium
+
+  * Update README and manual to focus on the story and game, the origin
+    has its own place and need not be repeated everywhere.  Lead with
+    the classic game intro.
+  * Add map.jpg from https://rickadams.org/adventure/e_downloads.html
+  * Fix out-of-bounds problems reported in issue #2
+    * Some of these fixes affect game play, e.g. moving things should now
+      actually work, in particular for "odd" objects.  (What isn't odd in
+      the Colossal Cave?)
+  * Fix lots of other out-of-bounds issues found by Coverity Scan
+
+ -- Joachim Wiberg <troglobit@gmail.com>  Tue, 08 Aug 2023 09:45:49 +0200
+
 advent (4.1) stable; urgency=high
 
   * Change narrative back to original, start outside building
