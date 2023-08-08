@@ -95,7 +95,7 @@ void rdskip(FILE *fdi, char skipc, int n, char rewind)
 	int c;
 
 	if (rewind)
-		if (fseek(fdi, 0, 0) == -1)
+		if (fseek(fdi, 0, SEEK_SET) == -1)
 			bug(31);
 	while (n--) {
 		while ((c = fgetc(fdi)) != skipc) {
@@ -142,7 +142,7 @@ void rspeak(int msg)
 	else {
 		if (dbugflg)
 			printf("Seek loc msg #%d @ %ld\n", msg, idx4[msg]);
-		fseek(fd4, idx4[msg - 1], 0);
+		fseek(fd4, idx4[msg - 1], SEEK_SET);
 		rdupto(fd4, '#', 1, 0);
 	}
 #endif
@@ -179,7 +179,7 @@ void pspeak(int item, int state)
 			putchar(p[n]);
 	}
 #else
-	fseek(fd3, idx3[item - 1], 0);
+	fseek(fd3, idx3[item - 1], SEEK_SET);
 	rdskip(fd3, '/', state + 2, 0);
 	rdupto(fd3, '/', 1, 0);
 #endif
@@ -193,7 +193,7 @@ void desclg(int loc)
 #ifdef BUILTIN
 	fputs(adventtxt1[loc - 1], stdout);
 #else
-	fseek(fd1, idx1[loc - 1], 0);
+	fseek(fd1, idx1[loc - 1], SEEK_SET);
 	rdupto(fd1, '#', 1, 0);
 #endif
 }
@@ -206,7 +206,7 @@ void descsh(int loc)
 #ifdef BUILTIN
 	fputs(adventtxt2[loc - 1], stdout);
 #else
-	fseek(fd2, idx2[loc - 1], 0);
+	fseek(fd2, idx2[loc - 1], SEEK_SET);
 	rdupto(fd2, '#', 1, 0);
 #endif
 }
