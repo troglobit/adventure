@@ -1,5 +1,6 @@
 Colossal Cave Adventure
 =======================
+[![License Badge][]][License] [![GitHub Status][]][GitHub] [![Coverity Status]][Coverity Scan]
 
 This is the real, full-blown adventure program written by Will Crowther
 and Don Woods at SAIL in the early seventies.  This Public Domain
@@ -80,3 +81,10 @@ Other writings on this cult classic:
 
  -- Compiled on July 26th, 2009 and updated August 4th 2023
     by Joachim Wiberg <troglobit@gmail.com>
+
+[License]:         https://unlicense.org/
+[License Badge]:   https://img.shields.io/badge/License-Unlicense-blue.svg
+[GitHub]:          https://github.com/troglobit/adventure/actions/workflows/build.yml
+[GitHub Status]:   https://github.com/troglobit/adventure/actions/workflows/build.yml/badge.svg
+[Coverity Scan]:   https://scan.coverity.com/projects/28918
+[Coverity Status]: https://scan.coverity.com/projects/28918/badge.svg
