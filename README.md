@@ -1,6 +1,6 @@
 Colossal Cave Adventure
 =======================
-[![License Badge][]][License] [![GitHub Status][]][GitHub] [![Coverity Status]][Coverity Scan]
+[![License Badge][]][License] [![GitHub Status][]][GitHub] [![Coverity Status][]][Coverity Scan]
 
 This is the real, full-blown Colossal Cave Adventure game, written by
 Will Crowther and Don Woods at Stanford AI Lab in the early '70s.  It is
@@ -15,6 +15,24 @@ down a gully.
 
 > █
 ```
+
+
+Quick start
+-----------
+
+A tiny Docker container image is available from GitHub:
+
+    docker pull ghcr.io/troglobit/adventure:latest
+
+The save game feature work only if you map your `$HOME` to the
+container's `/root` and run:
+
+    docker run -it --rm -v $HOME:/root ghcr.io/troglobit/mg:latest
+
+This saves the game state to `~/.adventure` when you issue the `suspend`
+command.  To resume the game, append the `-r` option:
+
+    docker run -it --rm -v $HOME:/root ghcr.io/troglobit/mg:latest -r
 
 
 Tips
