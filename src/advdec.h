@@ -7,6 +7,7 @@
 */
 extern struct wac wc[]; /* see ADVWORD.H		*/
 extern char *cave[];    /* see ADVCAVE.H		*/
+extern size_t cavesz;
 #ifndef BUILTIN
 extern long idx1[]; /* see ADVTEXT.H		*/
 extern long idx2[]; /* see ADVTEXT.H		*/

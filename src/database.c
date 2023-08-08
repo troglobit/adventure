@@ -29,6 +29,11 @@ void gettrav(int loc)
 	long t;
 	char atrav[256], *aptr;
 
+	if (loc <= 0 || loc >= (int)cavesz)
+		bug(42);
+	if (strlen(cave[loc - 1]) > sizeof(atrav))
+		bug(43);
+
 	strcpy(atrav, cave[loc - 1]);
 	while ((aptr = strrchr(atrav, ',')))
 		*aptr = '\0'; /* terminate substring	*/
