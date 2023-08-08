@@ -247,7 +247,7 @@ void saveadv(void)
 	if (fclose(fp) == -1)
 		err(1, "Sorry, I cannot seem to close the save game file %s", nm);
 
-	printf("Game saved -- see you later!\n");
+	printf("Game saved to %s -- see you later!\n", nm);
 }
 
 /*
@@ -262,7 +262,7 @@ void restore(void)
 
 	fp = fopen(nm, "r");
 	if (fp == NULL) {
-		printf("Sorry, cannot find any saved game to load.\n");
+		warn("Sorry, cannot find any saved game to load from %s", nm);
 		return;
 	}
 
@@ -302,14 +302,14 @@ void restore(void)
 	    fread(&object1,    sizeof(int), 1, fp) != 1 ||        /* to help intrans.	*/
 	    fread(&gaveup,     sizeof(int), 1, fp) != 1 ||        /* 1 if he quit early	*/
 	    fread(&foobar,     sizeof(int), 1, fp) != 1) {        /* fie fie foe foo...	*/
-		printf("Failed reading saved gave file, data format error.\n");
+		warn("Failed reading saved gave file, %s, data format error", nm);
 		fclose(fp);
 		return;
 	}
 
 	fclose(fp);
 
-	printf("Game restored.\n");
+	printf("Game restored from %s\n", nm);
 	describe();
 }
 
