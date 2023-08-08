@@ -151,6 +151,12 @@ void pspeak(int item, int state)
 {
 #ifdef BUILTIN
 	const char *p;
+
+	if (item > 64) {
+		bug(40);
+		return;
+	}
+
 	p = adventtxt3[item - 1];
 	if (p == NULL)
 		bug(31);

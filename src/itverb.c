@@ -284,7 +284,7 @@ void inventory(void)
 	int i, msg;
 
 	msg = 98;
-	for (i = 1; i < MAXOBJ; ++i) {
+	for (i = 1; i <= 64; ++i) {
 		if (i == BEAR || !toting(i))
 			continue;
 		if (msg)
