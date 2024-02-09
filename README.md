@@ -27,12 +27,12 @@ A tiny Docker container image is available from GitHub:
 The save game feature work only if you map your `$HOME` to the
 container's `/root` and run:
 
-    docker run -it --rm -v $HOME:/root ghcr.io/troglobit/mg:latest
+    docker run -it --rm -v $HOME:/root ghcr.io/troglobit/adventure:latest
 
 This saves the game state to `~/.adventure` when you issue the `suspend`
 command.  To resume the game, append the `-r` option:
 
-    docker run -it --rm -v $HOME:/root ghcr.io/troglobit/mg:latest -r
+    docker run -it --rm -v $HOME:/root ghcr.io/troglobit/adventure:latest -r
 
 
 Tips
